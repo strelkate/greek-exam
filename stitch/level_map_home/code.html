@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="el"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#fdc003",
+                    "on-primary": "#5b4c00",
+                    "secondary-dim": "#bcbee8",
+                    "on-tertiary-fixed-variant": "#604700",
+                    "primary-fixed-dim": "#eeca12",
+                    "inverse-surface": "#fbf8ff",
+                    "surface-variant": "#222537",
+                    "secondary-fixed-dim": "#bfc1eb",
+                    "surface-container-low": "#101221",
+                    "on-secondary-fixed-variant": "#4b4e72",
+                    "on-tertiary-container": "#553e00",
+                    "on-secondary": "#404366",
+                    "surface": "#0b0d1a",
+                    "on-surface": "#eae9fd",
+                    "surface-container-highest": "#222537",
+                    "primary-dim": "#eeca12",
+                    "secondary": "#caccf7",
+                    "surface-container": "#161928",
+                    "error-dim": "#d73357",
+                    "surface-bright": "#282b3f",
+                    "background": "#0b0d1a",
+                    "error": "#ff6e84",
+                    "outline": "#737485",
+                    "on-primary-container": "#514300",
+                    "error-container": "#a70138",
+                    "primary-fixed": "#fdd828",
+                    "tertiary-dim": "#ecb200",
+                    "on-error-container": "#ffb2b9",
+                    "surface-container-high": "#1c1e30",
+                    "tertiary-fixed-dim": "#ecb200",
+                    "primary-container": "#eeca12",
+                    "on-primary-fixed-variant": "#665500",
+                    "surface-dim": "#0b0d1a",
+                    "secondary-container": "#414467",
+                    "on-secondary-fixed": "#2e3154",
+                    "on-background": "#eae9fd",
+                    "inverse-primary": "#705e00",
+                    "on-surface-variant": "#a9aabb",
+                    "surface-container-lowest": "#000000",
+                    "on-tertiary": "#604700",
+                    "primary": "#fdd828",
+                    "on-primary-fixed": "#453900",
+                    "on-tertiary-fixed": "#3d2b00",
+                    "inverse-on-surface": "#525463",
+                    "secondary-fixed": "#cccef9",
+                    "tertiary-fixed": "#fdc003",
+                    "outline-variant": "#454756",
+                    "tertiary": "#ffd16c",
+                    "surface-tint": "#fdd828",
+                    "on-error": "#490013",
+                    "on-secondary-container": "#cbcdf8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-glow-primary {
+            box-shadow: 0px 0px 12px rgba(253, 216, 40, 0.3);
+        }
+        .progress-glow {
+            box-shadow: 0px 0px 8px #fdd828;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-[#0b0d1a]/80 backdrop-blur-xl fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#fdd828] text-2xl" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-['Plus_Jakarta_Sans'] font-semibold tracking-tight text-[#fdd828]">5</span>
+<h1 class="text-lg font-bold text-[#fdd828] ml-2">Greek A2</h1>
+</div>
+<div class="transition-all duration-300 active:scale-95 bg-[#1c1e30] px-4 py-1.5 rounded-full">
+<span class="font-['Plus_Jakarta_Sans'] font-semibold tracking-tight text-[#fdd828]">1250 XP</span>
+</div>
+</header>
+<main class="pt-24 px-5 space-y-8">
+<!-- Level A1 (Completed Section) -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-bold tracking-tight">Level A1</h2>
+<span class="text-primary text-sm font-bold tracking-widest uppercase opacity-80">100%</span>
+</div>
+<div class="bg-surface-container-high rounded-xl p-1 overflow-hidden">
+<div class="h-1.5 bg-surface-container-highest rounded-full w-full">
+<div class="h-full bg-primary rounded-full w-full progress-glow"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Unit Card Completed -->
+<div class="bg-surface-container-high rounded-lg p-5 flex flex-col gap-4 border-b-4 border-primary/20">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold text-on-surface-variant tracking-wider uppercase">Unit 1</span>
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex gap-1.5">
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+</div>
+</div>
+<!-- Unit Card Completed -->
+<div class="bg-surface-container-high rounded-lg p-5 flex flex-col gap-4 border-b-4 border-primary/20">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold text-on-surface-variant tracking-wider uppercase">Unit 2</span>
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex gap-1.5">
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Level A2 (Active Section) -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-2xl font-extrabold tracking-tight text-primary">Level A2</h2>
+<p class="text-on-surface-variant text-sm mt-1">Hellenic Foundations</p>
+</div>
+<div class="bg-primary/10 px-3 py-1 rounded-full">
+<span class="text-primary text-sm font-bold tracking-widest uppercase">60%</span>
+</div>
+</div>
+<div class="h-3 bg-surface-container-highest rounded-full w-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container to-primary rounded-full w-[60%] progress-glow"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Unit Card Active -->
+<div class="bg-surface-container-highest rounded-lg p-5 flex flex-col gap-4 border-2 border-primary/40 ring-4 ring-primary/5 transition-transform active:scale-95">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold text-primary tracking-wider uppercase">Unit 3</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 0;">play_circle</span>
+</div>
+<div class="text-on-surface font-semibold text-lg">Present Tense</div>
+<div class="flex gap-1.5 items-center">
+<div class="flex gap-1">
+<div class="h-2 w-2 rounded-full bg-primary"></div>
+<div class="h-2 w-2 rounded-full bg-primary"></div>
+<div class="h-2 w-2 rounded-full bg-primary"></div>
+<div class="h-2 w-2 rounded-full bg-surface-variant"></div>
+<div class="h-2 w-2 rounded-full bg-surface-variant"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant ml-auto">3/5</span>
+</div>
+</div>
+<!-- Unit Card Unlocked but not started -->
+<div class="bg-surface-container-high rounded-lg p-5 flex flex-col gap-4 opacity-70">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold text-on-surface-variant tracking-wider uppercase">Unit 4</span>
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">lock_open</span>
+</div>
+<div class="text-on-surface font-semibold text-lg">Everyday Life</div>
+<div class="flex gap-1.5 items-center">
+<div class="flex gap-1">
+<div class="h-2 w-2 rounded-full bg-surface-variant"></div>
+<div class="h-2 w-2 rounded-full bg-surface-variant"></div>
+<div class="h-2 w-2 rounded-full bg-surface-variant"></div>
+<div class="h-2 w-2 rounded-full bg-surface-variant"></div>
+<div class="h-2 w-2 rounded-full bg-surface-variant"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant ml-auto">0/5</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Level B1 (Locked Section) -->
+<section class="opacity-40 space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h2 class="text-xl font-bold tracking-tight">Level B1</h2>
+<span class="material-symbols-outlined text-sm">lock</span>
+</div>
+<span class="text-on-surface-variant text-sm font-bold tracking-widest uppercase">0%</span>
+</div>
+<div class="h-1.5 bg-surface-container-highest rounded-full w-full">
+<div class="h-full bg-outline-variant rounded-full w-0"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low rounded-lg p-5 h-32 flex items-center justify-center border border-dashed border-outline-variant">
+<span class="material-symbols-outlined text-outline">lock</span>
+</div>
+<div class="bg-surface-container-low rounded-lg p-5 h-32 flex items-center justify-center border border-dashed border-outline-variant">
+<span class="material-symbols-outlined text-outline">lock</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full rounded-t-[3rem] z-50 bg-[#0b0d1a]/80 backdrop-blur-2xl shadow-[0px_-8px_24px_rgba(0,0,0,0.08)] flex justify-around items-center h-24 px-8 w-full">
+<!-- Study (Active) -->
+<a class="flex flex-col items-center justify-center text-[#fdd828] bg-[#222537] rounded-full px-6 py-2 shadow-[0px_0px_8px_#fdd828] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold tracking-widest uppercase">Учёба</span>
+</a>
+<!-- Dictionary (Inactive) -->
+<a class="flex flex-col items-center justify-center text-[#caccf7] opacity-60 px-6 py-2 active:scale-90 transition-transform hover:opacity-100" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">menu_book</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold tracking-widest uppercase">Словарь</span>
+</a>
+</nav>
+</body></html>

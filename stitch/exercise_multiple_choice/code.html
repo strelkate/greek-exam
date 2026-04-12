@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="el"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Greek A2 - Exercise</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0d1a;
+            color: #eae9fd;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-primary {
+            box-shadow: 0px 0px 12px rgba(253, 216, 40, 0.3);
+        }
+        .glass-card {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#fdc003",
+                        "on-primary": "#5b4c00",
+                        "secondary-dim": "#bcbee8",
+                        "on-tertiary-fixed-variant": "#604700",
+                        "primary-fixed-dim": "#eeca12",
+                        "inverse-surface": "#fbf8ff",
+                        "surface-variant": "#222537",
+                        "secondary-fixed-dim": "#bfc1eb",
+                        "surface-container-low": "#101221",
+                        "on-secondary-fixed-variant": "#4b4e72",
+                        "on-tertiary-container": "#553e00",
+                        "on-secondary": "#404366",
+                        "surface": "#0b0d1a",
+                        "on-surface": "#eae9fd",
+                        "surface-container-highest": "#222537",
+                        "primary-dim": "#eeca12",
+                        "secondary": "#caccf7",
+                        "surface-container": "#161928",
+                        "error-dim": "#d73357",
+                        "surface-bright": "#282b3f",
+                        "background": "#0b0d1a",
+                        "error": "#ff6e84",
+                        "outline": "#737485",
+                        "on-primary-container": "#514300",
+                        "error-container": "#a70138",
+                        "primary-fixed": "#fdd828",
+                        "tertiary-dim": "#ecb200",
+                        "on-error-container": "#ffb2b9",
+                        "surface-container-high": "#1c1e30",
+                        "tertiary-fixed-dim": "#ecb200",
+                        "primary-container": "#eeca12",
+                        "on-primary-fixed-variant": "#665500",
+                        "surface-dim": "#0b0d1a",
+                        "secondary-container": "#414467",
+                        "on-secondary-fixed": "#2e3154",
+                        "on-background": "#eae9fd",
+                        "inverse-primary": "#705e00",
+                        "on-surface-variant": "#a9aabb",
+                        "surface-container-lowest": "#000000",
+                        "on-tertiary": "#604700",
+                        "primary": "#fdd828",
+                        "on-primary-fixed": "#453900",
+                        "on-tertiary-fixed": "#3d2b00",
+                        "inverse-on-surface": "#525463",
+                        "secondary-fixed": "#cccef9",
+                        "tertiary-fixed": "#fdc003",
+                        "outline-variant": "#454756",
+                        "tertiary": "#ffd16c",
+                        "surface-tint": "#fdd828",
+                        "on-error": "#490013",
+                        "on-secondary-container": "#cbcdf8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    }
+                },
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0b0d1a]/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#fdd828]" data-icon="local_fire_department">local_fire_department</span>
+<span class="font-['Plus_Jakarta_Sans'] font-semibold tracking-tight text-lg text-[#fdd828]">Greek A2</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full">
+<span class="text-[10px] font-bold tracking-widest uppercase text-secondary">STREAK</span>
+<span class="text-[#fdd828] font-bold">1250 XP</span>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col pt-24 pb-32 px-6 max-w-2xl mx-auto w-full">
+<!-- Progress Indicator -->
+<div class="w-full h-2 bg-surface-container-high rounded-full mb-12 relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full w-2/3 bg-primary rounded-full glow-primary transition-all duration-500"></div>
+</div>
+<!-- Question Header Section -->
+<section class="mb-12 text-center">
+<h2 class="text-secondary opacity-60 font-label text-[10px] tracking-[0.2em] uppercase mb-4">Vocabulary Check</h2>
+<div class="inline-block relative mb-8">
+<img class="w-32 h-32 rounded-xl object-cover grayscale opacity-40 mix-blend-lighten" data-alt="Sun rising over ancient Greek pillars with warm golden lighting and ethereal atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2dTM-vcAl91P5dKH81LAl-m4wzrD9hJsZJx1FqJsGqAg_e8pWKcITZw_86hlX5CiudPChggPJh8vDHHB8agS-DDMcGe3al2tthSyuTN_zeCKaN5bFQ5JjlZOuwxTxHjlOHNFIWbtZLpYtGfLKDBWkdD65yc_OH15mmS4k6ldCEuuQ5Qwto8UGdf_8hyyz6BP7PEJiJubnS7Zd9XJBhU2Tjx1ID9heFPUYLCkA7smZKEjdrqkcYLO-LP25cDoamCpdOBmQGZvvEOAd"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+</div>
+<h1 class="text-3xl font-bold tracking-tight mb-2">What does "Καλημέρα" mean?</h1>
+<p class="text-on-surface-variant font-medium">Choose the correct translation below.</p>
+</section>
+<!-- Options Grid (Bento Style) -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Option A -->
+<button class="group relative flex items-center justify-between p-6 bg-surface-container-high rounded-lg text-left transition-all duration-300 active:scale-95 hover:bg-surface-bright">
+<div class="flex flex-col">
+<span class="text-xs font-bold text-secondary opacity-40 mb-1">A</span>
+<span class="text-lg font-semibold">Good Evening</span>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary transition-colors"></div>
+</button>
+<!-- Option B (Correct State) -->
+<button class="group relative flex items-center justify-between p-6 bg-surface-container-highest rounded-lg text-left transition-all duration-300 active:scale-95 border-2 border-primary/40 shadow-[0px_0px_20px_rgba(253,216,40,0.15)]">
+<div class="flex flex-col">
+<span class="text-xs font-bold text-primary mb-1">B</span>
+<span class="text-lg font-semibold text-primary">Good Morning</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm font-bold" data-icon="check">check</span>
+</div>
+<div class="absolute -top-3 -right-3 bg-primary text-on-primary text-[9px] font-black tracking-tighter px-3 py-1 rounded-full uppercase shadow-lg">Correct</div>
+</button>
+<!-- Option C -->
+<button class="group relative flex items-center justify-between p-6 bg-surface-container-high rounded-lg text-left transition-all duration-300 active:scale-95 hover:bg-surface-bright">
+<div class="flex flex-col">
+<span class="text-xs font-bold text-secondary opacity-40 mb-1">C</span>
+<span class="text-lg font-semibold">Good Night</span>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary transition-colors"></div>
+</button>
+<!-- Option D -->
+<button class="group relative flex items-center justify-between p-6 bg-surface-container-high rounded-lg text-left transition-all duration-300 active:scale-95 hover:bg-surface-bright">
+<div class="flex flex-col">
+<span class="text-xs font-bold text-secondary opacity-40 mb-1">D</span>
+<span class="text-lg font-semibold">Goodbye</span>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary transition-colors"></div>
+</button>
+</section>
+</main>
+<!-- Bottom Action Footer -->
+<footer class="fixed bottom-0 w-full p-6 bg-[#0b0d1a]/90 backdrop-blur-2xl z-50">
+<div class="max-w-2xl mx-auto flex gap-4">
+<button class="flex-grow bg-gradient-to-tr from-[#fdd828] to-[#eeca12] text-[#5b4c00] font-bold h-14 rounded-full transition-all duration-300 active:scale-95 shadow-[0px_0px_24px_rgba(253,216,40,0.2)] flex items-center justify-center gap-2">
+                Далее
+                <span class="material-symbols-outlined font-bold" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</footer>
+<!-- BottomNavBar (Suppressed as per task focus rules for transactional/focused screens) -->
+</body></html>
