@@ -49,7 +49,28 @@ def make_fake_init_data(user_id: int = 123456789, first_name: str = "Test") -> s
 async def setup_database():
     """Create all tables once per test session."""
     # Patch PostgreSQL-specific types for SQLite compatibility
+    import json as _json
     from sqlalchemy import JSON, Text
+    from sqlalchemy.types import TypeDecorator
+
+    class JSONList(TypeDecorator):
+        """Stores a Python list as a JSON string in SQLite Text column."""
+        impl = Text
+        cache_ok = True
+
+        def process_bind_param(self, value, dialect):
+            if value is None:
+                return "[]"
+            if isinstance(value, list):
+                return _json.dumps(value)
+            return value  # already a string
+
+        def process_result_value(self, value, dialect):
+            if value is None:
+                return []
+            if isinstance(value, str):
+                return _json.loads(value)
+            return value
 
     from sqlalchemy import text as sa_text
     from sqlalchemy.sql.schema import DefaultClause
@@ -59,7 +80,7 @@ async def setup_database():
             if col.type.__class__.__name__ == "JSONB":
                 col.type = JSON()
             if col.type.__class__.__name__ == "ARRAY":
-                col.type = Text()
+                col.type = JSONList()
             # SQLite doesn't have NOW() — replace with CURRENT_TIMESTAMP
             if getattr(col, "server_default", None) is not None:
                 sd = col.server_default
