@@ -13,4 +13,8 @@ class Base(DeclarativeBase):
 
 async def get_session():
     async with async_session_factory() as session:
-        yield session
+        try:
+            yield session
+        except Exception:
+            await session.rollback()
+            raise

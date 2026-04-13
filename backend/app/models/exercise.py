@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Boolean, ForeignKey, Integer, SmallInteger, String, text
+from sqlalchemy import Boolean, Enum as SAEnum, ForeignKey, Integer, SmallInteger, String, text
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 from app.database import Base
@@ -13,10 +13,13 @@ class Exercise(Base):
     unit_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("curriculum_units.id", ondelete="CASCADE"), nullable=False
     )
-    type: Mapped[ExerciseTypeEnum] = mapped_column(nullable=False)
+    type: Mapped[ExerciseTypeEnum] = mapped_column(
+        SAEnum(ExerciseTypeEnum, name="exercise_type_enum", native_enum=False),
+        nullable=False,
+    )
     order_index: Mapped[int] = mapped_column(SmallInteger, nullable=False)
     content: Mapped[dict] = mapped_column(JSONB, nullable=False)
-    audio_paths: Mapped[list] = mapped_column(
+    audio_paths: Mapped[list[str]] = mapped_column(
         ARRAY(item_type=String), nullable=False, default=list
     )
     is_published: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
@@ -29,7 +32,10 @@ class PlacementTestQuestion(Base):
     __tablename__ = "placement_test_questions"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    type: Mapped[ExerciseTypeEnum] = mapped_column(nullable=False)
+    type: Mapped[ExerciseTypeEnum] = mapped_column(
+        SAEnum(ExerciseTypeEnum, name="exercise_type_enum", native_enum=False),
+        nullable=False,
+    )
     content: Mapped[dict] = mapped_column(JSONB, nullable=False)
     correct_answer: Mapped[dict] = mapped_column(JSONB, nullable=False)
     order_index: Mapped[int] = mapped_column(SmallInteger, nullable=False)
