@@ -5,6 +5,7 @@ from app.config import settings
 from app.routers import auth, curriculum, exercises, vocabulary
 from app.routers import mini_test, placement_test
 from app.routers import settings as settings_router
+from app.routers import sync
 
 app = FastAPI(title="Greek Learning App API", version="0.1.0")
 
@@ -22,6 +23,7 @@ app.include_router(vocabulary.router)
 app.include_router(mini_test.router)
 app.include_router(placement_test.router)
 app.include_router(settings_router.router)
+app.include_router(sync.router)
 
 
 @app.get("/health")
