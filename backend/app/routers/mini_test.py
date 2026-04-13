@@ -1,9 +1,8 @@
 # backend/app/routers/mini_test.py
-import json
 import random
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from sqlalchemy import func, select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_session
@@ -13,6 +12,7 @@ from app.models.exercise import Exercise
 from app.models.progress import UserProgress
 from app.models.user import User
 from app.models.vocabulary import UserCardState, VocabularyCard
+from app.routers.exercises import _parse_ids
 from app.services.xp_service import XP_MINI_TEST, award_xp
 
 router = APIRouter(prefix="/api/v1/units", tags=["mini-test"])
@@ -43,26 +43,22 @@ class MiniTestCompleteResponse(BaseModel):
 
 
 async def _check_all_exercises_done(user_id: int, unit_id: int, session: AsyncSession) -> bool:
-    total = await session.scalar(
-        select(func.count(Exercise.id)).where(
+    non_flashcard_ids = set((await session.scalars(
+        select(Exercise.id).where(
             Exercise.unit_id == unit_id,
             Exercise.is_published == True,
             Exercise.type != ExerciseTypeEnum.FLASHCARD,
         )
-    ) or 0
-    if total == 0:
+    )).all())
+    if not non_flashcard_ids:
         return True
     progress = await session.scalar(
         select(UserProgress).where(
             UserProgress.user_id == user_id, UserProgress.unit_id == unit_id
         )
     )
-    completed_ids = progress.completed_exercise_ids or [] if progress else []
-    # completed_exercise_ids may be stored as JSON string in SQLite
-    if isinstance(completed_ids, str):
-        completed_ids = json.loads(completed_ids)
-    completed = len(completed_ids)
-    return completed >= total
+    completed_ids = set(_parse_ids(progress.completed_exercise_ids if progress else None))
+    return len(completed_ids & non_flashcard_ids) >= len(non_flashcard_ids)
 
 
 @router.get("/{unit_id}/mini-test", response_model=MiniTestQuestionsResponse)
@@ -128,18 +124,17 @@ async def complete_mini_test(
         vocab_cards = (await session.scalars(
             select(VocabularyCard).where(VocabularyCard.unit_id == unit_id)
         )).all()
-        for card in vocab_cards:
-            existing = await session.scalar(
-                select(UserCardState).where(
-                    UserCardState.user_id == user.id, UserCardState.card_id == card.id
+        if vocab_cards:
+            existing_card_ids = set((await session.scalars(
+                select(UserCardState.card_id).where(
+                    UserCardState.user_id == user.id,
+                    UserCardState.card_id.in_([c.id for c in vocab_cards]),
                 )
-            )
-            if not existing:
-                state = UserCardState(
-                    user_id=user.id, card_id=card.id, status=CardStatusEnum.LEARNING
-                )
-                session.add(state)
-                cards_added += 1
+            )).all())
+            for card in vocab_cards:
+                if card.id not in existing_card_ids:
+                    session.add(UserCardState(user_id=user.id, card_id=card.id, status=CardStatusEnum.LEARNING))
+                    cards_added += 1
         progress.cards_added_to_vocab = True
 
     await award_xp(session, user, XP_MINI_TEST, "mini_test", ref_id=unit_id)
