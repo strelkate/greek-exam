@@ -2,7 +2,7 @@ import json
 from datetime import date
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import func, select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_session
@@ -43,7 +43,6 @@ async def get_exercise(
     if not ex or not ex.is_published:
         raise HTTPException(status_code=404, detail="Exercise not found")
 
-    audio_paths = _parse_ids(ex.audio_paths) if ex.audio_paths else []
     # audio_paths are strings, not ints — but _parse_ids works for any JSON array
     if ex.audio_paths and isinstance(ex.audio_paths, list):
         audio_paths = ex.audio_paths
@@ -52,6 +51,8 @@ async def get_exercise(
             audio_paths = json.loads(ex.audio_paths)
         except json.JSONDecodeError:
             audio_paths = []
+    else:
+        audio_paths = []
 
     return ExerciseResponse(
         id=ex.id,
@@ -73,6 +74,10 @@ async def complete_exercise(
     ex = await session.get(Exercise, exercise_id)
     if not ex or not ex.is_published:
         raise HTTPException(status_code=404, detail="Exercise not found")
+
+    # score and total are accepted for future analytics/statistics; not currently stored
+    if body.total > 0 and body.score > body.total:
+        raise HTTPException(status_code=422, detail="score cannot exceed total")
 
     # Load or create progress
     progress = await session.scalar(
@@ -106,25 +111,29 @@ async def complete_exercise(
     xp_breakdown: dict[str, int] = {"exercise_complete": XP_EXERCISE}
     xp_total = XP_EXERCISE
 
+    # Always update last_active_date when completing an exercise
+    user.last_active_date = date.today()
+
     if streak_result["updated"]:
         user.streak_days = streak_result["streak_days"]
-        user.last_active_date = date.today()
         if streak_result["streak_days"] > 1:
             xp_breakdown["streak_bonus"] = XP_STREAK_BONUS
             xp_total += XP_STREAK_BONUS
 
     await award_xp(session, user, xp_total, "exercise_complete", ref_id=exercise_id)
 
-    # Count total non-flashcard exercises in unit
-    total_in_unit = await session.scalar(
-        select(func.count()).where(
+    # Fetch all non-flashcard published exercise IDs for this unit
+    non_flashcard_ids_result = await session.scalars(
+        select(Exercise.id).where(
             Exercise.unit_id == ex.unit_id,
             Exercise.is_published == True,
             Exercise.type != ExerciseTypeEnum.FLASHCARD,
         )
-    ) or 0
-
-    mini_test_unlocked = len(completed_ids) >= total_in_unit
+    )
+    non_flashcard_ids = set(non_flashcard_ids_result.all())
+    total_in_unit = len(non_flashcard_ids)
+    completed_non_flashcard = len(set(completed_ids) & non_flashcard_ids)
+    mini_test_unlocked = completed_non_flashcard >= total_in_unit
 
     await session.commit()
 

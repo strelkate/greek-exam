@@ -110,6 +110,41 @@ async def test_complete_exercise_idempotent(client, auth_headers):
     assert response.status_code == 409
 
 
+async def test_mini_test_not_unlocked_after_flashcard_only(client, auth_headers):
+    """Completing a flashcard exercise must not unlock the mini-test."""
+    async with TestSessionFactory() as session:
+        unit = CurriculumUnit(level=LevelEnum.A1, title="U", order_index=1, is_published=True)
+        session.add(unit)
+        await session.flush()
+        # One real exercise (not completed)
+        ex_real = Exercise(
+            unit_id=unit.id, type=ExerciseTypeEnum.MULTIPLE_CHOICE,
+            order_index=1, content={}, audio_paths=[], is_published=True,
+        )
+        # One flashcard (will be completed)
+        ex_flash = Exercise(
+            unit_id=unit.id, type=ExerciseTypeEnum.FLASHCARD,
+            order_index=2, content={}, audio_paths=[], is_published=True,
+        )
+        session.add(ex_real)
+        session.add(ex_flash)
+        await session.commit()
+        real_id = ex_real.id
+        flash_id = ex_flash.id
+
+    await client.post("/api/v1/auth/session", headers=auth_headers)
+    # Complete only the flashcard
+    response = await client.post(
+        f"/api/v1/exercises/{flash_id}/complete",
+        json={"score": 1, "total": 1},
+        headers=auth_headers,
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["unit_progress"]["mini_test_unlocked"] is False
+    assert body["unit_progress"]["exercises_total"] == 1  # only the non-flashcard counts
+
+
 async def test_mini_test_unlocked_when_all_done(client, auth_headers):
     """mini_test_unlocked becomes True when all non-flashcard exercises are completed."""
     data = await create_unit_and_exercise()
