@@ -21,6 +21,8 @@ async def award_xp(
     Awards XP to user and logs it in xp_log.
     Does NOT commit — caller is responsible for committing the session.
     """
+    if amount <= 0:
+        raise ValueError(f"award_xp: amount must be positive, got {amount}")
     user.total_xp += amount
     log_entry = XpLog(
         user_id=user.id,

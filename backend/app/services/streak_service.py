@@ -1,5 +1,5 @@
-from datetime import date
-from typing import TypedDict
+from datetime import date as date_type
+from typing import Optional, TypedDict
 
 
 class StreakResult(TypedDict):
@@ -8,8 +8,9 @@ class StreakResult(TypedDict):
 
 
 def calculate_streak(
-    last_active_date: date | None,
+    last_active_date: date_type | None,
     current_streak: int,
+    today: date_type | None = None,
 ) -> StreakResult:
     """
     Returns updated streak based on last_active_date vs today.
@@ -18,7 +19,8 @@ def calculate_streak(
     - Gap > 1 day: reset to 1
     - Never active: start at 1
     """
-    today = date.today()
+    if today is None:
+        today = date_type.today()
 
     if last_active_date is None:
         return StreakResult(streak_days=1, updated=True)

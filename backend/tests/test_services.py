@@ -30,7 +30,7 @@ def test_sm2_failure_resets():
     result = calculate_sm2(known=False, interval_days=10.0, easiness_factor=2.5, repetitions=3)
     assert result["interval_days"] == 1.0
     assert result["repetitions"] == 0
-    assert result["easiness_factor"] < 2.5
+    assert result["easiness_factor"] == pytest.approx(1.96, abs=0.001)
     assert result["easiness_factor"] >= 1.3  # never below minimum
 
 
@@ -46,23 +46,26 @@ def test_sm2_easiness_floor():
 # --- Streak tests ---
 
 def test_streak_same_day():
-    result = calculate_streak(last_active_date=date.today(), current_streak=5)
+    today = date.today()
+    result = calculate_streak(last_active_date=today, current_streak=5, today=today)
     assert result["streak_days"] == 5
     assert result["updated"] is False
 
 
 def test_streak_next_day():
     from datetime import timedelta
-    yesterday = date.today() - timedelta(days=1)
-    result = calculate_streak(last_active_date=yesterday, current_streak=5)
+    today = date.today()
+    yesterday = today - timedelta(days=1)
+    result = calculate_streak(last_active_date=yesterday, current_streak=5, today=today)
     assert result["streak_days"] == 6
     assert result["updated"] is True
 
 
 def test_streak_broken():
     from datetime import timedelta
-    two_days_ago = date.today() - timedelta(days=2)
-    result = calculate_streak(last_active_date=two_days_ago, current_streak=5)
+    today = date.today()
+    two_days_ago = today - timedelta(days=2)
+    result = calculate_streak(last_active_date=two_days_ago, current_streak=5, today=today)
     assert result["streak_days"] == 1
     assert result["updated"] is True
 
