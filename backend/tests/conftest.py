@@ -1,0 +1,103 @@
+import hashlib
+import hmac
+import json
+import time
+from urllib.parse import urlencode
+
+import pytest
+from httpx import ASGITransport, AsyncClient
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+from sqlalchemy.pool import StaticPool
+
+from app.database import Base, get_session
+
+TEST_BOT_TOKEN = "test_token"
+# Use SQLite in-memory for tests (no Postgres required)
+TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
+
+# We need a shared engine for the session scope
+test_engine = create_async_engine(
+    TEST_DATABASE_URL,
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,  # single connection — required for in-memory SQLite
+)
+TestSessionFactory = async_sessionmaker(test_engine, expire_on_commit=False)
+
+
+def make_fake_init_data(user_id: int = 123456789, first_name: str = "Test") -> str:
+    """Constructs a valid Telegram initData string signed with TEST_BOT_TOKEN."""
+    user_json = json.dumps(
+        {"id": user_id, "first_name": first_name}, separators=(",", ":")
+    )
+    auth_date = str(int(time.time()))
+    params = {"auth_date": auth_date, "user": user_json}
+    data_check_string = "\n".join(
+        f"{k}={v}" for k, v in sorted(params.items())
+    )
+    secret_key = hmac.new(
+        b"WebAppData", TEST_BOT_TOKEN.encode(), hashlib.sha256
+    ).digest()
+    hash_val = hmac.new(
+        secret_key, data_check_string.encode(), hashlib.sha256
+    ).hexdigest()
+    params["hash"] = hash_val
+    return urlencode(params)
+
+
+@pytest.fixture(scope="session", autouse=True)
+async def setup_database():
+    """Create all tables once per test session."""
+    # Patch PostgreSQL-specific types for SQLite compatibility
+    from sqlalchemy import JSON, Text
+
+    for table in Base.metadata.tables.values():
+        for col in table.columns:
+            if col.type.__class__.__name__ == "JSONB":
+                col.type = JSON()
+            if col.type.__class__.__name__ == "ARRAY":
+                col.type = Text()
+
+    async with test_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield
+    async with test_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+
+
+@pytest.fixture(autouse=True)
+async def clean_tables():
+    """Delete all rows between tests."""
+    yield
+    async with test_engine.begin() as conn:
+        for table in reversed(Base.metadata.sorted_tables):
+            await conn.execute(table.delete())
+
+
+@pytest.fixture
+def init_data() -> str:
+    return make_fake_init_data()
+
+
+async def override_get_session():
+    async with TestSessionFactory() as session:
+        try:
+            yield session
+        except Exception:
+            await session.rollback()
+            raise
+
+
+@pytest.fixture
+async def client(monkeypatch):
+    """Async HTTP client wired to the FastAPI app with test DB and test bot token."""
+    monkeypatch.setattr("app.config.settings.bot_token", TEST_BOT_TOKEN)
+
+    from app.main import app
+    app.dependency_overrides[get_session] = override_get_session
+
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as ac:
+        yield ac
+
+    app.dependency_overrides.clear()
