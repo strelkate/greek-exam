@@ -9,6 +9,7 @@ from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
 
+import app.models  # noqa: F401 — registers all models with Base.metadata
 from app.database import Base, get_session
 
 TEST_BOT_TOKEN = "test_token"
@@ -50,12 +51,20 @@ async def setup_database():
     # Patch PostgreSQL-specific types for SQLite compatibility
     from sqlalchemy import JSON, Text
 
+    from sqlalchemy import text as sa_text
+    from sqlalchemy.sql.schema import DefaultClause
+
     for table in Base.metadata.tables.values():
         for col in table.columns:
             if col.type.__class__.__name__ == "JSONB":
                 col.type = JSON()
             if col.type.__class__.__name__ == "ARRAY":
                 col.type = Text()
+            # SQLite doesn't have NOW() — replace with CURRENT_TIMESTAMP
+            if getattr(col, "server_default", None) is not None:
+                sd = col.server_default
+                if hasattr(sd, "arg") and hasattr(sd.arg, "text") and "NOW()" in sd.arg.text.upper():
+                    col.server_default = DefaultClause(sa_text("CURRENT_TIMESTAMP"))
 
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
