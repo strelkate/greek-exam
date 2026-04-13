@@ -80,6 +80,9 @@ async def complete_exercise(
         raise HTTPException(status_code=422, detail="score cannot exceed total")
 
     # Load or create progress
+    # NOTE: concurrent requests for the same exercise can bypass the idempotency check below
+    # because there is no SELECT FOR UPDATE (SQLite incompatible). A proper fix requires
+    # a separate UserExerciseCompletion table with UNIQUE(user_id, exercise_id) constraint.
     progress = await session.scalar(
         select(UserProgress).where(
             UserProgress.user_id == user.id,
@@ -97,10 +100,9 @@ async def complete_exercise(
         session.add(progress)
         await session.flush()  # get progress.id
 
-    # Update completed list
+    # Update completed list (stores all exercise IDs including flashcards)
     completed_ids.append(exercise_id)
     progress.completed_exercise_ids = completed_ids
-    progress.exercises_completed = len(completed_ids)
 
     # Streak
     streak_result = calculate_streak(
@@ -134,6 +136,8 @@ async def complete_exercise(
     total_in_unit = len(non_flashcard_ids)
     completed_non_flashcard = len(set(completed_ids) & non_flashcard_ids)
     mini_test_unlocked = completed_non_flashcard >= total_in_unit
+    # exercises_completed counts only non-flashcard completions (consistent with exercises_total)
+    progress.exercises_completed = completed_non_flashcard
 
     await session.commit()
 
@@ -143,7 +147,7 @@ async def complete_exercise(
         streak_days=user.streak_days,
         streak_updated=streak_result["updated"],
         unit_progress=UnitProgressInline(
-            exercises_completed=len(completed_ids),
+            exercises_completed=completed_non_flashcard,
             exercises_total=total_in_unit,
             mini_test_unlocked=mini_test_unlocked,
         ),

@@ -1,5 +1,7 @@
 # backend/app/routers/mini_test.py
+import json
 import random
+from datetime import UTC, datetime
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import select
@@ -117,6 +119,7 @@ async def complete_mini_test(
     progress.mini_test_passed = True
     progress.mini_test_score = body.score
     progress.unit_completed = True
+    progress.unit_completed_at = datetime.now(UTC)
 
     # Add vocabulary cards to user's queue (status LEARNING)
     cards_added = 0

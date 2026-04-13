@@ -1,5 +1,5 @@
 # backend/app/routers/sync.py
-from datetime import timedelta
+from datetime import date, timedelta
 
 from fastapi import APIRouter, Depends
 from sqlalchemy import select
@@ -61,10 +61,11 @@ async def sync_progress(
             progress.completed_exercise_ids = completed_ids
             progress.exercises_completed = len(completed_ids)
 
-            streak = calculate_streak(user.last_active_date, user.streak_days,
-                                      today=event.occurred_at.date())
+            # Cap event date to today to prevent streak manipulation via future timestamps
+            event_date = min(event.occurred_at.date(), date.today())
+            streak = calculate_streak(user.last_active_date, user.streak_days, today=event_date)
             xp = XP_EXERCISE
-            user.last_active_date = event.occurred_at.date()
+            user.last_active_date = event_date
             if streak["updated"]:
                 user.streak_days = streak["streak_days"]
                 if streak["streak_days"] > 1:
