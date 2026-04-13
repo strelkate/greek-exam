@@ -76,11 +76,14 @@ async def complete_placement_test(
     if user.placement_status != PlacementStatusEnum.PENDING:
         raise HTTPException(status_code=409, detail="Placement test already completed")
 
+    if not body.skipped and body.total <= 0:
+        raise HTTPException(status_code=422, detail="total must be > 0 when not skipping")
+
     if body.skipped:
         user.placement_status = PlacementStatusEnum.SKIPPED
         user.a1_skipped = False
         msg = "Начинаете с A1."
-    elif body.total > 0 and body.score / body.total >= PASS_THRESHOLD:
+    elif body.score / body.total >= PASS_THRESHOLD:
         user.placement_status = PlacementStatusEnum.PASSED
         user.a1_skipped = True
         msg = "Поздравляем! A1 пропущен, начинаете с A2."
