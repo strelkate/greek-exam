@@ -139,3 +139,39 @@ async def test_vocab_stats(client, auth_headers):
     assert data["due_today"] == 1
     assert data["learned_count"] == 0
     assert data["new_count"] == 0
+
+
+async def test_vocab_stats_multi_card(client, auth_headers):
+    """Stats counts are correct with multiple cards in different states."""
+    card1 = await create_vocab_card("word1", "слово1")
+    card2 = await create_vocab_card("word2", "слово2")
+    card3 = await create_vocab_card("word3", "слово3")
+    session_resp = await client.post("/api/v1/auth/session", headers=auth_headers)
+    user_id = session_resp.json()["user_id"]
+    await add_card_state(user_id, card1["card_id"], status=CardStatusEnum.LEARNING, due_today=True)
+    await add_card_state(user_id, card2["card_id"], status=CardStatusEnum.LEARNED, due_today=False)
+    await add_card_state(user_id, card3["card_id"], status=CardStatusEnum.NEW, due_today=True)
+
+    response = await client.get("/api/v1/vocabulary/stats", headers=auth_headers)
+    data = response.json()
+    assert data["total_cards"] == 3
+    assert data["learned_count"] == 1
+    assert data["due_today"] == 1  # only LEARNING card due (NEW excluded)
+    assert data["new_count"] == 1
+
+
+async def test_card_review_learned_wrong_reverts_to_learning(client, auth_headers):
+    """A LEARNED card answered wrong should revert to LEARNING status."""
+    card_data = await create_vocab_card()
+    session_resp = await client.post("/api/v1/auth/session", headers=auth_headers)
+    user_id = session_resp.json()["user_id"]
+    await add_card_state(user_id, card_data["card_id"], status=CardStatusEnum.LEARNED)
+
+    response = await client.post(
+        f"/api/v1/vocabulary/cards/{card_data['card_id']}/review",
+        json={"known": False},
+        headers=auth_headers,
+    )
+    assert response.status_code == 200
+    assert response.json()["new_status"] == "learning"
+    assert response.json()["xp_earned"] == 0

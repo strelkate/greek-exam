@@ -89,9 +89,7 @@ async def review_card(
     state.last_reviewed_at = datetime.now()
 
     # Update status based on repetitions
-    if sm2["repetitions"] == 0:
-        state.status = CardStatusEnum.LEARNING  # reset on failure → still learning
-    elif sm2["repetitions"] >= 3:
+    if sm2["repetitions"] >= 3:
         state.status = CardStatusEnum.LEARNED
     else:
         state.status = CardStatusEnum.LEARNING
@@ -120,23 +118,23 @@ async def get_vocab_stats(
     today = date.today()
 
     total = await session.scalar(
-        select(func.count()).where(UserCardState.user_id == user.id)
+        select(func.count(UserCardState.id)).where(UserCardState.user_id == user.id)
     ) or 0
     learned = await session.scalar(
-        select(func.count()).where(
+        select(func.count(UserCardState.id)).where(
             UserCardState.user_id == user.id,
             UserCardState.status == CardStatusEnum.LEARNED,
         )
     ) or 0
     due = await session.scalar(
-        select(func.count()).where(
+        select(func.count(UserCardState.id)).where(
             UserCardState.user_id == user.id,
             UserCardState.next_review_at <= today,
             UserCardState.status != CardStatusEnum.NEW,
         )
     ) or 0
     new = await session.scalar(
-        select(func.count()).where(
+        select(func.count(UserCardState.id)).where(
             UserCardState.user_id == user.id,
             UserCardState.status == CardStatusEnum.NEW,
         )
