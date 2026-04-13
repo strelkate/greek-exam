@@ -1,3 +1,5 @@
+import json
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -133,8 +135,10 @@ async def get_unit_detail(
     # completed_exercise_ids is stored as Text in SQLite — handle both list and str
     completed_ids_raw = progress.completed_exercise_ids if progress else []
     if isinstance(completed_ids_raw, str):
-        import json
-        completed_ids = json.loads(completed_ids_raw) if completed_ids_raw else []
+        try:
+            completed_ids = json.loads(completed_ids_raw) if completed_ids_raw else []
+        except json.JSONDecodeError:
+            completed_ids = []
     else:
         completed_ids = completed_ids_raw or []
 

@@ -105,3 +105,31 @@ async def test_get_unpublished_unit_returns_404(client, auth_headers):
     await client.post("/api/v1/auth/session", headers=auth_headers)
     response = await client.get(f"/api/v1/curriculum/units/{unit_data['id']}", headers=auth_headers)
     assert response.status_code == 404
+
+
+async def test_unit_exercises_total_excludes_flashcards(client, auth_headers):
+    """exercises_total must not count flashcard-type exercises."""
+    unit_data = await create_unit(LevelEnum.A1, 1)
+    unit_id = unit_data["id"]
+
+    async with TestSessionFactory() as session:
+        # One real exercise
+        ex1 = Exercise(
+            unit_id=unit_id, type=ExerciseTypeEnum.MULTIPLE_CHOICE,
+            order_index=1, content={}, audio_paths=[], is_published=True,
+        )
+        # One flashcard exercise — should NOT be counted
+        ex2 = Exercise(
+            unit_id=unit_id, type=ExerciseTypeEnum.FLASHCARD,
+            order_index=2, content={}, audio_paths=[], is_published=True,
+        )
+        session.add(ex1)
+        session.add(ex2)
+        await session.commit()
+
+    await client.post("/api/v1/auth/session", headers=auth_headers)
+    response = await client.get("/api/v1/curriculum/units?level=A1", headers=auth_headers)
+    assert response.status_code == 200
+    units = response.json()["units"]
+    assert len(units) == 1
+    assert units[0]["exercises_total"] == 1  # flashcard not counted
