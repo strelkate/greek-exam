@@ -1,0 +1,62 @@
+.card {
+  display: block;
+  background: var(--color-surface-high);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-md);
+  text-decoration: none;
+  color: var(--color-on-surface);
+  transition: background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card:active {
+  background: var(--color-surface-highest);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-sm);
+}
+
+.title {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  flex: 1;
+}
+
+.check {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  margin-left: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.bar {
+  flex: 1;
+  height: 6px;
+  background: var(--color-surface-highest);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.counter {
+  font-size: var(--font-size-label);
+  color: var(--color-on-surface-muted);
+  white-space: nowrap;
+}
