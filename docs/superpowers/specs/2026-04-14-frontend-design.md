@@ -207,7 +207,23 @@ CSS-переменные в `index.css` (на основе `/stitch/aegean_midni
 --color-primary:           #fdd828;
 --color-secondary:         #caccf7;
 --color-on-surface:        #ffffff;
+
 --font-family:             'Plus Jakarta Sans', sans-serif;
+
+/* Типографика */
+--font-size-display:       3.5rem;    /* 56px — достижения, единоразовые моменты */
+--font-size-headline:      1.5rem;    /* 24px — заголовки экранов */
+--font-size-title:         1.125rem;  /* 18px — заголовки карточек */
+--font-size-body:          0.875rem;  /* 14px — основной текст упражнений */
+--font-size-label:         0.6875rem; /* 11px — метки STREAK, WORDS, ALL CAPS +0.05em */
+
+--font-weight-regular:     400;
+--font-weight-medium:      500;
+--font-weight-bold:        700;
+
+--line-height-tight:       1.2;       /* заголовки */
+--line-height-normal:      1.5;       /* основной текст */
+
 --radius-card:             16px;
 --radius-button:           12px;
 ```
