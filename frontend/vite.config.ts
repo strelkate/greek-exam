@@ -9,9 +9,19 @@ export default defineConfig({
       '/api': 'http://localhost:8000',
     },
   },
+  css: {
+    modules: {
+      generateScopedName: '[local]',
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
+    css: {
+      modules: {
+        classNameStrategy: 'non-scoped',
+      },
+    },
   },
 })

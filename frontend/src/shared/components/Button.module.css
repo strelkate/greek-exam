@@ -1,0 +1,43 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px var(--spacing-lg);
+  border: none;
+  border-radius: var(--radius-button);
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: #0b0d1a;
+}
+
+.btn-secondary {
+  background: var(--color-surface-high);
+  color: var(--color-on-surface);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-secondary);
+}
+
+.btn-full {
+  width: 100%;
+}
