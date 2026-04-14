@@ -1,0 +1,9 @@
+.card {
+  background: var(--color-surface-high);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-md);
+}
+
+.elevated {
+  background: var(--color-surface-highest);
+}
