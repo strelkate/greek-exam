@@ -1,0 +1,131 @@
+.screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+}
+
+.loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-on-surface-muted);
+}
+
+.header {
+  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+  background: var(--color-surface-low);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.level {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.title {
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--spacing-xs);
+}
+
+.progress {
+  font-size: var(--font-size-label);
+  color: var(--color-on-surface-muted);
+  text-align: right;
+}
+
+.content {
+  flex: 1;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-sm);
+}
+
+.exerciseList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.exerciseRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 12px var(--spacing-md);
+  background: var(--color-surface-high);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--color-on-surface);
+}
+
+.exNumber {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-secondary);
+  width: 20px;
+  text-align: center;
+}
+
+.exType {
+  flex: 1;
+  font-size: var(--font-size-body);
+}
+
+.exCheck {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.vocabList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vocabRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px var(--spacing-md);
+  background: var(--color-surface-high);
+  border-radius: var(--radius-sm);
+}
+
+.wordGr {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+}
+
+.wordRu {
+  font-size: var(--font-size-body);
+  color: var(--color-on-surface-muted);
+}
+
+.vocabMore {
+  font-size: var(--font-size-label);
+  color: var(--color-on-surface-muted);
+  text-align: center;
+  padding: var(--spacing-sm);
+}
+
+.footer {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding-bottom: calc(var(--bottom-nav-height) + var(--spacing-md));
+}
