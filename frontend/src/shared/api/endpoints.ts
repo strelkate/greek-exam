@@ -35,8 +35,8 @@ export const api = {
   getPlacementQuestions: () =>
     apiClient.get<PlacementQuestionsResponse>('/api/v1/placement-test/questions').then(r => r.data),
 
-  completePlacementTest: (score: number, total: number) =>
-    apiClient.post<PlacementCompleteResponse>('/api/v1/placement-test/complete', { score, total }).then(r => r.data),
+  completePlacementTest: (score: number, total: number, skipped = false) =>
+    apiClient.post<PlacementCompleteResponse>('/api/v1/placement-test/complete', { score, total, skipped }).then(r => r.data),
 
   // Mini-test
   getMiniTestQuestions: (unitId: number) =>
