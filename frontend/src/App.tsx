@@ -1,0 +1,54 @@
+import { useEffect } from 'react'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { api } from './shared/api/endpoints'
+import { setInitData } from './shared/api/client'
+import { useAppStore } from './shared/store/useAppStore'
+import { useTelegram } from './shared/hooks/useTelegram'
+import { BottomNav } from './shared/components/BottomNav'
+import { LevelMapScreen } from './features/curriculum/LevelMapScreen'
+import { PlacementScreen } from './features/placement/PlacementScreen'
+import { ExerciseScreen } from './features/exercises/ExerciseScreen'
+import { VocabularyHomeScreen } from './features/vocabulary/VocabularyHomeScreen'
+
+function AppRoutes() {
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Navigate to="/levels" replace />} />
+        <Route path="/placement" element={<PlacementScreen />} />
+        <Route path="/levels" element={<LevelMapScreen />} />
+        <Route path="/units/:unitId/exercise/:exerciseId" element={<ExerciseScreen />} />
+        <Route path="/vocabulary" element={<VocabularyHomeScreen />} />
+        <Route path="*" element={<Navigate to="/levels" replace />} />
+      </Routes>
+      <BottomNav />
+    </>
+  )
+}
+
+export function App() {
+  const { initData, ready, expand } = useTelegram()
+  const hydrate = useAppStore((s) => s.hydrate)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    ready()
+    expand()
+    setInitData(initData)
+
+    api.createSession().then((session) => {
+      hydrate({
+        xp: session.total_xp,
+        streak: session.streak_days,
+        showTranslations: session.show_instruction_translation,
+      })
+      if (session.placement_status === 'pending') {
+        navigate('/placement', { replace: true })
+      } else {
+        navigate('/levels', { replace: true })
+      }
+    })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return <AppRoutes />
+}
