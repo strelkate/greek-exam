@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.passage {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-normal);
+  color: var(--color-on-surface-muted);
+  background: var(--color-surface-high);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-md);
+}
+
+.question {
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  color: var(--color-on-surface);
+}
+
+.tfStatement {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.option {
+  padding: 14px var(--spacing-md);
+  background: var(--color-surface-high);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--color-on-surface);
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.option.selected {
+  border-color: var(--color-primary);
+}
+
+.option.correct {
+  border-color: var(--color-success);
+  background: rgba(74, 222, 128, 0.1);
+}
+
+.option.wrong {
+  border-color: var(--color-error);
+  background: rgba(248, 113, 113, 0.1);
+}
