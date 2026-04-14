@@ -21,6 +21,9 @@ class VocabularyCard(Base):
     created_at: Mapped[datetime] = mapped_column(
         server_default=text("NOW()"), nullable=False
     )
+    generation_run_id: Mapped[Optional[str]] = mapped_column(
+        String(36), ForeignKey("generation_runs.id", ondelete="SET NULL"), nullable=True
+    )
 
 
 class UserCardState(Base):

@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 from sqlalchemy import Boolean, Enum as SAEnum, ForeignKey, Integer, SmallInteger, String, text
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import Mapped, mapped_column
@@ -25,6 +26,9 @@ class Exercise(Base):
     is_published: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     created_at: Mapped[datetime] = mapped_column(
         server_default=text("NOW()"), nullable=False
+    )
+    generation_run_id: Mapped[Optional[str]] = mapped_column(
+        String(36), ForeignKey("generation_runs.id", ondelete="SET NULL"), nullable=True
     )
 
 
