@@ -219,6 +219,19 @@ CSS-переменные в `index.css` (на основе `/stitch/aegean_midni
 
 ---
 
+## Нижняя навигация
+
+Два таба, фиксированные внизу, glassmorphism:
+
+| Таб | Иконка | Маршруты |
+|-----|--------|----------|
+| Учёба | книга | `/levels`, `/units/*` |
+| Словарь | карточки | `/vocabulary`, `/vocabulary/review` |
+
+Скрыта на экранах упражнений (`/units/:unitId/exercise/*`, `/units/:unitId/mini-test`, `/placement`) — полноэкранный режим.
+
+---
+
 ## Поток упражнения
 
 ```
@@ -227,9 +240,13 @@ UnitDetailScreen
       ExerciseShell (прогресс, аудио, инструкция)
         └── <TrueFalse|Matching|MultipleChoice|FillBlank|ImageDescription|Dialogue />
       onComplete(isCorrect) → enqueue progress → feedback overlay 1.5s
+        → navigate к следующему exerciseId из упорядоченного списка useUnitDetailQuery
+        → если упражнений больше нет → /units/:unitId/mini-test
   → MiniTestScreen (5 вопросов, типы 1/3/4)
   → UnitResultScreen (XP +25, стрик, кнопка "На карту")
 ```
+
+**Навигация между упражнениями:** `ExerciseScreen` получает полный упорядоченный список упражнений из `useUnitDetailQuery(unitId)`. Текущая позиция определяется по `exerciseId` в URL — `indexOf` в массиве. "Следующий" = следующий элемент массива по `order_index`.
 
 **ExerciseShell** — общая обёртка всех типов:
 - Прогресс-бар (X из N)
