@@ -40,4 +40,4 @@ async def test_session_invalid_init_data(client):
 
 async def test_session_missing_header(client):
     response = await client.post("/api/v1/auth/session")
-    assert response.status_code == 422
+    assert response.status_code == 401

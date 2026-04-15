@@ -43,10 +43,18 @@ def verify_telegram_init_data(init_data: str, bot_token: str) -> dict:
     return json.loads(params.get("user", "{}"))
 
 
+DEV_USER = {"id": 1, "first_name": "Dev", "username": "devuser"}
+
+
 async def get_current_user_data(
-    x_telegram_init_data: str = Header(...),
+    x_telegram_init_data: str = Header(default=""),
 ) -> dict:
     """FastAPI dependency: parses and verifies initData header."""
+    if settings.debug:
+        # In debug mode skip HMAC and return a stable dev user
+        return DEV_USER
+    if not x_telegram_init_data:
+        raise HTTPException(status_code=401, detail="Missing X-Telegram-Init-Data header")
     try:
         user_data = verify_telegram_init_data(x_telegram_init_data, settings.bot_token)
     except ValueError as e:
