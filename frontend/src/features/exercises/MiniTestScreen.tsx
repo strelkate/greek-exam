@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMiniTestQuery } from './useMiniTestQuery'
 import { ExerciseShell } from './ExerciseShell'
@@ -28,6 +28,14 @@ export function MiniTestScreen() {
   const [answered, setAnswered] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
+  const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current)
+    }
+  }, [])
+
   if (miniTestQuery.isLoading) return <div className="screen-loading">Φόρτωση...</div>
 
   const questions = miniTestQuery.data?.questions ?? []
@@ -46,7 +54,7 @@ export function MiniTestScreen() {
     if (submitting) return
     haptic.notification(answered ? 'success' : 'error')
     if (currentIndex < total - 1) {
-      setTimeout(() => {
+      advanceTimerRef.current = setTimeout(() => {
         setCurrentIndex(i => i + 1)
         setAnswered(false)
       }, 1000)
@@ -54,8 +62,7 @@ export function MiniTestScreen() {
     }
     setSubmitting(true)
     try {
-      const finalScore = score + (answered ? 1 : 0)
-      const result = await api.completeMiniTest(Number(unitId), finalScore, total)
+      const result = await api.completeMiniTest(Number(unitId), score, total)
       if (result.xp_earned > 0) addXp(result.xp_earned)
       navigate(`/units/${unitId}/result`, { state: result })
     } finally {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useUnitDetailQuery } from '../curriculum/useCurriculumQuery'
 import { useExerciseQuery } from './useExerciseQuery'
@@ -34,6 +34,14 @@ export function ExerciseScreen() {
   const [isCorrect, setIsCorrect] = useState(false)
   const [showFeedback, setShowFeedback] = useState(false)
 
+  const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current)
+    }
+  }, [])
+
   if (unitQuery.isLoading || exerciseQuery.isLoading) {
     return <div className="screen-loading">Φόρτωση...</div>
   }
@@ -60,7 +68,7 @@ export function ExerciseScreen() {
     })
     setShowFeedback(true)
     haptic.notification(isCorrect ? 'success' : 'error')
-    setTimeout(() => {
+    feedbackTimerRef.current = setTimeout(() => {
       setShowFeedback(false)
       const nextExercise = exercises[currentIdx + 1]
       if (nextExercise) {
