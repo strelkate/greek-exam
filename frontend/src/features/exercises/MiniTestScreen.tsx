@@ -36,7 +36,7 @@ export function MiniTestScreen() {
     }
   }, [])
 
-  if (miniTestQuery.isLoading) return <div className="screen-loading">Φόρτωση...</div>
+  if (miniTestQuery.isLoading) return <div className="screen-loading">Загрузка...</div>
 
   const questions = miniTestQuery.data?.questions ?? []
   const question = questions[currentIndex]

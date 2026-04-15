@@ -15,28 +15,28 @@ export function VocabularyHomeScreen() {
 
   return (
     <div className="vocab-home">
-      <h1 className="vocab-home__title">Λεξιλόγιο</h1>
+      <h1 className="vocab-home__title">Словарь</h1>
       <div className="vocab-home__stats">
         <div className="vocab-stat">
           <span className="vocab-stat__value">{stats?.total_cards ?? '—'}</span>
-          <span className="vocab-stat__label">ΣΥΝΟΛΟ</span>
+          <span className="vocab-stat__label">ВСЕГО</span>
         </div>
         <div className="vocab-stat">
           <span className="vocab-stat__value">{stats?.learned_count ?? '—'}</span>
-          <span className="vocab-stat__label">ΕΚΜΑΘΗΣΗ</span>
+          <span className="vocab-stat__label">ИЗУЧЕНО</span>
         </div>
         <div className="vocab-stat">
           <span className="vocab-stat__value">{learnedPercent}%</span>
-          <span className="vocab-stat__label">ΠΡΟΟΔΟΣ</span>
+          <span className="vocab-stat__label">ПРОГРЕСС</span>
         </div>
       </div>
       <div className="vocab-home__review-card">
         <div className="vocab-home__review-info">
           <span className="vocab-home__due-badge">{dueCount}</span>
           <div>
-            <p className="vocab-home__review-title">Επανάληψη σήμερα</p>
+            <p className="vocab-home__review-title">Повторение сегодня</p>
             <p className="vocab-home__review-subtitle">
-              {dueCount === 0 ? 'Όλα ενημερωμένα!' : `${dueCount} κάρτες περιμένουν`}
+              {dueCount === 0 ? 'Всё выучено!' : `${dueCount} карточек ждут`}
             </p>
           </div>
         </div>
@@ -46,12 +46,12 @@ export function VocabularyHomeScreen() {
           disabled={dueCount === 0}
           fullWidth
         >
-          Επανάληψη
+          Повторить
         </Button>
       </div>
       {(stats?.new_count ?? 0) > 0 && (
         <p className="vocab-home__new-hint">
-          +{stats!.new_count} νέες λέξεις από τις τελευταίες ενότητες
+          +{stats!.new_count} новых слов из последних юнитов
         </p>
       )}
     </div>

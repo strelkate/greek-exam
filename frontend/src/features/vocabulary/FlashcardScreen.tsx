@@ -21,7 +21,7 @@ export function FlashcardScreen() {
   const [totalXp, setTotalXp] = useState(0)
   const [knewCount, setKnewCount] = useState(0)
 
-  if (dueQuery.isLoading) return <div className="screen-loading">Φόρτωση...</div>
+  if (dueQuery.isLoading) return <div className="screen-loading">Загрузка...</div>
 
   const cards = dueQuery.data?.cards ?? []
   const total = cards.length
@@ -31,12 +31,12 @@ export function FlashcardScreen() {
     return (
       <div className="flashcard-done">
         <div className="flashcard-done__icon">🎉</div>
-        <h1 className="flashcard-done__title">Τέλος!</h1>
+        <h1 className="flashcard-done__title">Готово!</h1>
         <p className="flashcard-done__subtitle">
           {knewCount} / {total} — {totalXp} XP
         </p>
         <Button onClick={() => navigate('/vocabulary')} variant="primary" fullWidth>
-          Επιστροφή στο λεξιλόγιο
+          Вернуться к словарю
         </Button>
       </div>
     )
@@ -93,16 +93,16 @@ export function FlashcardScreen() {
       <div className="flashcard-screen__actions">
         {phase === 'front' && (
           <Button onClick={handleFlip} variant="primary" fullWidth>
-            Εμφάνιση
+            Показать перевод
           </Button>
         )}
         {phase === 'back' && (
           <div className="flashcard-screen__rating">
             <button className="rating-btn rating-btn--no" onClick={() => handleReview(false)}>
-              ✗ Δεν ήξερα
+              ✗ Не знал(а)
             </button>
             <button className="rating-btn rating-btn--yes" onClick={() => handleReview(true)}>
-              ✓ Ήξερα
+              ✓ Знал(а)
             </button>
           </div>
         )}

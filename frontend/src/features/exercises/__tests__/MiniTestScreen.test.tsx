@@ -33,7 +33,7 @@ const createWrapper = () => {
 describe('MiniTestScreen', () => {
   it('shows loading state initially', () => {
     render(<MiniTestScreen />, { wrapper: createWrapper() })
-    expect(screen.getByText(/φόρτωση/i)).toBeInTheDocument()
+    expect(screen.getByText(/загрузка/i)).toBeInTheDocument()
   })
 
   it('renders first question after load', async () => {

@@ -5,6 +5,12 @@ import styles from './LevelMapScreen.module.css'
 
 const LEVELS: Level[] = ['A1', 'A2', 'B1']
 
+const LEVEL_LABELS: Record<Level, string> = {
+  A1: 'Начальный — A1',
+  A2: 'Элементарный — A2',
+  B1: 'Средний — B1',
+}
+
 function LevelBlock({ level }: { level: Level }) {
   const levelsQuery = useLevelsQuery()
   const unitsQuery = useUnitsQuery(level)
@@ -12,7 +18,19 @@ function LevelBlock({ level }: { level: Level }) {
   const levelData = levelsQuery.data?.levels.find(l => l.level === level)
   const units = unitsQuery.data?.units ?? []
 
-  if (!levelData || unitsQuery.isLoading) return null
+  // Show skeleton while loading
+  if (levelsQuery.isLoading || unitsQuery.isLoading) {
+    return (
+      <section className={styles.levelSkeleton}>
+        <div className={styles.skeletonTitle}>{LEVEL_LABELS[level]}</div>
+        <div className={styles.skeletonUnits}>
+          {[1, 2, 3].map(i => <div key={i} className={styles.skeletonCard} />)}
+        </div>
+      </section>
+    )
+  }
+
+  if (!levelData) return null
 
   return <LevelSection level={levelData} units={units} />
 }

@@ -13,8 +13,8 @@ export function UnitResultScreen() {
   return (
     <div className="unit-result">
       <div className="unit-result__trophy">🏆</div>
-      <h1 className="unit-result__title">Μπράβο!</h1>
-      <p className="unit-result__subtitle">Ολοκληρώσατε τη μονάδα</p>
+      <h1 className="unit-result__title">Отлично!</h1>
+      <p className="unit-result__subtitle">Юнит пройден</p>
       <div className="unit-result__stats">
         <div className="unit-result__stat">
           <span className="unit-result__stat-value">+{xp}</span>
@@ -23,12 +23,12 @@ export function UnitResultScreen() {
         {cardsAdded > 0 && (
           <div className="unit-result__stat">
             <span className="unit-result__stat-value">+{cardsAdded}</span>
-            <span className="unit-result__stat-label">ΛΕΞΕΙΣ</span>
+            <span className="unit-result__stat-label">СЛОВ</span>
           </div>
         )}
       </div>
       <Button onClick={() => navigate('/levels')} variant="primary" fullWidth>
-        Στον χάρτη
+        На карту
       </Button>
     </div>
   )

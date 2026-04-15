@@ -39,7 +39,7 @@
 
   /* Радиусы */
   --radius-card:            16px;
-  --radius-button:          12px;
+  --radius-button:          8px;
   --radius-sm:              8px;
 
   /* Отступы */
@@ -290,7 +290,7 @@ body {
   font-family: var(--font-family); font-size: var(--font-size-body); font-weight: var(--font-weight-bold);
   cursor: pointer; transition: opacity 0.15s;
 }
-.rating-btn--no { background: var(--color-surface-highest); color: var(--color-error); }
+.rating-btn--no { background: var(--color-surface-highest); color: var(--color-on-surface); }
 .rating-btn--yes { background: var(--color-primary); color: #000; }
 /* FlashcardDone */
 .flashcard-done {

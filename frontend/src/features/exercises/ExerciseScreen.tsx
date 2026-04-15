@@ -43,7 +43,7 @@ export function ExerciseScreen() {
   }, [])
 
   if (unitQuery.isLoading || exerciseQuery.isLoading) {
-    return <div className="screen-loading">Φόρτωση...</div>
+    return <div className="screen-loading">Загрузка...</div>
   }
 
   const exercises = unitQuery.data?.exercises ?? []
