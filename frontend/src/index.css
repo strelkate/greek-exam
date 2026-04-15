@@ -53,6 +53,28 @@
   --bottom-nav-height:      64px;
 }
 
+/* ExerciseShell */
+.exercise-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+  background: var(--color-surface);
+  gap: 16px;
+}
+.exercise-shell__header { display: flex; align-items: center; gap: 12px; }
+.exercise-shell__counter {
+  font-size: var(--font-size-label); font-weight: var(--font-weight-medium);
+  color: var(--color-on-surface-muted); white-space: nowrap;
+}
+.exercise-shell__audio { display: flex; justify-content: center; }
+.exercise-shell__instruction {
+  font-size: var(--font-size-title); font-weight: var(--font-weight-medium);
+  color: var(--color-on-surface); line-height: var(--line-height-tight);
+}
+.exercise-shell__content { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.exercise-shell__footer { margin-top: auto; padding-top: 16px; }
+
 html, body, #root {
   height: 100%;
   width: 100%;
