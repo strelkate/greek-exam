@@ -36,7 +36,7 @@ export function FlashcardScreen() {
           {knewCount} / {total} — {totalXp} XP
         </p>
         <Button onClick={() => navigate('/vocabulary')} variant="primary" fullWidth>
-          Назад к словарю
+          Επιστροφή στο λεξιλόγιο
         </Button>
       </div>
     )
