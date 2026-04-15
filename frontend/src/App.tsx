@@ -57,6 +57,8 @@ export function App() {
       } else {
         navigate('/levels', { replace: true })
       }
+    }).catch(() => {
+      // Backend unavailable (e.g. no auth in local dev) — stay on /levels
     })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
