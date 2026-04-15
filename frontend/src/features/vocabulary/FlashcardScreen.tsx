@@ -55,10 +55,10 @@ export function FlashcardScreen() {
         addXp(result.xp_earned)
         setTotalXp(x => x + result.xp_earned)
       }
-      if (knew) setKnewCount(k => k + 1)
     } catch {
       // offline — progress lost, don't crash
     }
+    if (knew) setKnewCount(k => k + 1)
 
     if (currentIndex + 1 >= total) {
       setPhase('done')
@@ -71,7 +71,7 @@ export function FlashcardScreen() {
   return (
     <div className="flashcard-screen">
       <div className="flashcard-screen__header">
-        <ProgressBar value={currentIndex} max={total} />
+        <ProgressBar value={currentIndex + 1} max={total} />
         <span className="flashcard-screen__counter">{currentIndex + 1} / {total}</span>
       </div>
 
