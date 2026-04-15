@@ -95,6 +95,22 @@
   padding: 12px 16px; background: var(--color-surface-high); border-radius: var(--radius-card);
 }
 
+/* MultipleChoice */
+.multiple-choice__question {
+  font-size: var(--font-size-title); font-weight: var(--font-weight-medium);
+  color: var(--color-on-surface); line-height: var(--line-height-tight); margin-bottom: 16px;
+}
+.multiple-choice__options { display: flex; flex-direction: column; gap: 10px; }
+.mc-option {
+  padding: 16px 20px; border: none; border-radius: var(--radius-button);
+  font-family: var(--font-family); font-size: var(--font-size-body); font-weight: var(--font-weight-medium);
+  text-align: left; cursor: pointer; background: var(--color-surface-highest); color: var(--color-on-surface); transition: opacity 0.15s;
+}
+.mc-option:disabled { cursor: default; }
+.mc-option--correct { background: var(--color-success); color: #000; }
+.mc-option--incorrect { background: var(--color-error); }
+.mc-option--dim { opacity: 0.35; }
+
 html, body, #root {
   height: 100%;
   width: 100%;
