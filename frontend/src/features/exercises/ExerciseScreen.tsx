@@ -89,22 +89,22 @@ export function ExerciseScreen() {
         onSubmit={handleSubmit}
       >
         {exercise.type === 'true_false' && (
-          <TrueFalse content={content as Parameters<typeof TrueFalse>[0]['content']} onAnswer={handleAnswer} />
+          <TrueFalse content={content as unknown as Parameters<typeof TrueFalse>[0]['content']} onAnswer={handleAnswer} />
         )}
         {exercise.type === 'multiple_choice' && (
-          <MultipleChoice content={content as Parameters<typeof MultipleChoice>[0]['content']} onAnswer={handleAnswer} />
+          <MultipleChoice content={content as unknown as Parameters<typeof MultipleChoice>[0]['content']} onAnswer={handleAnswer} />
         )}
         {exercise.type === 'matching' && (
-          <Matching content={content as Parameters<typeof Matching>[0]['content']} onAnswer={handleAnswer} />
+          <Matching content={content as unknown as Parameters<typeof Matching>[0]['content']} onAnswer={handleAnswer} />
         )}
         {exercise.type === 'fill_blank' && (
-          <FillBlank content={content as Parameters<typeof FillBlank>[0]['content']} onAnswer={handleAnswer} />
+          <FillBlank content={content as unknown as Parameters<typeof FillBlank>[0]['content']} onAnswer={handleAnswer} />
         )}
         {exercise.type === 'image_description' && (
-          <ImageDescription content={content as Parameters<typeof ImageDescription>[0]['content']} onAnswer={handleAnswer} />
+          <ImageDescription content={content as unknown as Parameters<typeof ImageDescription>[0]['content']} onAnswer={handleAnswer} />
         )}
         {exercise.type === 'dialogue' && (
-          <Dialogue content={content as Parameters<typeof Dialogue>[0]['content']} onAnswer={handleAnswer} />
+          <Dialogue content={content as unknown as Parameters<typeof Dialogue>[0]['content']} onAnswer={handleAnswer} />
         )}
       </ExerciseShell>
       {showFeedback && (

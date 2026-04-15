@@ -74,13 +74,13 @@ export function MiniTestScreen() {
       onSubmit={handleSubmit}
     >
       {question.type === 'true_false' && (
-        <TrueFalse content={question.content as Parameters<typeof TrueFalse>[0]['content']} onAnswer={handleAnswer} />
+        <TrueFalse content={question.content as unknown as Parameters<typeof TrueFalse>[0]['content']} onAnswer={handleAnswer} />
       )}
       {question.type === 'multiple_choice' && (
-        <MultipleChoice content={question.content as Parameters<typeof MultipleChoice>[0]['content']} onAnswer={handleAnswer} />
+        <MultipleChoice content={question.content as unknown as Parameters<typeof MultipleChoice>[0]['content']} onAnswer={handleAnswer} />
       )}
       {question.type === 'fill_blank' && (
-        <FillBlank content={question.content as Parameters<typeof FillBlank>[0]['content']} onAnswer={handleAnswer} />
+        <FillBlank content={question.content as unknown as Parameters<typeof FillBlank>[0]['content']} onAnswer={handleAnswer} />
       )}
     </ExerciseShell>
   )
