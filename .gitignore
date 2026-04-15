@@ -28,3 +28,13 @@ dist/
 
 # Logs
 *.log
+
+# Pipeline generated content (raw Claude output, not for VCS)
+pipeline/data/generated/*.json
+
+# Claude Code internal
+.claude/
+.superpowers/
+
+# Reference PDFs
+*.pdf
