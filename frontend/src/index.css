@@ -148,6 +148,12 @@
 .fb-option--incorrect { background: var(--color-error); }
 .fb-option--dim { opacity: 0.35; }
 
+/* ImageDescription */
+.image-description__img {
+  width: 100%; border-radius: var(--radius-card); object-fit: cover;
+  max-height: 200px; background: var(--color-surface-high);
+}
+
 html, body, #root {
   height: 100%;
   width: 100%;
