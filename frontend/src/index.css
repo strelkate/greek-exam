@@ -125,6 +125,29 @@
 .match-item--matched { background: var(--color-success); color: #000; opacity: 0.7; }
 .match-item--incorrect { background: var(--color-error); }
 
+/* FillBlank */
+.fill-blank__sentence {
+  font-size: var(--font-size-title); color: var(--color-on-surface); line-height: var(--line-height-normal);
+  background: var(--color-surface-high); border-radius: var(--radius-card); padding: 20px;
+  text-align: center; margin-bottom: 20px;
+}
+.fill-blank__blank {
+  display: inline-block; min-width: 80px; border-bottom: 2px solid var(--color-primary);
+  padding: 0 6px; font-weight: var(--font-weight-bold); color: var(--color-primary);
+}
+.fill-blank__blank--correct { color: var(--color-success); border-color: var(--color-success); }
+.fill-blank__blank--incorrect { color: var(--color-error); border-color: var(--color-error); }
+.fill-blank__word-bank { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.fb-option {
+  padding: 12px 20px; border: none; border-radius: var(--radius-button);
+  font-family: var(--font-family); font-size: var(--font-size-body); font-weight: var(--font-weight-medium);
+  cursor: pointer; background: var(--color-surface-highest); color: var(--color-on-surface); transition: opacity 0.15s;
+}
+.fb-option:disabled { cursor: default; }
+.fb-option--correct { background: var(--color-success); color: #000; }
+.fb-option--incorrect { background: var(--color-error); }
+.fb-option--dim { opacity: 0.35; }
+
 html, body, #root {
   height: 100%;
   width: 100%;
