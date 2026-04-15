@@ -75,6 +75,26 @@
 .exercise-shell__content { flex: 1; display: flex; flex-direction: column; gap: 12px; }
 .exercise-shell__footer { margin-top: auto; padding-top: 16px; }
 
+/* TrueFalse */
+.true-false__statement {
+  font-size: var(--font-size-body); color: var(--color-on-surface); line-height: var(--line-height-normal);
+  background: var(--color-surface-high); border-radius: var(--radius-card); padding: 20px; text-align: center;
+}
+.true-false__choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+.tf-btn {
+  padding: 20px 12px; border: none; border-radius: var(--radius-button);
+  font-family: var(--font-family); font-size: var(--font-size-body); font-weight: var(--font-weight-medium);
+  cursor: pointer; transition: opacity 0.15s; background: var(--color-surface-highest); color: var(--color-on-surface);
+}
+.tf-btn:disabled { cursor: default; }
+.tf-btn--correct { background: var(--color-success); color: #000; }
+.tf-btn--incorrect { background: var(--color-error); }
+.tf-btn--dim { opacity: 0.35; }
+.true-false__explanation {
+  font-size: var(--font-size-body); color: var(--color-on-surface-muted); line-height: var(--line-height-normal);
+  padding: 12px 16px; background: var(--color-surface-high); border-radius: var(--radius-card);
+}
+
 html, body, #root {
   height: 100%;
   width: 100%;
