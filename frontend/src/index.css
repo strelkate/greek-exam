@@ -111,6 +111,20 @@
 .mc-option--incorrect { background: var(--color-error); }
 .mc-option--dim { opacity: 0.35; }
 
+/* Matching */
+.matching__columns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.matching__col { display: flex; flex-direction: column; gap: 8px; }
+.match-item {
+  padding: 14px 12px; border: none; border-radius: var(--radius-button);
+  font-family: var(--font-family); font-size: var(--font-size-body); font-weight: var(--font-weight-medium);
+  text-align: center; cursor: pointer; background: var(--color-surface-highest); color: var(--color-on-surface);
+  transition: background 0.15s, opacity 0.15s; min-height: 48px; word-break: break-word;
+}
+.match-item:disabled { cursor: default; }
+.match-item--selected { background: var(--color-secondary); color: #000; }
+.match-item--matched { background: var(--color-success); color: #000; opacity: 0.7; }
+.match-item--incorrect { background: var(--color-error); }
+
 html, body, #root {
   height: 100%;
   width: 100%;
