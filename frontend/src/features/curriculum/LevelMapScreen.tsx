@@ -1,4 +1,4 @@
-import type { Level } from '../../shared/api/types'
+import type { Level, LevelProgress } from '../../shared/api/types'
 import { useLevelsQuery, useUnitsQuery } from './useCurriculumQuery'
 import { LevelSection } from './components/LevelSection'
 import styles from './LevelMapScreen.module.css'
@@ -11,11 +11,17 @@ const LEVEL_LABELS: Record<Level, string> = {
   B1: 'Средний — B1',
 }
 
+const UNIT_COUNTS: Record<Level, number> = { A1: 6, A2: 9, B1: 8 }
+
+function fallbackLevel(level: Level): LevelProgress {
+  return { level, total_units: UNIT_COUNTS[level], completed_units: 0, progress_percent: 0 }
+}
+
 function LevelBlock({ level }: { level: Level }) {
   const levelsQuery = useLevelsQuery()
   const unitsQuery = useUnitsQuery(level)
 
-  const levelData = levelsQuery.data?.levels.find(l => l.level === level)
+  const levelData = levelsQuery.data?.levels.find(l => l.level === level) ?? (levelsQuery.isError ? fallbackLevel(level) : null)
   const units = unitsQuery.data?.units ?? []
 
   // Show skeleton while loading
