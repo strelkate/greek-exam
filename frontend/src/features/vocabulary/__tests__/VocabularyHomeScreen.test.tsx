@@ -1,8 +1,8 @@
+import { describe, expect, it, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { VocabularyHomeScreen } from '../VocabularyHomeScreen'
-import { vi } from 'vitest'
 
 vi.mock('../../../shared/api/endpoints', () => ({
   api: {

@@ -1,9 +1,9 @@
+import { describe, expect, it, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { FlashcardScreen } from '../FlashcardScreen'
-import { vi } from 'vitest'
 
 vi.mock('../../../shared/api/endpoints', () => ({
   api: {
@@ -23,11 +23,6 @@ vi.mock('../../../shared/api/endpoints', () => ({
     }),
   },
 }))
-
-const mockCards = [
-  { id: 1, word_gr: 'το σπίτι', word_ru: 'дом', audio_path: null, status: 'learning', next_review_at: '2026-04-14' },
-  { id: 2, word_gr: 'η θάλασσα', word_ru: 'море', audio_path: null, status: 'new', next_review_at: '2026-04-14' },
-]
 
 const createWrapper = () => {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
