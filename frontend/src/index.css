@@ -177,6 +177,22 @@
 .dialogue__word-bank { display: flex; flex-wrap: wrap; gap: 8px; }
 .fb-option--selected { background: var(--color-secondary); color: #000; }
 
+/* Feedback overlay */
+.feedback-overlay {
+  position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+  pointer-events: none; z-index: 100;
+}
+.feedback-overlay--correct { background: rgba(34, 197, 94, 0.15); }
+.feedback-overlay--incorrect { background: rgba(239, 68, 68, 0.15); }
+.feedback-overlay__icon { font-size: 6rem; font-weight: var(--font-weight-bold); }
+.feedback-overlay--correct .feedback-overlay__icon { color: var(--color-success); }
+.feedback-overlay--incorrect .feedback-overlay__icon { color: var(--color-error); }
+/* Screen loading */
+.screen-loading {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100dvh; font-size: var(--font-size-title); color: var(--color-on-surface-muted);
+}
+
 html, body, #root {
   height: 100%;
   width: 100%;
