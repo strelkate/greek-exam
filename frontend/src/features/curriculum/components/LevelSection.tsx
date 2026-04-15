@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { LevelProgress, UnitSummary } from '../../../shared/api/types'
 import { UnitCard } from './UnitCard'
 import styles from './LevelSection.module.css'
@@ -16,21 +17,23 @@ const LEVEL_LABELS: Record<string, string> = {
 export function LevelSection({ level, units }: Props) {
   return (
     <section className={styles.section}>
-      <div className={styles.header}>
+      <Link to={`/levels/${level.level.toLowerCase()}`} className={styles.headerLink}>
         <div className={styles.titleRow}>
           <h2 className={styles.title}>{LEVEL_LABELS[level.level] ?? level.level}</h2>
-          <span className={styles.badge}>{level.progress_percent}%</span>
+          <span className={styles.badge}>{level.progress_percent}%&nbsp;→</span>
         </div>
         <div className={styles.progressBar}>
           <div className={styles.progressFill} style={{ width: `${level.progress_percent}%` }} />
         </div>
         <p className={styles.meta}>{level.completed_units} из {level.total_units} юнитов</p>
-      </div>
-      <div className={styles.units}>
-        {units.map(unit => (
-          <UnitCard key={unit.id} unit={unit} />
-        ))}
-      </div>
+      </Link>
+      {units.length > 0 && (
+        <div className={styles.units}>
+          {units.map(unit => (
+            <UnitCard key={unit.id} unit={unit} />
+          ))}
+        </div>
+      )}
     </section>
   )
 }

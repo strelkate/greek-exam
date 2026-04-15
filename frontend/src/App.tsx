@@ -11,6 +11,7 @@ import { ExerciseScreen } from './features/exercises/ExerciseScreen'
 import { VocabularyHomeScreen } from './features/vocabulary/VocabularyHomeScreen'
 import { FlashcardScreen } from './features/vocabulary/FlashcardScreen'
 import { UnitDetailScreen } from './features/curriculum/UnitDetailScreen'
+import { LevelUnitsScreen } from './features/curriculum/LevelUnitsScreen'
 import { MiniTestScreen } from './features/exercises/MiniTestScreen'
 import { UnitResultScreen } from './features/exercises/UnitResultScreen'
 
@@ -21,6 +22,7 @@ function AppRoutes() {
         <Route path="/" element={<Navigate to="/levels" replace />} />
         <Route path="/placement" element={<PlacementScreen />} />
         <Route path="/levels" element={<LevelMapScreen />} />
+        <Route path="/levels/:level" element={<LevelUnitsScreen />} />
         <Route path="/units/:unitId" element={<UnitDetailScreen />} />
         <Route path="/units/:unitId/exercise/:exerciseId" element={<ExerciseScreen />} />
         <Route path="/units/:unitId/mini-test" element={<MiniTestScreen />} />
