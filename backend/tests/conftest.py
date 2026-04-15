@@ -121,6 +121,7 @@ async def override_get_session():
 async def client(monkeypatch):
     """Async HTTP client wired to the FastAPI app with test DB and test bot token."""
     monkeypatch.setattr("app.config.settings.bot_token", TEST_BOT_TOKEN)
+    monkeypatch.setattr("app.config.settings.debug", False)  # always verify auth in tests
 
     from app.main import app
     app.dependency_overrides[get_session] = override_get_session

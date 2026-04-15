@@ -1,13 +1,27 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.database import engine, patch_sqlite_types, _is_sqlite
 from app.routers import auth, curriculum, exercises, vocabulary
 from app.routers import mini_test, placement_test
 from app.routers import settings as settings_router
 from app.routers import sync
 
-app = FastAPI(title="Greek Learning App API", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    if _is_sqlite(settings.database_url):
+        import app.models  # noqa: F401 — register all models with Base
+        from app.database import Base
+        patch_sqlite_types(Base)
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    yield
+
+
+app = FastAPI(title="Greek Learning App API", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
