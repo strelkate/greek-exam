@@ -21,6 +21,6 @@ def load_config() -> dict:
     }
 
 
-ANTHROPIC_API_KEY: str = _require("ANTHROPIC_API_KEY")
-DATABASE_URL: str = _require("DATABASE_URL")
-AUDIO_DIR: Path = Path(_require("AUDIO_DIR"))
+ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
+DATABASE_URL: str = os.getenv("DATABASE_URL", "")
+AUDIO_DIR: Path = Path(os.getenv("AUDIO_DIR", "audio"))
