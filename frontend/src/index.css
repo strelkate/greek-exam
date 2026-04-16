@@ -104,7 +104,7 @@
 .mc-option {
   padding: 16px 20px; border: none; border-radius: var(--radius-button);
   font-family: var(--font-family); font-size: var(--font-size-body); font-weight: var(--font-weight-medium);
-  text-align: left; cursor: pointer; background: var(--color-surface-highest); color: var(--color-on-surface); transition: opacity 0.15s;
+  text-align: center; cursor: pointer; background: var(--color-surface-highest); color: var(--color-on-surface); transition: opacity 0.15s;
 }
 .mc-option:disabled { cursor: default; }
 .mc-option--correct { background: var(--color-success); color: #000; }
