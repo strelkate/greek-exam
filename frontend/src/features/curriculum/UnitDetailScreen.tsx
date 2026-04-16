@@ -70,6 +70,12 @@ export function UnitDetailScreen() {
           </div>
         </section>
 
+        {allDone && (
+          <Button fullWidth onClick={() => navigate(`/units/${unitId}/mini-test`)}>
+            Пройти мини-тест
+          </Button>
+        )}
+
         {data.vocabulary_cards.length > 0 && (
           <section>
             <h2 className={styles.sectionTitle}>Словарь юнита</h2>
@@ -94,15 +100,9 @@ export function UnitDetailScreen() {
       </div>
 
       <div className={styles.footer}>
-        {allDone ? (
-          <Button fullWidth onClick={() => navigate(`/units/${unitId}/mini-test`)}>
-            Мини-тест
-          </Button>
-        ) : (
-          <Button fullWidth onClick={handleStart}>
-            {completedCount === 0 ? 'Начать' : 'Продолжить'}
-          </Button>
-        )}
+        <Button fullWidth onClick={handleStart}>
+          {completedCount === 0 ? 'Начать' : allDone ? 'Повторить' : 'Продолжить'}
+        </Button>
       </div>
     </div>
   )
