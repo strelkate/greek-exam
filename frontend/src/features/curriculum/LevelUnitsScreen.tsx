@@ -44,7 +44,7 @@ export function LevelUnitsScreen() {
         )}
       </div>
 
-      <div className={styles.units}>
+      <div className={styles.luUnits}>
         {unitsQuery.isLoading && (
           <div className={styles.loading}>Загрузка...</div>
         )}
