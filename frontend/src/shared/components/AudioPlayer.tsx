@@ -31,7 +31,7 @@ export function AudioPlayer({ src, autoPlay = false, ariaLabel = 'Слушать
   return (
     <button
       ref={refCallback}
-      className={[styles.btn, isPlaying ? styles.playing : '', className ?? ''].join(' ')}
+      className={[styles.playBtn, isPlaying ? styles.playing : '', className ?? ''].join(' ')}
       onClick={play}
       aria-label={ariaLabel}
       type="button"

@@ -153,10 +153,11 @@ export interface SettingsResponse {
 
 // Sync
 export interface ProgressEvent {
+  type: 'exercise_complete'
   exercise_id: number
   score: number
   total: number
-  completed_at: string
+  occurred_at: string
 }
 export interface SyncResponse {
   synced: number

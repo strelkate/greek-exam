@@ -4,17 +4,18 @@ import styles from './UnitCard.module.css'
 
 interface Props {
   unit: UnitSummary
+  size?: 'compact' | 'large'
 }
 
-export function UnitCard({ unit }: Props) {
+export function UnitCard({ unit, size = 'compact' }: Props) {
   const pct = unit.exercises_total > 0
     ? Math.round((unit.exercises_completed / unit.exercises_total) * 100)
     : 0
 
   return (
-    <Link to={`/units/${unit.id}`} className={styles.card}>
+    <Link to={`/units/${unit.id}`} className={`${styles.card} ${size === 'large' ? styles.cardLarge : ''}`}>
       <div className={styles.top}>
-        <span className={styles.title}>{unit.title}</span>
+        <span className={styles.unitTitle}>{unit.title}</span>
         {unit.unit_completed && (
           <span className={styles.check} aria-label="завершён">✓</span>
         )}

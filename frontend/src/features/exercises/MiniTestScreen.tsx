@@ -38,6 +38,25 @@ export function MiniTestScreen() {
 
   if (miniTestQuery.isLoading) return <div className="screen-loading">Загрузка...</div>
 
+  if (miniTestQuery.isError) {
+    return (
+      <div className="screen-loading" style={{ flexDirection: 'column', gap: 16, textAlign: 'center', padding: 24 }}>
+        <p>Сначала выполните все упражнения юнита</p>
+        <button
+          onClick={() => navigate(`/units/${unitId}`)}
+          style={{
+            padding: '14px 24px', border: 'none', borderRadius: 8,
+            background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))',
+            color: '#0b0d1a', fontFamily: 'var(--font-family)', fontSize: '0.875rem', fontWeight: 700,
+            cursor: 'pointer',
+          }}
+        >
+          Вернуться к юниту
+        </button>
+      </div>
+    )
+  }
+
   const questions = miniTestQuery.data?.questions ?? []
   const question = questions[currentIndex]
   if (!question) return null

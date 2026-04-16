@@ -33,6 +33,7 @@ export function ExerciseScreen() {
   const [answered, setAnswered] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
   const [showFeedback, setShowFeedback] = useState(false)
+  const correctCountRef = useRef(0)
 
   const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -60,11 +61,13 @@ export function ExerciseScreen() {
 
   const handleSubmit = () => {
     if (!answered) return
+    if (isCorrect) correctCountRef.current += 1
     enqueue({
+      type: 'exercise_complete',
       exercise_id: Number(exerciseId),
       score: isCorrect ? 1 : 0,
       total: 1,
-      completed_at: new Date().toISOString(),
+      occurred_at: new Date().toISOString(),
     })
     setShowFeedback(true)
     haptic.notification(isCorrect ? 'success' : 'error')
@@ -74,7 +77,7 @@ export function ExerciseScreen() {
       if (nextExercise) {
         navigate(`/units/${unitId}/exercise/${nextExercise.id}`)
       } else {
-        navigate(`/units/${unitId}/mini-test`)
+        navigate(`/units/${unitId}/result`, { state: { xp_earned: correctCountRef.current * 10 } })
       }
     }, 1500)
   }

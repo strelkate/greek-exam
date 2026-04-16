@@ -1,11 +1,11 @@
-.screen {
+.levelMap {
   min-height: 100vh;
   background: var(--color-surface);
-  padding-bottom: calc(var(--bottom-nav-height) + var(--spacing-md));
+  padding: 0 0 calc(var(--bottom-nav-height) + var(--spacing-md));
 }
 
-.header {
-  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+.levelHeader {
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
   background: rgba(11, 13, 26, 0.8);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -14,13 +14,13 @@
   z-index: 10;
 }
 
-.title {
+.levelTitle {
   font-size: var(--font-size-headline);
   font-weight: var(--font-weight-bold);
 }
 
-.content {
-  padding: var(--spacing-md);
+.levelContent {
+  padding: var(--spacing-md) 0;
 }
 
 /* Skeleton */

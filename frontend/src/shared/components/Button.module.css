@@ -2,6 +2,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   padding: 14px var(--spacing-lg);
   border: none;
   border-radius: var(--radius-button);

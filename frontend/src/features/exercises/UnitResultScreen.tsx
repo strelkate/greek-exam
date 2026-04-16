@@ -28,7 +28,7 @@ export function UnitResultScreen() {
         )}
       </div>
       <Button onClick={() => navigate('/levels')} variant="primary" fullWidth>
-        На карту
+        Продолжить
       </Button>
     </div>
   )

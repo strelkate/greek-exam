@@ -1,9 +1,12 @@
 import { useState } from 'react'
 
+interface OptionObj { id: string; text: string }
+
 interface MultipleChoiceContent {
   question: string
-  options: string[]
-  correct_index: number
+  options: (string | OptionObj)[]
+  correct_index?: number
+  correct_id?: string
 }
 
 interface MultipleChoiceProps {
@@ -14,15 +17,18 @@ interface MultipleChoiceProps {
 export function MultipleChoice({ content, onAnswer }: MultipleChoiceProps) {
   const [selected, setSelected] = useState<number | null>(null)
 
+  const optionTexts = content.options.map(o => typeof o === 'string' ? o : o.text)
+  const correctIndex = content.correct_index ?? content.options.findIndex(o => typeof o !== 'string' && o.id === content.correct_id)
+
   const handleSelect = (index: number) => {
     if (selected !== null) return
     setSelected(index)
-    onAnswer(index === content.correct_index)
+    onAnswer(index === correctIndex)
   }
 
   const getOptionClass = (index: number) => {
     if (selected === null) return 'mc-option'
-    if (index === content.correct_index) return 'mc-option mc-option--correct'
+    if (index === correctIndex) return 'mc-option mc-option--correct'
     if (index === selected) return 'mc-option mc-option--incorrect'
     return 'mc-option mc-option--dim'
   }
@@ -31,7 +37,7 @@ export function MultipleChoice({ content, onAnswer }: MultipleChoiceProps) {
     <div className="multiple-choice">
       <p className="multiple-choice__question">{content.question}</p>
       <div className="multiple-choice__options">
-        {content.options.map((option, index) => (
+        {optionTexts.map((option, index) => (
           <button key={index} className={getOptionClass(index)} onClick={() => handleSelect(index)} disabled={selected !== null}>
             {option}
           </button>

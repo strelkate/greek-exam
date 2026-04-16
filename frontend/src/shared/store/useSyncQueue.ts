@@ -16,7 +16,11 @@ export const useSyncQueue = create<SyncQueueState>()(
     (set, get) => ({
       queue: [],
 
-      enqueue: (event) => set((s) => ({ queue: [...s.queue, event] })),
+      enqueue: (event) => {
+        set((s) => ({ queue: [...s.queue, event] }))
+        // Auto-flush after enqueue
+        setTimeout(() => get().flush(), 100)
+      },
 
       clear: () => set({ queue: [] }),
 

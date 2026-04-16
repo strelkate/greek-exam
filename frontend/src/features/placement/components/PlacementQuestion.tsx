@@ -11,20 +11,36 @@ interface Props {
 export function PlacementQuestion({ question, onAnswer }: Props) {
   const [selected, setSelected] = useState<string | null>(null)
   const [checked, setChecked] = useState(false)
+  const [tfAnswers, setTfAnswers] = useState<Record<number, boolean | null>>({})
+
+  // API returns nested { type, content, correct_answer } — unwrap inner content
+  const rawContent = question.content as any
+  const innerContent = rawContent?.content ?? rawContent
 
   const handleCheck = () => {
+    if (question.type === 'true_false') {
+      const c = innerContent as { statements: Array<{ id: number; correct: boolean }> }
+      const allAnswered = c.statements.every(s => tfAnswers[s.id] != null)
+      if (!allAnswered) return
+      setChecked(true)
+      const allCorrect = c.statements.every(s => tfAnswers[s.id] === s.correct)
+      setTimeout(() => {
+        setSelected(null)
+        setChecked(false)
+        setTfAnswers({})
+        onAnswer(allCorrect)
+      }, 800)
+      return
+    }
+
     if (!selected) return
     setChecked(true)
     const isCorrect = (() => {
       if (question.type === 'multiple_choice') {
-        return selected === (question.content as { correct_id: string }).correct_id
-      }
-      if (question.type === 'true_false') {
-        const stmt = (question.content as { statements: Array<{ id: number; correct: boolean }> }).statements[0]
-        return (selected === 'true') === stmt.correct
+        return selected === (innerContent as { correct_id: string }).correct_id
       }
       if (question.type === 'fill_blank') {
-        const blank = (question.content as { blanks: Array<{ correct: string }> }).blanks[0]
+        const blank = (innerContent as { blanks: Array<{ correct: string }> }).blanks[0]
         return selected === blank.correct
       }
       return false
@@ -38,7 +54,7 @@ export function PlacementQuestion({ question, onAnswer }: Props) {
   }
 
   if (question.type === 'multiple_choice') {
-    const c = question.content as { question: string; options: Array<{ id: string; text: string }>; correct_id: string }
+    const c = innerContent as { question: string; options: Array<{ id: string; text: string }>; correct_id: string }
     return (
       <div className={styles.container}>
         <p className={styles.question}>{c.question}</p>
@@ -66,32 +82,57 @@ export function PlacementQuestion({ question, onAnswer }: Props) {
   }
 
   if (question.type === 'true_false') {
-    const c = question.content as { text: string; statements: Array<{ id: number; text: string; correct: boolean }> }
+    const c = innerContent as { text: string; statements: Array<{ id: number; text: string; correct: boolean }> }
+    const allAnswered = c.statements.every(s => tfAnswers[s.id] != null)
     return (
       <div className={styles.container}>
         <p className={styles.passage}>{c.text}</p>
-        {c.statements.map(stmt => (
-          <div key={stmt.id} className={styles.tfStatement}>
-            <p className={styles.question}>{stmt.text}</p>
-            <div className={styles.options}>
-              {(['true', 'false'] as const).map(val => (
-                <button
-                  key={val}
-                  className={[
-                    styles.option,
-                    selected === val ? styles.selected : '',
-                    checked && (val === 'true') === stmt.correct ? styles.correct : '',
-                    checked && selected === val && (val === 'true') !== stmt.correct ? styles.wrong : '',
-                  ].join(' ')}
-                  onClick={() => !checked && setSelected(val)}
-                >
-                  {val === 'true' ? 'ΣΩΣΤΟ' : 'ΛΑΘΟΣ'}
-                </button>
-              ))}
-            </div>
+        <div className={styles.tfHeader}>
+          <span className={styles.tfHeaderSpacer} />
+          <div className={styles.tfHeaderLabels}>
+            <span className={styles.tfLabel}>ΣΩΣΤΟ</span>
+            <span className={styles.tfLabel}>ΛΑΘΟΣ</span>
           </div>
-        ))}
-        <Button fullWidth disabled={!selected || checked} onClick={handleCheck}>
+        </div>
+        {c.statements.map(stmt => {
+          const answer = tfAnswers[stmt.id]
+          const isCorrectAnswer = checked && answer === stmt.correct
+          const isWrongAnswer = checked && answer != null && answer !== stmt.correct
+          return (
+            <div key={stmt.id} className={styles.tfRow}>
+              <p className={styles.tfText}>{stmt.text}</p>
+              <div className={styles.tfChecks}>
+                <button
+                  type="button"
+                  className={[
+                    styles.tfCheck,
+                    answer === true ? styles.tfCheckChecked : '',
+                    checked && stmt.correct === true ? styles.tfCheckCorrect : '',
+                    checked && answer === true && stmt.correct !== true ? styles.tfCheckWrong : '',
+                  ].join(' ')}
+                  onClick={() => !checked && setTfAnswers(prev => ({ ...prev, [stmt.id]: true }))}
+                  aria-label="Σωστό"
+                >
+                  {answer === true && <span className={styles.tfCheckMark}>✓</span>}
+                </button>
+                <button
+                  type="button"
+                  className={[
+                    styles.tfCheck,
+                    answer === false ? styles.tfCheckChecked : '',
+                    checked && stmt.correct === false ? styles.tfCheckCorrect : '',
+                    checked && answer === false && stmt.correct !== false ? styles.tfCheckWrong : '',
+                  ].join(' ')}
+                  onClick={() => !checked && setTfAnswers(prev => ({ ...prev, [stmt.id]: false }))}
+                  aria-label="Λάθος"
+                >
+                  {answer === false && <span className={styles.tfCheckMark}>✓</span>}
+                </button>
+              </div>
+            </div>
+          )
+        })}
+        <Button fullWidth disabled={!allAnswered || checked} onClick={handleCheck}>
           Проверить
         </Button>
       </div>
@@ -99,7 +140,7 @@ export function PlacementQuestion({ question, onAnswer }: Props) {
   }
 
   if (question.type === 'fill_blank') {
-    const c = question.content as { text_template: string; word_bank: string[]; blanks: Array<{ correct: string }> }
+    const c = innerContent as { text_template: string; word_bank: string[]; blanks: Array<{ correct: string }> }
     return (
       <div className={styles.container}>
         <p className={styles.question}>{c.text_template.replace('___', '______')}</p>

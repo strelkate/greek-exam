@@ -52,7 +52,7 @@ export function LevelUnitsScreen() {
           <div className={styles.empty}>Юниты недоступны</div>
         )}
         {units.map(unit => (
-          <UnitCard key={unit.id} unit={unit} />
+          <UnitCard key={unit.id} unit={unit} size="large" />
         ))}
       </div>
     </div>

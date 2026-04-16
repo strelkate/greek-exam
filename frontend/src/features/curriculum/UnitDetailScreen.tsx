@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useUnitDetailQuery } from './useCurriculumQuery'
 import { useExerciseStore } from '../../shared/store/useExerciseStore'
@@ -20,11 +21,11 @@ export function UnitDetailScreen() {
   const navigate = useNavigate()
   const { data, isLoading } = useUnitDetailQuery(Number(unitId))
   const startSession = useExerciseStore((s) => s.startSession)
+  const [vocabExpanded, setVocabExpanded] = useState(false)
 
   if (isLoading || !data) {
     return <div className={styles.loading}>Загрузка...</div>
   }
-
   const exercises = data.exercises
   const completedCount = exercises.filter(e => e.completed).length
   const allDone = completedCount >= exercises.length && exercises.length > 0
@@ -40,7 +41,12 @@ export function UnitDetailScreen() {
   return (
     <div className={styles.screen}>
       <div className={styles.header}>
-        <span className={styles.level}>{data.level}</span>
+        <div className={styles.breadcrumb}>
+          <Link to={`/levels/${data.level.toLowerCase()}`} className={styles.breadcrumbBack}>←</Link>
+          <Link to="/levels" className={styles.breadcrumbLink}>Уровни</Link>
+          <span className={styles.breadcrumbSep}>/</span>
+          <Link to={`/levels/${data.level.toLowerCase()}`} className={styles.breadcrumbLink}>{data.level}</Link>
+        </div>
         <h1 className={styles.title}>{data.title}</h1>
         <ProgressBar value={completedCount} max={exercises.length} />
         <p className={styles.progress}>{completedCount} из {exercises.length} упражнений</p>
@@ -68,14 +74,19 @@ export function UnitDetailScreen() {
           <section>
             <h2 className={styles.sectionTitle}>Словарь юнита</h2>
             <div className={styles.vocabList}>
-              {data.vocabulary_cards.slice(0, 5).map(card => (
+              {(vocabExpanded ? data.vocabulary_cards : data.vocabulary_cards.slice(0, 5)).map(card => (
                 <div key={card.id} className={styles.vocabRow}>
                   <span className={styles.wordGr}>{card.word_gr}</span>
                   <span className={styles.wordRu}>{card.word_ru}</span>
                 </div>
               ))}
               {data.vocabulary_cards.length > 5 && (
-                <p className={styles.vocabMore}>и ещё {data.vocabulary_cards.length - 5} слов</p>
+                <button
+                  className={styles.vocabToggle}
+                  onClick={() => setVocabExpanded(!vocabExpanded)}
+                >
+                  {vocabExpanded ? 'Свернуть' : `и ещё ${data.vocabulary_cards.length - 5} слов`}
+                </button>
               )}
             </div>
           </section>

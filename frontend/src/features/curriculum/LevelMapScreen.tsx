@@ -43,11 +43,11 @@ function LevelBlock({ level }: { level: Level }) {
 
 export function LevelMapScreen() {
   return (
-    <div className={styles.screen}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Мой прогресс</h1>
+    <div className={styles.levelMap}>
+      <div className={styles.levelHeader}>
+        <h1 className={styles.levelTitle}>Мой прогресс</h1>
       </div>
-      <div className={styles.content}>
+      <div className={styles.levelContent}>
         {LEVELS.map(level => (
           <LevelBlock key={level} level={level} />
         ))}

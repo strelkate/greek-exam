@@ -1,4 +1,4 @@
-.btn {
+.playBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -12,7 +12,7 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.btn:active {
+.playBtn:active {
   background: var(--color-surface-high);
 }
 
