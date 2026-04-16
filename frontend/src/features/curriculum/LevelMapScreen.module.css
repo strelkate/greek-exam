@@ -5,6 +5,9 @@
 }
 
 .levelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
   background: rgba(11, 13, 26, 0.8);
   backdrop-filter: blur(12px);
@@ -17,6 +20,29 @@
 .levelTitle {
   font-size: var(--font-size-headline);
   font-weight: var(--font-weight-bold);
+}
+
+.translationToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--color-surface-highest);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-secondary);
+  font-family: var(--font-family);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+
+.translationToggle:active {
+  background: var(--color-surface-high);
 }
 
 .levelContent {

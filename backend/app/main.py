@@ -1,6 +1,8 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
 from app.database import engine, patch_sqlite_types, _is_sqlite
@@ -38,6 +40,12 @@ app.include_router(mini_test.router)
 app.include_router(placement_test.router)
 app.include_router(settings_router.router)
 app.include_router(sync.router)
+
+
+# Serve generated audio files
+_audio_dir = Path(__file__).parent.parent.parent / "pipeline" / "audio"
+if _audio_dir.exists():
+    app.mount("/audio", StaticFiles(directory=str(_audio_dir)), name="audio")
 
 
 @app.get("/health")

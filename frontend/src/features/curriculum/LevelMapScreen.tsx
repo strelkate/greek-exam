@@ -1,5 +1,7 @@
 import type { Level, LevelProgress } from '../../shared/api/types'
 import { useLevelsQuery, useUnitsQuery } from './useCurriculumQuery'
+import { useSettings } from '../../shared/hooks/useSettings'
+import { api } from '../../shared/api/endpoints'
 import { LevelSection } from './components/LevelSection'
 import styles from './LevelMapScreen.module.css'
 
@@ -42,10 +44,21 @@ function LevelBlock({ level }: { level: Level }) {
 }
 
 export function LevelMapScreen() {
+  const { showTranslations, setShowTranslations } = useSettings()
+
+  const handleToggle = () => {
+    const next = !showTranslations
+    setShowTranslations(next)
+    api.patchSettings({ show_instruction_translation: next }).catch(() => {})
+  }
+
   return (
     <div className={styles.levelMap}>
       <div className={styles.levelHeader}>
         <h1 className={styles.levelTitle}>Мой прогресс</h1>
+        <button className={styles.translationToggle} onClick={handleToggle}>
+          {showTranslations ? 'RU' : 'ΕΛ'}
+        </button>
       </div>
       <div className={styles.levelContent}>
         {LEVELS.map(level => (
