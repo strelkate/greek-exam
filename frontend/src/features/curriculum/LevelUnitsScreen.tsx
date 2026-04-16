@@ -32,7 +32,7 @@ export function LevelUnitsScreen() {
   return (
     <div className={styles.screen}>
       <div className={styles.header}>
-        <Link to="/levels" className={styles.back}>← Назад</Link>
+        <Link to="/levels" className={styles.back}>← Уровни</Link>
         <h1 className={styles.title}>{label}</h1>
         {levelData && (
           <div className={styles.meta}>
