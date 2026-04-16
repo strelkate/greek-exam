@@ -94,16 +94,13 @@ export function UnitDetailScreen() {
       </div>
 
       <div className={styles.footer}>
-        <Button fullWidth onClick={handleStart}>
-          {completedCount === 0 ? 'Начать' : allDone ? 'Повторить' : 'Продолжить'}
-        </Button>
-        {allDone && (
-          <Button
-            fullWidth
-            variant="secondary"
-            onClick={() => navigate(`/units/${unitId}/mini-test`)}
-          >
+        {allDone ? (
+          <Button fullWidth onClick={() => navigate(`/units/${unitId}/mini-test`)}>
             Мини-тест
+          </Button>
+        ) : (
+          <Button fullWidth onClick={handleStart}>
+            {completedCount === 0 ? 'Начать' : 'Продолжить'}
           </Button>
         )}
       </div>
