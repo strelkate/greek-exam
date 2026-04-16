@@ -12,6 +12,14 @@ export function PlacementQuestion({ question, onAnswer }: Props) {
   const [selected, setSelected] = useState<string | null>(null)
   const [checked, setChecked] = useState(false)
   const [tfAnswers, setTfAnswers] = useState<Record<number, boolean | null>>({})
+  const [shuffledTfStatements] = useState(() => {
+    const raw = question.content as any
+    const inner = raw?.content ?? raw
+    if (question.type === 'true_false' && inner?.statements) {
+      return [...inner.statements].sort(() => Math.random() - 0.5)
+    }
+    return inner?.statements ?? []
+  })
 
   // API returns nested { type, content, correct_answer } — unwrap inner content
   const rawContent = question.content as any
@@ -19,11 +27,10 @@ export function PlacementQuestion({ question, onAnswer }: Props) {
 
   const handleCheck = () => {
     if (question.type === 'true_false') {
-      const c = innerContent as { statements: Array<{ id: number; correct: boolean }> }
-      const allAnswered = c.statements.every(s => tfAnswers[s.id] != null)
+      const allAnswered = shuffledTfStatements.every((s: any) => tfAnswers[s.id] != null)
       if (!allAnswered) return
       setChecked(true)
-      const allCorrect = c.statements.every(s => tfAnswers[s.id] === s.correct)
+      const allCorrect = shuffledTfStatements.every((s: any) => tfAnswers[s.id] === s.correct)
       setTimeout(() => {
         setSelected(null)
         setChecked(false)
@@ -83,7 +90,7 @@ export function PlacementQuestion({ question, onAnswer }: Props) {
 
   if (question.type === 'true_false') {
     const c = innerContent as { text: string; statements: Array<{ id: number; text: string; correct: boolean }> }
-    const allAnswered = c.statements.every(s => tfAnswers[s.id] != null)
+    const allAnswered = shuffledTfStatements.every((s: any) => tfAnswers[s.id] != null)
     return (
       <div className={styles.container}>
         <p className={styles.passage}>{c.text}</p>
@@ -94,7 +101,7 @@ export function PlacementQuestion({ question, onAnswer }: Props) {
             <span className={styles.tfLabel}>ΛΑΘΟΣ</span>
           </div>
         </div>
-        {c.statements.map(stmt => {
+        {shuffledTfStatements.map((stmt: any) => {
           const answer = tfAnswers[stmt.id]
           const isCorrectAnswer = checked && answer === stmt.correct
           const isWrongAnswer = checked && answer != null && answer !== stmt.correct

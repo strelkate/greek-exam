@@ -19,6 +19,9 @@ export function TrueFalse({ content, onAnswer }: TrueFalseProps) {
   const [selected, setSelected] = useState<boolean | null>(null)
   const [stmtAnswers, setStmtAnswers] = useState<Record<number, boolean | null>>({})
   const [submitted, setSubmitted] = useState(false)
+  const [shuffledStatements] = useState(() =>
+    content.statements ? [...content.statements].sort(() => Math.random() - 0.5) : []
+  )
 
   // New API shape: text + statements[]
   if (content.statements && content.text) {
@@ -26,9 +29,9 @@ export function TrueFalse({ content, onAnswer }: TrueFalseProps) {
       if (submitted) return
       const updated = { ...stmtAnswers, [stmtId]: value }
       setStmtAnswers(updated)
-      const allFilled = content.statements!.every(s => updated[s.id] != null)
+      const allFilled = shuffledStatements.every(s => updated[s.id] != null)
       if (allFilled) {
-        const allCorrect = content.statements!.every(s => updated[s.id] === s.correct)
+        const allCorrect = shuffledStatements.every(s => updated[s.id] === s.correct)
         setSubmitted(true)
         onAnswer(allCorrect)
       }
@@ -44,7 +47,7 @@ export function TrueFalse({ content, onAnswer }: TrueFalseProps) {
             <span style={{ width: 28, textAlign: 'center', fontSize: '0.6875rem', fontWeight: 700, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.03em' }}>ΛΑΘΟΣ</span>
           </div>
         </div>
-        {content.statements.map(stmt => {
+        {shuffledStatements.map(stmt => {
           const answer = stmtAnswers[stmt.id]
           return (
             <div key={stmt.id} style={{ display: 'flex', alignItems: 'center', gap: 16, background: 'var(--color-surface-high)', borderRadius: 8, padding: 16, marginBottom: 8 }}>
