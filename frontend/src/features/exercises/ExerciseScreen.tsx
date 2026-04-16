@@ -85,8 +85,8 @@ export function ExerciseScreen() {
   const instruction = EXERCISE_INSTRUCTIONS[exercise.type] ?? ''
   const content = exercise.content as Record<string, unknown>
 
-  // audio_paths is string[] per ExerciseResponse type
-  const audioPath = exercise.audio_paths[0] ?? null
+  // No audio for matching exercises — they have multiple audio paths for individual items
+  const audioPath = exercise.type === 'matching' ? null : (exercise.audio_paths[0] ?? null)
 
   return (
     <>
