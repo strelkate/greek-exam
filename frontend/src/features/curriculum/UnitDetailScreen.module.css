@@ -139,6 +139,8 @@
 .wordRu {
   font-size: var(--font-size-body);
   color: var(--color-on-surface-muted);
+  text-align: right;
+  flex-shrink: 0;
 }
 
 .vocabToggle {
