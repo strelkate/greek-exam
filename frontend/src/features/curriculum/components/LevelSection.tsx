@@ -15,17 +15,22 @@ const LEVEL_LABELS: Record<string, string> = {
 }
 
 export function LevelSection({ level, units }: Props) {
+  const completedUnits = units.filter(u => u.unit_completed).length
+  const totalExercises = units.reduce((sum, u) => sum + u.exercises_total, 0)
+  const completedExercises = units.reduce((sum, u) => sum + u.exercises_completed, 0)
+  const pct = totalExercises > 0 ? Math.round((completedExercises / totalExercises) * 100) : 0
+
   return (
     <section className={styles.section}>
       <Link to={`/levels/${level.level.toLowerCase()}`} className={styles.headerLink}>
         <div className={styles.titleRow}>
           <h2 className={styles.title}>{LEVEL_LABELS[level.level] ?? level.level}</h2>
-          <span className={styles.badge}>{level.progress_percent}%&nbsp;→</span>
+          <span className={styles.badge}>{pct}%&nbsp;→</span>
         </div>
         <div className={styles.progressBar}>
-          <div className={styles.progressFill} style={{ width: `${level.progress_percent}%` }} />
+          <div className={styles.progressFill} style={{ width: `${pct}%` }} />
         </div>
-        <p className={styles.meta}>{level.completed_units} из {level.total_units} юнитов</p>
+        <p className={styles.meta}>{completedUnits} из {level.total_units} юнитов</p>
       </Link>
       {units.length > 0 && (
         <div className={styles.units}>
