@@ -1,11 +1,11 @@
 .screen {
   min-height: 100dvh;
   background: var(--color-surface);
-  padding-bottom: calc(var(--nav-height) + var(--spacing-xl));
+  padding-bottom: calc(var(--bottom-nav-height) + var(--spacing-xl));
 }
 
 .header {
-  padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-md);
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
   background: var(--color-surface-high);
 }
 
