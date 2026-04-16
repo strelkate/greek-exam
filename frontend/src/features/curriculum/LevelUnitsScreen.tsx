@@ -30,10 +30,10 @@ export function LevelUnitsScreen() {
   const label = LEVEL_LABELS[levelKey] ?? levelKey
 
   return (
-    <div className={styles.screen}>
-      <div className={styles.header}>
+    <div className={styles.levelUnits}>
+      <div className={styles.luHeader}>
         <Link to="/levels" className={styles.back}>← Уровни</Link>
-        <h1 className={styles.title}>{label}</h1>
+        <h1 className={styles.luTitle}>{label}</h1>
         {levelData && (
           <div className={styles.meta}>
             <div className={styles.progressBar}>

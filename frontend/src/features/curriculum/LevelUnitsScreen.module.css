@@ -1,10 +1,10 @@
-.screen {
+.levelUnits {
   min-height: 100dvh;
   background: var(--color-surface);
   padding-bottom: calc(var(--bottom-nav-height) + var(--spacing-xl));
 }
 
-.header {
+.luHeader {
   padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
   background: var(--color-surface-high);
 }
@@ -18,7 +18,7 @@
   margin-bottom: var(--spacing-sm);
 }
 
-.title {
+.luTitle {
   font-size: var(--font-size-headline);
   font-weight: var(--font-weight-bold);
   color: var(--color-on-surface);
