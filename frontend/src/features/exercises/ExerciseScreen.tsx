@@ -11,6 +11,7 @@ import { ImageDescription } from './types/ImageDescription'
 import { Dialogue } from './types/Dialogue'
 import { useSyncQueue } from '../../shared/store/useSyncQueue'
 import { useTelegram } from '../../shared/hooks/useTelegram'
+import { useAppStore } from '../../shared/store/useAppStore'
 
 const EXERCISE_INSTRUCTIONS: Record<string, string> = {
   true_false: 'Σωστό ή Λάθος;',
@@ -21,11 +22,21 @@ const EXERCISE_INSTRUCTIONS: Record<string, string> = {
   dialogue: 'Συμπληρώστε τον διάλογο.',
 }
 
+const EXERCISE_INSTRUCTIONS_RU: Record<string, string> = {
+  true_false: 'Верно или нет?',
+  multiple_choice: 'Выберите правильный ответ.',
+  matching: 'Сопоставьте слова.',
+  fill_blank: 'Заполните пропуск.',
+  image_description: 'Опишите изображение.',
+  dialogue: 'Заполните диалог.',
+}
+
 export function ExerciseScreen() {
   const { unitId, exerciseId } = useParams<{ unitId: string; exerciseId: string }>()
   const navigate = useNavigate()
   const { enqueue } = useSyncQueue()
   const { haptic } = useTelegram()
+  const showTranslations = useAppStore((s) => s.showTranslations)
 
   const unitQuery = useUnitDetailQuery(Number(unitId))
   const exerciseQuery = useExerciseQuery(Number(exerciseId))
@@ -88,7 +99,9 @@ export function ExerciseScreen() {
     }, 1500)
   }
 
-  const instruction = EXERCISE_INSTRUCTIONS[exercise.type] ?? ''
+  const grInstruction = EXERCISE_INSTRUCTIONS[exercise.type] ?? ''
+  const ruInstruction = EXERCISE_INSTRUCTIONS_RU[exercise.type] ?? ''
+  const instruction = showTranslations ? `${grInstruction} (${ruInstruction})` : grInstruction
   const content = exercise.content as Record<string, unknown>
 
   // No audio for matching exercises — they have multiple audio paths for individual items
