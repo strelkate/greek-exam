@@ -38,6 +38,12 @@ export function ExerciseScreen() {
   const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
+    setAnswered(false)
+    setIsCorrect(false)
+    setShowFeedback(false)
+  }, [exerciseId])
+
+  useEffect(() => {
     return () => {
       if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current)
     }
