@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
+  padding: 0;
 }
 
 .loading {
@@ -40,7 +41,7 @@
 }
 
 .header {
-  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+  padding: var(--spacing-md);
   background: var(--color-surface-low);
   display: flex;
   flex-direction: column;
@@ -112,6 +113,11 @@
   font-size: var(--font-size-body);
 }
 
+.exTypeRu {
+  color: var(--color-on-surface-muted);
+  font-size: var(--font-size-label);
+}
+
 .exCheck {
   color: var(--color-primary);
   font-weight: var(--font-weight-bold);
@@ -125,22 +131,32 @@
 
 .vocabRow {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
   padding: 10px var(--spacing-md);
   background: var(--color-surface-high);
   border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.vocabAudioIcon {
+  flex-shrink: 0;
+  opacity: 0.5;
 }
 
 .wordGr {
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-medium);
+  flex: 1;
 }
 
 .wordRu {
   font-size: var(--font-size-body);
   color: var(--color-on-surface-muted);
   text-align: right;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .vocabToggle {

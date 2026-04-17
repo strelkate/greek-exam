@@ -55,7 +55,61 @@ export function AudioPlayer({ src, autoPlay = false, ariaLabel = 'Слушать
       aria-label={ariaLabel}
       type="button"
     >
-      <span className={styles.icon}>{isPlaying ? '⏸' : '🔊'}</span>
+      <img src="/icons/headphones.svg" alt="" width={52} height={52} style={{ opacity: isPlaying ? 0.5 : 1, transition: 'opacity 0.2s' }} />
+    </button>
+  )
+}
+
+interface SequentialAudioPlayerProps {
+  srcs: string[]
+  ariaLabel?: string
+  className?: string
+}
+
+export function SequentialAudioPlayer({ srcs, ariaLabel = 'Слушать', className }: SequentialAudioPlayerProps) {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null)
+
+  const stop = useCallback(() => {
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause()
+      currentAudioRef.current.onended = null
+      currentAudioRef.current.onerror = null
+      currentAudioRef.current = null
+    }
+    setIsPlaying(false)
+  }, [])
+
+  const playFrom = useCallback((index: number, fullSrcs: string[]) => {
+    if (index >= fullSrcs.length) {
+      setIsPlaying(false)
+      return
+    }
+    const audio = new Audio(fullSrcs[index])
+    currentAudioRef.current = audio
+    audio.onended = () => playFrom(index + 1, fullSrcs)
+    audio.onerror = () => playFrom(index + 1, fullSrcs)
+    audio.play().catch(() => playFrom(index + 1, fullSrcs))
+  }, [])
+
+  const toggle = useCallback(() => {
+    if (isPlaying) {
+      stop()
+    } else {
+      const fullSrcs = srcs.map(s => s.startsWith('http') ? s : `${API_URL}${s}`)
+      setIsPlaying(true)
+      playFrom(0, fullSrcs)
+    }
+  }, [isPlaying, srcs, stop, playFrom])
+
+  return (
+    <button
+      className={[styles.playBtn, isPlaying ? styles.playing : '', className ?? ''].join(' ')}
+      onClick={toggle}
+      aria-label={ariaLabel}
+      type="button"
+    >
+      <img src="/icons/headphones.svg" alt="" width={52} height={52} style={{ opacity: isPlaying ? 0.5 : 1, transition: 'opacity 0.2s' }} />
     </button>
   )
 }

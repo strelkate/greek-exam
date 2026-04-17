@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 import { useUnitDetailQuery } from '../curriculum/useCurriculumQuery'
 import { useExerciseQuery } from './useExerciseQuery'
 import { ExerciseShell } from './ExerciseShell'
@@ -34,6 +35,7 @@ const EXERCISE_INSTRUCTIONS_RU: Record<string, string> = {
 export function ExerciseScreen() {
   const { unitId, exerciseId } = useParams<{ unitId: string; exerciseId: string }>()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const { enqueue } = useSyncQueue()
   const { haptic } = useTelegram()
   const showTranslations = useAppStore((s) => s.showTranslations)
@@ -42,6 +44,7 @@ export function ExerciseScreen() {
   const exerciseQuery = useExerciseQuery(Number(exerciseId))
 
   const [answered, setAnswered] = useState(false)
+  const [confirmed, setConfirmed] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
   const [showFeedback, setShowFeedback] = useState(false)
   const correctCountRef = useRef(0)
@@ -50,6 +53,7 @@ export function ExerciseScreen() {
 
   useEffect(() => {
     setAnswered(false)
+    setConfirmed(false)
     setIsCorrect(false)
     setShowFeedback(false)
   }, [exerciseId])
@@ -78,6 +82,13 @@ export function ExerciseScreen() {
 
   const handleSubmit = () => {
     if (!answered) return
+    // First press: confirm the answer and show feedback colors
+    if (!confirmed) {
+      setConfirmed(true)
+      haptic.notification(isCorrect ? 'success' : 'error')
+      return
+    }
+    // Second press: advance to next exercise
     if (isCorrect) correctCountRef.current += 1
     enqueue({
       type: 'exercise_complete',
@@ -87,16 +98,18 @@ export function ExerciseScreen() {
       occurred_at: new Date().toISOString(),
     })
     setShowFeedback(true)
-    haptic.notification(isCorrect ? 'success' : 'error')
+    const nextExercise = exercises[currentIdx + 1]
     feedbackTimerRef.current = setTimeout(() => {
       setShowFeedback(false)
-      const nextExercise = exercises[currentIdx + 1]
       if (nextExercise) {
         navigate(`/units/${unitId}/exercise/${nextExercise.id}`)
       } else {
+        queryClient.invalidateQueries({ queryKey: ['levels'] })
+        queryClient.invalidateQueries({ queryKey: ['units'] })
+        queryClient.invalidateQueries({ queryKey: ['unit', Number(unitId)] })
         navigate(`/units/${unitId}/result`, { state: { xp_earned: correctCountRef.current * 10 } })
       }
-    }, 1500)
+    }, 400)
   }
 
   const grInstruction = EXERCISE_INSTRUCTIONS[exercise.type] ?? ''
@@ -104,8 +117,27 @@ export function ExerciseScreen() {
   const instruction = showTranslations ? `${grInstruction} (${ruInstruction})` : grInstruction
   const content = exercise.content as Record<string, unknown>
 
-  // No audio for matching exercises — they have multiple audio paths for individual items
-  const audioPath = exercise.type === 'matching' ? null : (exercise.audio_paths[0] ?? null)
+  // No audio for matching — individual item audio handled inside the component
+  // For multiple_choice/fill_blank — use TTS with just the correct word
+  // For dialogue — play all lines sequentially
+  const audioPath = (exercise.type === 'matching' || exercise.type === 'multiple_choice' || exercise.type === 'fill_blank' || exercise.type === 'dialogue')
+    ? null
+    : (exercise.audio_paths[0] ?? null)
+  const audioPaths = exercise.type === 'dialogue' && exercise.audio_paths.length > 0
+    ? exercise.audio_paths
+    : undefined
+
+  const ttsText = (() => {
+    if (exercise.type === 'multiple_choice') {
+      const c = content as { question: string }
+      return c.question.replace(/___/g, '').replace(/\s{2,}/g, ' ').trim()
+    }
+    if (exercise.type === 'fill_blank') {
+      const c = content as { text_template: string }
+      return c.text_template.replace(/___/g, '').replace(/\s{2,}/g, ' ').trim()
+    }
+    return null
+  })()
 
   return (
     <>
@@ -114,27 +146,30 @@ export function ExerciseScreen() {
         total={exercises.length}
         instruction={instruction}
         audioPath={audioPath}
+        audioPaths={audioPaths}
+        ttsText={ttsText}
         canSubmit={answered}
-        submitted={answered}
+        submitted={confirmed}
         onSubmit={handleSubmit}
+        onClose={() => navigate(`/units/${unitId}`)}
       >
         {exercise.type === 'true_false' && (
-          <TrueFalse content={content as unknown as Parameters<typeof TrueFalse>[0]['content']} onAnswer={handleAnswer} />
+          <TrueFalse content={content as unknown as Parameters<typeof TrueFalse>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
         )}
         {exercise.type === 'multiple_choice' && (
-          <MultipleChoice content={content as unknown as Parameters<typeof MultipleChoice>[0]['content']} onAnswer={handleAnswer} />
+          <MultipleChoice content={content as unknown as Parameters<typeof MultipleChoice>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
         )}
         {exercise.type === 'matching' && (
-          <Matching content={content as unknown as Parameters<typeof Matching>[0]['content']} onAnswer={handleAnswer} />
+          <Matching content={content as unknown as Parameters<typeof Matching>[0]['content']} audioPaths={exercise.audio_paths} onAnswer={handleAnswer} />
         )}
         {exercise.type === 'fill_blank' && (
-          <FillBlank content={content as unknown as Parameters<typeof FillBlank>[0]['content']} onAnswer={handleAnswer} />
+          <FillBlank content={content as unknown as Parameters<typeof FillBlank>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
         )}
         {exercise.type === 'image_description' && (
-          <ImageDescription content={content as unknown as Parameters<typeof ImageDescription>[0]['content']} onAnswer={handleAnswer} />
+          <ImageDescription content={content as unknown as Parameters<typeof ImageDescription>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
         )}
         {exercise.type === 'dialogue' && (
-          <Dialogue content={content as unknown as Parameters<typeof Dialogue>[0]['content']} onAnswer={handleAnswer} />
+          <Dialogue content={content as unknown as Parameters<typeof Dialogue>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
         )}
       </ExerciseShell>
       {showFeedback && (

@@ -3,7 +3,6 @@ import { apiClient } from './client'
 import type {
   SessionResponse, LevelsResponse, UnitsResponse, UnitDetailResponse,
   ExerciseResponse, CompleteExerciseResponse,
-  PlacementQuestionsResponse, PlacementCompleteResponse,
   MiniTestQuestionsResponse, MiniTestCompleteResponse,
   DueCardsResponse, ReviewResponse, VocabStatsResponse,
   SettingsResponse, SyncResponse, ProgressEvent,
@@ -30,13 +29,6 @@ export const api = {
 
   completeExercise: (exerciseId: number, score: number, total: number) =>
     apiClient.post<CompleteExerciseResponse>(`/api/v1/exercises/${exerciseId}/complete`, { score, total }).then(r => r.data),
-
-  // Placement test
-  getPlacementQuestions: () =>
-    apiClient.get<PlacementQuestionsResponse>('/api/v1/placement-test/questions').then(r => r.data),
-
-  completePlacementTest: (score: number, total: number, skipped = false) =>
-    apiClient.post<PlacementCompleteResponse>('/api/v1/placement-test/complete', { score, total, skipped }).then(r => r.data),
 
   // Mini-test
   getMiniTestQuestions: (unitId: number) =>

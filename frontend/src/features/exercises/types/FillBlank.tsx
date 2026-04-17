@@ -7,14 +7,16 @@ interface FillBlankContent {
   text_template?: string
   blanks?: Array<{ position: number; correct: string }>
   word_bank?: string[]
+  sentence_ru?: string
 }
 
 interface FillBlankProps {
   content: FillBlankContent
   onAnswer: (isCorrect: boolean) => void
+  submitted?: boolean
 }
 
-export function FillBlank({ content, onAnswer }: FillBlankProps) {
+export function FillBlank({ content, onAnswer, submitted = false }: FillBlankProps) {
   const [selected, setSelected] = useState<string | null>(null)
 
   const sentence = content.sentence ?? content.text_template ?? ''
@@ -31,16 +33,23 @@ export function FillBlank({ content, onAnswer }: FillBlankProps) {
 
   const getOptionClass = (word: string) => {
     if (selected === null) return 'fb-option'
+    if (!submitted) return word === selected ? 'fb-option fb-option--selected' : 'fb-option'
     if (word === blankWord) return 'fb-option fb-option--correct'
     if (word === selected) return 'fb-option fb-option--incorrect'
     return 'fb-option fb-option--dim'
   }
 
+  const blankClass = selected
+    ? submitted
+      ? selected === blankWord ? 'fill-blank__blank--correct' : 'fill-blank__blank--incorrect'
+      : ''
+    : ''
+
   return (
     <div className="fill-blank">
       <p className="fill-blank__sentence">
         {sentenceParts[0]}
-        <span className={`fill-blank__blank ${selected ? (selected === blankWord ? 'fill-blank__blank--correct' : 'fill-blank__blank--incorrect') : ''}`}>
+        <span className={`fill-blank__blank ${blankClass}`}>
           {selected ?? '___'}
         </span>
         {sentenceParts[1]}
@@ -52,6 +61,9 @@ export function FillBlank({ content, onAnswer }: FillBlankProps) {
           </button>
         ))}
       </div>
+      {submitted && content.sentence_ru && (
+        <p className="fill-blank__translation">{content.sentence_ru}</p>
+      )}
     </div>
   )
 }

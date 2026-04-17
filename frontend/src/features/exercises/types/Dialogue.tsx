@@ -1,37 +1,50 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 interface DialogueLine { id: number; speaker: string; text: string; audio_path?: string | null }
 interface TableBlank { row: string; column: string; correct: string }
-interface DialogueContent { dialogue_lines: DialogueLine[]; table_blanks: TableBlank[]; word_bank: string[] }
-interface DialogueProps { content: DialogueContent; onAnswer: (isCorrect: boolean) => void }
+interface DialogueContent { dialogue_lines: DialogueLine[]; table_blanks: TableBlank[]; word_bank: string[]; dialogue_ru?: string }
+interface DialogueProps { content: DialogueContent; onAnswer: (isCorrect: boolean) => void; submitted?: boolean }
 
-export function Dialogue({ content, onAnswer }: DialogueProps) {
+export function Dialogue({ content, onAnswer, submitted = false }: DialogueProps) {
   const [fills, setFills] = useState<Record<number, string>>({})
-  const [submitted, setSubmitted] = useState(false)
-
-  const allFilled = content.table_blanks.every((_, i) => fills[i] !== undefined)
+  const [allFilled, setAllFilled] = useState(false)
 
   const handleWordSelect = (blankIndex: number, word: string) => {
-    if (submitted) return
-    setFills(f => ({ ...f, [blankIndex]: word }))
-  }
-
-  const handleSubmit = () => {
-    if (!allFilled || submitted) return
-    setSubmitted(true)
-    const allCorrect = content.table_blanks.every((blank, i) => fills[i] === blank.correct)
-    onAnswer(allCorrect)
+    if (allFilled) return
+    const newFills = { ...fills, [blankIndex]: word }
+    setFills(newFills)
+    const nowAllFilled = content.table_blanks.every((_, i) => newFills[i] !== undefined)
+    if (nowAllFilled) {
+      setAllFilled(true)
+      const allCorrect = content.table_blanks.every((blank, i) => newFills[i] === blank.correct)
+      onAnswer(allCorrect)
+    }
   }
 
   const renderLine = (line: DialogueLine) => {
     const blanks = content.table_blanks.filter(b => b.row === line.speaker)
-    let text = line.text
-    blanks.forEach((_, bi) => {
-      const blankIndex = content.table_blanks.indexOf(blanks[bi])
-      const filled = fills[blankIndex]
-      text = text.replace('___', filled ? `[${filled}]` : '___')
+    if (blanks.length === 0) return <>{line.text}</>
+
+    const parts = line.text.split('___')
+    const result: React.ReactNode[] = []
+    parts.forEach((part, i) => {
+      result.push(part)
+      if (i < blanks.length) {
+        const blankIndex = content.table_blanks.indexOf(blanks[i])
+        const filled = fills[blankIndex]
+        const isCorrect = submitted && filled === blanks[i].correct
+        const isWrong = submitted && filled !== undefined && filled !== blanks[i].correct
+        result.push(
+          <span
+            key={i}
+            className={`fill-blank__blank${isCorrect ? ' fill-blank__blank--correct' : isWrong ? ' fill-blank__blank--incorrect' : ''}`}
+          >
+            {filled ?? '___'}
+          </span>
+        )
+      }
     })
-    return text
+    return <>{result}</>
   }
 
   return (
@@ -46,10 +59,8 @@ export function Dialogue({ content, onAnswer }: DialogueProps) {
       </div>
       {content.table_blanks.length > 0 && (
         <div className="dialogue__fill-section">
-          <p className="dialogue__fill-label">Вставьте слово:</p>
           {content.table_blanks.map((blank, i) => (
             <div key={i} className="dialogue__blank-row">
-              <span className="dialogue__blank-context">{blank.column} ({blank.row}):</span>
               <div className="dialogue__word-bank">
                 {content.word_bank.map(word => {
                   const isSelected = fills[i] === word
@@ -69,12 +80,10 @@ export function Dialogue({ content, onAnswer }: DialogueProps) {
               </div>
             </div>
           ))}
-          {allFilled && !submitted && (
-            <button className="tf-btn" style={{ marginTop: 12 }} onClick={handleSubmit}>
-              Проверить
-            </button>
-          )}
         </div>
+      )}
+      {submitted && content.dialogue_ru && (
+        <p className="fill-blank__translation">{content.dialogue_ru}</p>
       )}
     </div>
   )

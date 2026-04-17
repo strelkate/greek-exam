@@ -1,6 +1,5 @@
 // frontend/src/shared/api/types.ts
 
-export type PlacementStatus = 'pending' | 'passed' | 'failed' | 'skipped'
 export type Level = 'A1' | 'A2' | 'B1'
 export type ExerciseType =
   | 'true_false'
@@ -16,8 +15,6 @@ export interface SessionResponse {
   telegram_id: number
   streak_days: number
   total_xp: number
-  placement_status: PlacementStatus
-  a1_skipped: boolean
   show_instruction_translation: boolean
   is_new_user: boolean
 }
@@ -85,21 +82,6 @@ export interface CompleteExerciseResponse {
     exercises_total: number
     mini_test_unlocked: boolean
   }
-}
-
-// Placement
-export interface PlacementQuestion {
-  id: number
-  type: 'true_false' | 'multiple_choice' | 'fill_blank'
-  content: Record<string, unknown>
-}
-export interface PlacementQuestionsResponse {
-  questions: PlacementQuestion[]
-}
-export interface PlacementCompleteResponse {
-  placement_status: PlacementStatus
-  a1_skipped: boolean
-  message: string
 }
 
 // Mini-test

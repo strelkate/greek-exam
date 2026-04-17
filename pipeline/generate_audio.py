@@ -43,7 +43,7 @@ def _extract_texts_for_exercise(ex_type: str, content: dict) -> list[str]:
     elif ex_type == "matching":
         return [p["left"] for p in content["pairs"]]
     elif ex_type == "multiple_choice":
-        return [content["question"]]
+        return [content["question"].replace("___", "").strip()]
     elif ex_type == "fill_blank":
         return [content["text_template"].replace("___", "").strip()]
     elif ex_type == "image_description":

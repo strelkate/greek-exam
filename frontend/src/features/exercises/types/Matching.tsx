@@ -1,14 +1,28 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+
+const API_URL = import.meta.env.VITE_API_URL ?? ''
 
 interface MatchingPair { left: string; right: string }
 interface MatchingContent { pairs: MatchingPair[] }
-interface MatchingProps { content: MatchingContent; onAnswer: (isCorrect: boolean) => void }
+interface MatchingProps { content: MatchingContent; audioPaths?: string[]; onAnswer: (isCorrect: boolean) => void }
 
-export function Matching({ content, onAnswer }: MatchingProps) {
+export function Matching({ content, audioPaths, onAnswer }: MatchingProps) {
   const [selection, setSelection] = useState<{ leftIndex: number | null; rightIndex: number | null }>({ leftIndex: null, rightIndex: null })
   const [matched, setMatched] = useState<Map<number, number>>(new Map())
   const [incorrect, setIncorrect] = useState<Set<number>>(new Set())
   const [submitted, setSubmitted] = useState(false)
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null)
+
+  const playAudio = (index: number) => {
+    const path = audioPaths?.[index]
+    if (!path) return
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause()
+    }
+    const audio = new Audio(`${API_URL}${path}`)
+    currentAudioRef.current = audio
+    audio.play().catch(() => {})
+  }
 
   const shuffledRight = useState(() =>
     [...content.pairs.map((_, i) => i)].sort(() => Math.random() - 0.5)
@@ -17,6 +31,7 @@ export function Matching({ content, onAnswer }: MatchingProps) {
   const handleLeft = (index: number) => {
     if (submitted || matched.has(index)) return
     setSelection(s => ({ ...s, leftIndex: index }))
+    playAudio(index)
   }
 
   const handleRight = (rightIdx: number) => {

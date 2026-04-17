@@ -1,0 +1,29 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .yellow { fill: #fdd828; }
+      .purple { fill: #6f6db0; }
+      .stroke {
+        stroke: #0b0d1a;
+        stroke-width: 6;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+
+  <path class="yellow stroke" d="M 100 160 A 180 180 0 0 1 412 160 Q 400 120 350 110 Q 256 90 162 110 Q 112 120 100 160 Z" />
+  <rect x="180" y="120" width="150" height="20" rx="10" class="purple stroke" />
+  <circle cx="350" cy="135" r="10" class="purple stroke" />
+
+  <path class="purple stroke" d="M 70 180 Q 40 240 50 320 Q 60 380 90 400 L 110 370 Q 80 340 80 280 Q 80 220 110 180 Z" />
+  <path class="purple stroke" d="M 442 180 Q 472 240 462 320 Q 452 380 422 400 L 402 370 Q 432 340 432 280 Q 432 220 402 180 Z" />
+
+  <rect x="100" y="280" width="60" height="180" rx="30" class="yellow stroke" />
+  <rect x="352" y="280" width="60" height="180" rx="30" class="yellow stroke" />
+
+  <rect x="70" y="310" width="30" height="80" rx="15" class="purple stroke" />
+  <rect x="412" y="310" width="30" height="80" rx="15" class="purple stroke" />
+
+  <circle cx="50" cy="360" r="20" class="yellow stroke" />
+  <circle cx="462" cy="360" r="20" class="yellow stroke" />
+</svg>

@@ -2,29 +2,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
   border: none;
-  border-radius: 50%;
-  background: var(--color-surface-highest);
+  background: none;
   cursor: pointer;
-  transition: background 0.15s;
+  padding: 0;
   -webkit-tap-highlight-color: transparent;
-}
-
-.playBtn:active {
-  background: var(--color-surface-high);
-}
-
-.playing {
-  background: var(--color-primary);
-}
-
-.playing .icon {
-  filter: brightness(0);
-}
-
-.icon {
-  font-size: 18px;
-  line-height: 1;
 }

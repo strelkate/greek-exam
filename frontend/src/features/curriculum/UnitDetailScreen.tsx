@@ -1,19 +1,31 @@
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useUnitDetailQuery } from './useCurriculumQuery'
 import { useExerciseStore } from '../../shared/store/useExerciseStore'
+import { useAppStore } from '../../shared/store/useAppStore'
 import { Button } from '../../shared/components/Button'
 import { ProgressBar } from '../../shared/components/ProgressBar'
 import type { ExerciseType } from '../../shared/api/types'
 import styles from './UnitDetailScreen.module.css'
 
-const EXERCISE_TYPE_LABELS: Record<ExerciseType, string> = {
-  true_false: 'ΣΩΣΤΟ / ΛΑΘΟΣ',
+const API_URL = import.meta.env.VITE_API_URL ?? ''
+
+const EXERCISE_TYPE_GR: Record<ExerciseType, string> = {
+  true_false: 'Σωστό ή Λάθος',
+  matching: 'Αντιστοίχιση',
+  multiple_choice: 'Πολλαπλή επιλογή',
+  fill_blank: 'Συμπλήρωση κενού',
+  image_description: 'Περιγραφή εικόνας',
+  dialogue: 'Διάλογος',
+}
+
+const EXERCISE_TYPE_RU: Record<ExerciseType, string> = {
+  true_false: 'Верно / Неверно',
   matching: 'Сопоставление',
   multiple_choice: 'Выбор ответа',
   fill_blank: 'Заполни пропуск',
-  image_description: 'Περιγραφή εικόνας',
-  dialogue: 'Διάλογος',
+  image_description: 'Описание картинки',
+  dialogue: 'Диалог',
 }
 
 export function UnitDetailScreen() {
@@ -21,7 +33,26 @@ export function UnitDetailScreen() {
   const navigate = useNavigate()
   const { data, isLoading } = useUnitDetailQuery(Number(unitId))
   const startSession = useExerciseStore((s) => s.startSession)
+  const showTranslations = useAppStore((s) => s.showTranslations)
   const [vocabExpanded, setVocabExpanded] = useState(false)
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null)
+
+  const playWord = useCallback((word_gr: string, audio_path: string | null) => {
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause()
+      currentAudioRef.current = null
+    }
+    if (audio_path) {
+      const audio = new Audio(`${API_URL}${audio_path}`)
+      currentAudioRef.current = audio
+      audio.play().catch(() => {})
+    } else {
+      window.speechSynthesis.cancel()
+      const utt = new SpeechSynthesisUtterance(word_gr)
+      utt.lang = 'el-GR'
+      window.speechSynthesis.speak(utt)
+    }
+  }, [])
 
   if (isLoading || !data) {
     return <div className={styles.loading}>Загрузка...</div>
@@ -63,7 +94,10 @@ export function UnitDetailScreen() {
                 className={styles.exerciseRow}
               >
                 <span className={styles.exNumber}>{i + 1}</span>
-                <span className={styles.exType}>{EXERCISE_TYPE_LABELS[ex.type]}</span>
+                <span className={styles.exType}>
+                  {EXERCISE_TYPE_GR[ex.type]}
+                  {showTranslations && <span className={styles.exTypeRu}> ({EXERCISE_TYPE_RU[ex.type]})</span>}
+                </span>
                 {ex.completed && <span className={styles.exCheck} aria-label="выполнено">✓</span>}
               </Link>
             ))}
@@ -81,7 +115,13 @@ export function UnitDetailScreen() {
             <h2 className={styles.sectionTitle}>Словарь юнита</h2>
             <div className={styles.vocabList}>
               {(vocabExpanded ? data.vocabulary_cards : data.vocabulary_cards.slice(0, 5)).map(card => (
-                <div key={card.id} className={styles.vocabRow}>
+                <div
+                  key={card.id}
+                  className={styles.vocabRow}
+                  onClick={() => playWord(card.word_gr, card.audio_path)}
+                  role="button"
+                  tabIndex={0}
+                >
                   <span className={styles.wordGr}>{card.word_gr}</span>
                   <span className={styles.wordRu}>{card.word_ru}</span>
                 </div>

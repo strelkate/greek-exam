@@ -1,36 +1,44 @@
 import { useState } from 'react'
 
-interface ImageOption { text: string; is_correct: boolean }
-interface ImageDescriptionContent { image_url: string; question: string; options: ImageOption[] }
-interface ImageDescriptionProps { content: ImageDescriptionContent; onAnswer: (isCorrect: boolean) => void }
+interface ImageOption { id: number; path: string; is_correct: boolean }
+interface ImageDescriptionContent { description_text: string; description_text_ru?: string; images: ImageOption[] }
+interface ImageDescriptionProps { content: ImageDescriptionContent; onAnswer: (isCorrect: boolean) => void; submitted?: boolean }
 
-export function ImageDescription({ content, onAnswer }: ImageDescriptionProps) {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+export function ImageDescription({ content, onAnswer, submitted = false }: ImageDescriptionProps) {
+  const [selectedId, setSelectedId] = useState<number | null>(null)
 
-  const handleSelect = (index: number) => {
-    if (selectedIndex !== null) return
-    setSelectedIndex(index)
-    onAnswer(content.options[index].is_correct)
+  const handleSelect = (img: ImageOption) => {
+    if (selectedId !== null) return
+    setSelectedId(img.id)
+    onAnswer(img.is_correct)
   }
 
-  const getOptionClass = (index: number) => {
-    if (selectedIndex === null) return 'mc-option'
-    if (content.options[index].is_correct) return 'mc-option mc-option--correct'
-    if (index === selectedIndex) return 'mc-option mc-option--incorrect'
-    return 'mc-option mc-option--dim'
+  const getImgClass = (img: ImageOption) => {
+    if (selectedId === null) return 'img-desc__option'
+    if (!submitted) return img.id === selectedId ? 'img-desc__option img-desc__option--selected' : 'img-desc__option'
+    if (img.is_correct) return 'img-desc__option img-desc__option--correct'
+    if (img.id === selectedId) return 'img-desc__option img-desc__option--incorrect'
+    return 'img-desc__option img-desc__option--dim'
   }
 
   return (
-    <div className="image-description">
-      <img src={content.image_url} alt="упражнение" className="image-description__img" />
-      <p className="multiple-choice__question">{content.question}</p>
-      <div className="multiple-choice__options">
-        {content.options.map((option, index) => (
-          <button key={index} className={getOptionClass(index)} onClick={() => handleSelect(index)} disabled={selectedIndex !== null}>
-            {option.text}
+    <div className="img-desc">
+      <p className="img-desc__text">{content.description_text}</p>
+      <div className="img-desc__grid">
+        {content.images.map((img) => (
+          <button
+            key={img.id}
+            className={getImgClass(img)}
+            onClick={() => handleSelect(img)}
+            disabled={selectedId !== null}
+          >
+            <img src={img.path} alt="" className="img-desc__img" />
           </button>
         ))}
       </div>
+      {submitted && content.description_text_ru && (
+        <p className="fill-blank__translation">{content.description_text_ru}</p>
+      )}
     </div>
   )
 }

@@ -6,12 +6,10 @@ import { useAppStore } from './shared/store/useAppStore'
 import { useTelegram } from './shared/hooks/useTelegram'
 import { BottomNav } from './shared/components/BottomNav'
 import { LevelMapScreen } from './features/curriculum/LevelMapScreen'
-import { PlacementScreen } from './features/placement/PlacementScreen'
 import { ExerciseScreen } from './features/exercises/ExerciseScreen'
 import { VocabularyHomeScreen } from './features/vocabulary/VocabularyHomeScreen'
 import { FlashcardScreen } from './features/vocabulary/FlashcardScreen'
 import { UnitDetailScreen } from './features/curriculum/UnitDetailScreen'
-import { LevelUnitsScreen } from './features/curriculum/LevelUnitsScreen'
 import { MiniTestScreen } from './features/exercises/MiniTestScreen'
 import { UnitResultScreen } from './features/exercises/UnitResultScreen'
 
@@ -20,9 +18,7 @@ function AppRoutes() {
     <>
       <Routes>
         <Route path="/" element={<Navigate to="/levels" replace />} />
-        <Route path="/placement" element={<PlacementScreen />} />
         <Route path="/levels" element={<LevelMapScreen />} />
-        <Route path="/levels/:level" element={<LevelUnitsScreen />} />
         <Route path="/units/:unitId" element={<UnitDetailScreen />} />
         <Route path="/units/:unitId/exercise/:exerciseId" element={<ExerciseScreen />} />
         <Route path="/units/:unitId/mini-test" element={<MiniTestScreen />} />
@@ -52,11 +48,7 @@ export function App() {
         streak: session.streak_days,
         showTranslations: session.show_instruction_translation,
       })
-      if (session.placement_status === 'pending') {
-        navigate('/placement', { replace: true })
-      } else {
-        navigate('/levels', { replace: true })
-      }
+      navigate('/levels', { replace: true })
     }).catch(() => {
       // Backend unavailable (e.g. no auth in local dev) — stay on /levels
     })

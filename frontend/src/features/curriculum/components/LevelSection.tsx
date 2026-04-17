@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import type { LevelProgress, UnitSummary } from '../../../shared/api/types'
 import { UnitCard } from './UnitCard'
 import styles from './LevelSection.module.css'
@@ -22,16 +21,16 @@ export function LevelSection({ level, units }: Props) {
 
   return (
     <section className={styles.section}>
-      <Link to={`/levels/${level.level.toLowerCase()}`} className={styles.headerLink}>
+      <div className={styles.headerLink}>
         <div className={styles.titleRow}>
           <h2 className={styles.title}>{LEVEL_LABELS[level.level] ?? level.level}</h2>
-          <span className={styles.badge}>{pct}%&nbsp;→</span>
+          <span className={styles.badge}>{pct}%</span>
         </div>
         <div className={styles.progressBar}>
           <div className={styles.progressFill} style={{ width: `${pct}%` }} />
         </div>
         <p className={styles.meta}>{completedUnits} из {level.total_units} юнитов</p>
-      </Link>
+      </div>
       {units.length > 0 && (
         <div className={styles.units}>
           {units.map(unit => (

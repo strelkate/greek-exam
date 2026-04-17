@@ -18,10 +18,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
   text-decoration: none;
   color: var(--color-on-surface-muted);
   transition: color 0.15s;
+  gap: 4px;
 }
 
 .tab.active {

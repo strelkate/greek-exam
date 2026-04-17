@@ -22,6 +22,25 @@
   font-weight: var(--font-weight-bold);
 }
 
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.xpBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: var(--color-surface-high);
+  color: var(--color-secondary);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.02em;
+}
+
 .translationToggle {
   display: flex;
   align-items: center;

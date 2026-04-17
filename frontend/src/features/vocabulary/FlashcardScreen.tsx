@@ -1,17 +1,43 @@
-import { useState } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 import { useDueCardsQuery } from './useVocabularyQuery'
 import { api } from '../../shared/api/endpoints'
-import { AudioPlayer } from '../../shared/components/AudioPlayer'
 import { Button } from '../../shared/components/Button'
 import { ProgressBar } from '../../shared/components/ProgressBar'
 import { useAppStore } from '../../shared/store/useAppStore'
 import { useTelegram } from '../../shared/hooks/useTelegram'
 
+const API_URL = import.meta.env.VITE_API_URL ?? ''
+
 type FlashcardPhase = 'front' | 'back' | 'done'
+
+function SpeakButton({ text }: { text: string }) {
+  const [speaking, setSpeaking] = useState(false)
+  const speak = useCallback(() => {
+    window.speechSynthesis.cancel()
+    const utt = new SpeechSynthesisUtterance(text)
+    utt.lang = 'el-GR'
+    utt.onstart = () => setSpeaking(true)
+    utt.onend = () => setSpeaking(false)
+    utt.onerror = () => setSpeaking(false)
+    window.speechSynthesis.speak(utt)
+  }, [text])
+  return (
+    <button
+      className="flashcard__speak"
+      onClick={e => { e.stopPropagation(); speak() }}
+      aria-label="Произнести"
+      type="button"
+    >
+      <img src="/icons/headphones.svg" alt="" width={40} height={40} style={{ opacity: speaking ? 0.5 : 1, transition: 'opacity 0.2s' }} />
+    </button>
+  )
+}
 
 export function FlashcardScreen() {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const dueQuery = useDueCardsQuery()
   const addXp = useAppStore(s => s.addXp)
   const { haptic } = useTelegram()
@@ -26,6 +52,22 @@ export function FlashcardScreen() {
   const cards = dueQuery.data?.cards ?? []
   const total = cards.length
   const card = cards[currentIndex]
+
+  // Auto-play audio when a new card appears
+  useEffect(() => {
+    if (!card) return
+    const timer = setTimeout(() => {
+      if (card.audio_path) {
+        new Audio(`${API_URL}${card.audio_path}`).play().catch(() => {})
+      } else {
+        window.speechSynthesis.cancel()
+        const utt = new SpeechSynthesisUtterance(card.word_gr)
+        utt.lang = 'el-GR'
+        window.speechSynthesis.speak(utt)
+      }
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [currentIndex, card]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (phase === 'done' || total === 0) {
     return (
@@ -43,6 +85,7 @@ export function FlashcardScreen() {
   }
 
   const handleFlip = () => {
+    if (phase !== 'front') return
     haptic.impact()
     setPhase('back')
   }
@@ -56,11 +99,12 @@ export function FlashcardScreen() {
         setTotalXp(x => x + result.xp_earned)
       }
     } catch {
-      // offline — progress lost, don't crash
+      // offline
     }
     if (knew) setKnewCount(k => k + 1)
-
     if (currentIndex + 1 >= total) {
+      queryClient.invalidateQueries({ queryKey: ['vocab-stats'] })
+      queryClient.invalidateQueries({ queryKey: ['due-cards'] })
       setPhase('done')
     } else {
       setCurrentIndex(i => i + 1)
@@ -71,22 +115,34 @@ export function FlashcardScreen() {
   return (
     <div className="flashcard-screen">
       <div className="flashcard-screen__header">
+        <button
+          className="flashcard-screen__close"
+          onClick={() => {
+            queryClient.invalidateQueries({ queryKey: ['vocab-stats'] })
+            queryClient.invalidateQueries({ queryKey: ['due-cards'] })
+            navigate('/vocabulary')
+          }}
+          aria-label="Выйти"
+          type="button"
+        >✕</button>
         <ProgressBar value={currentIndex + 1} max={total} />
         <span className="flashcard-screen__counter">{currentIndex + 1} / {total}</span>
       </div>
 
-      <div className={`flashcard ${phase === 'back' ? 'flashcard--flipped' : ''}`}>
-        <div className="flashcard__front">
-          <p className="flashcard__word">{card.word_gr}</p>
-          {card.audio_path && (
-            <AudioPlayer src={card.audio_path} ariaLabel="аудио" />
-          )}
-        </div>
+      <div
+        className={`flashcard ${phase === 'back' ? 'flashcard--back' : ''}`}
+        onClick={handleFlip}
+        role="button"
+        tabIndex={0}
+        aria-label="Показать перевод"
+      >
+        <SpeakButton text={card.word_gr} />
+        <p className="flashcard__word">{card.word_gr}</p>
         {phase === 'back' && (
-          <div className="flashcard__back">
-            <p className="flashcard__word">{card.word_gr}</p>
-            <p className="flashcard__translation">{card.word_ru}</p>
-          </div>
+          <p className="flashcard__translation">{card.word_ru}</p>
+        )}
+        {phase === 'front' && (
+          <span className="flashcard__hint">👆</span>
         )}
       </div>
 

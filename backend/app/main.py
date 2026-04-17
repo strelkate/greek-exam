@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from app.config import settings
 from app.database import engine, patch_sqlite_types, _is_sqlite
 from app.routers import auth, curriculum, exercises, vocabulary
-from app.routers import mini_test, placement_test
+from app.routers import mini_test
 from app.routers import settings as settings_router
 from app.routers import sync
 
@@ -37,7 +37,6 @@ app.include_router(curriculum.router)
 app.include_router(exercises.router)
 app.include_router(vocabulary.router)
 app.include_router(mini_test.router)
-app.include_router(placement_test.router)
 app.include_router(settings_router.router)
 app.include_router(sync.router)
 

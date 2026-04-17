@@ -7,18 +7,20 @@ interface TrueFalseContent {
   is_true?: boolean
   explanation?: string
   text?: string
+  text_ru?: string
   statements?: Statement[]
 }
 
 interface TrueFalseProps {
   content: TrueFalseContent
   onAnswer: (isCorrect: boolean) => void
+  submitted?: boolean
 }
 
-export function TrueFalse({ content, onAnswer }: TrueFalseProps) {
+export function TrueFalse({ content, onAnswer, submitted = false }: TrueFalseProps) {
   const [selected, setSelected] = useState<boolean | null>(null)
   const [stmtAnswers, setStmtAnswers] = useState<Record<number, boolean | null>>({})
-  const [submitted, setSubmitted] = useState(false)
+  const [allFilled, setAllFilled] = useState(false)
   const [shuffledStatements] = useState(() =>
     content.statements ? [...content.statements].sort(() => Math.random() - 0.5) : []
   )
@@ -26,13 +28,13 @@ export function TrueFalse({ content, onAnswer }: TrueFalseProps) {
   // New API shape: text + statements[]
   if (content.statements && content.text) {
     const handleToggle = (stmtId: number, value: boolean) => {
-      if (submitted) return
+      if (allFilled) return
       const updated = { ...stmtAnswers, [stmtId]: value }
       setStmtAnswers(updated)
-      const allFilled = shuffledStatements.every(s => updated[s.id] != null)
-      if (allFilled) {
+      const filled = shuffledStatements.every(s => updated[s.id] != null)
+      if (filled) {
         const allCorrect = shuffledStatements.every(s => updated[s.id] === s.correct)
-        setSubmitted(true)
+        setAllFilled(true)
         onAnswer(allCorrect)
       }
     }
@@ -40,7 +42,7 @@ export function TrueFalse({ content, onAnswer }: TrueFalseProps) {
     return (
       <div className="true-false">
         <p className="true-false__statement">{content.text}</p>
-        <div style={{ display: 'flex', alignItems: 'center', padding: '0 16px', marginTop: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', padding: '0 16px', marginTop: 16, marginBottom: 8 }}>
           <span style={{ flex: 1 }} />
           <div style={{ width: 80, display: 'flex', justifyContent: 'space-between', flexShrink: 0 }}>
             <span style={{ width: 28, textAlign: 'center', fontSize: '0.6875rem', fontWeight: 700, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.03em' }}>ΣΩΣΤΟ</span>
@@ -59,7 +61,7 @@ export function TrueFalse({ content, onAnswer }: TrueFalseProps) {
                   style={{
                     width: 28, height: 28, border: `2px solid ${submitted && stmt.correct === true ? 'var(--color-success)' : submitted && answer === true && !stmt.correct ? 'var(--color-error)' : answer === true ? 'var(--color-primary)' : 'var(--color-surface-highest)'}`,
                     borderRadius: 6, background: submitted && stmt.correct === true ? 'var(--color-success)' : submitted && answer === true && !stmt.correct ? 'var(--color-error)' : answer === true ? 'var(--color-primary)' : 'transparent',
-                    cursor: submitted ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, transition: 'border-color 0.15s, background 0.15s',
+                    cursor: allFilled ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, transition: 'border-color 0.15s, background 0.15s',
                   }}
                 >
                   {answer === true && <span style={{ fontSize: 16, fontWeight: 700, color: '#0b0d1a', lineHeight: 1 }}>✓</span>}
@@ -70,7 +72,7 @@ export function TrueFalse({ content, onAnswer }: TrueFalseProps) {
                   style={{
                     width: 28, height: 28, border: `2px solid ${submitted && stmt.correct === false ? 'var(--color-success)' : submitted && answer === false && stmt.correct ? 'var(--color-error)' : answer === false ? 'var(--color-primary)' : 'var(--color-surface-highest)'}`,
                     borderRadius: 6, background: submitted && stmt.correct === false ? 'var(--color-success)' : submitted && answer === false && stmt.correct ? 'var(--color-error)' : answer === false ? 'var(--color-primary)' : 'transparent',
-                    cursor: submitted ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, transition: 'border-color 0.15s, background 0.15s',
+                    cursor: allFilled ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, transition: 'border-color 0.15s, background 0.15s',
                   }}
                 >
                   {answer === false && <span style={{ fontSize: 16, fontWeight: 700, color: '#0b0d1a', lineHeight: 1 }}>✓</span>}
@@ -79,6 +81,9 @@ export function TrueFalse({ content, onAnswer }: TrueFalseProps) {
             </div>
           )
         })}
+      {submitted && content.text_ru && (
+        <p className="fill-blank__translation">{content.text_ru}</p>
+      )}
       </div>
     )
   }
