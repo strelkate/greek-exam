@@ -117,27 +117,14 @@ export function ExerciseScreen() {
   const instruction = showTranslations ? `${grInstruction} (${ruInstruction})` : grInstruction
   const content = exercise.content as Record<string, unknown>
 
-  // No audio for matching — individual item audio handled inside the component
-  // For multiple_choice/fill_blank — use TTS with just the correct word
-  // For dialogue — play all lines sequentially
-  const audioPath = (exercise.type === 'matching' || exercise.type === 'multiple_choice' || exercise.type === 'fill_blank' || exercise.type === 'dialogue')
+  // Use audio files for all types where available; matching handles audio internally
+  const audioPath = exercise.type === 'matching'
     ? null
     : (exercise.audio_paths[0] ?? null)
   const audioPaths = exercise.type === 'dialogue' && exercise.audio_paths.length > 0
     ? exercise.audio_paths
     : undefined
-
-  const ttsText = (() => {
-    if (exercise.type === 'multiple_choice') {
-      const c = content as { question: string }
-      return c.question.replace(/___/g, '').replace(/\s{2,}/g, ' ').trim()
-    }
-    if (exercise.type === 'fill_blank') {
-      const c = content as { text_template: string }
-      return c.text_template.replace(/___/g, '').replace(/\s{2,}/g, ' ').trim()
-    }
-    return null
-  })()
+  const ttsText = null
 
   return (
     <>
