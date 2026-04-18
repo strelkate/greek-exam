@@ -1,6 +1,5 @@
 import type { Level, LevelProgress } from '../../shared/api/types'
 import { useLevelsQuery, useUnitsQuery } from './useCurriculumQuery'
-import { useSettings } from '../../shared/hooks/useSettings'
 import { useAppStore } from '../../shared/store/useAppStore'
 import { api } from '../../shared/api/endpoints'
 import { LevelSection } from './components/LevelSection'
@@ -45,7 +44,8 @@ function LevelBlock({ level }: { level: Level }) {
 }
 
 export function LevelMapScreen() {
-  const { showTranslations, setShowTranslations } = useSettings()
+  const showTranslations = useAppStore((s) => s.showTranslations)
+  const setShowTranslations = useAppStore((s) => s.setShowTranslations)
   const xp = useAppStore((s) => s.xp)
 
   const handleToggle = () => {

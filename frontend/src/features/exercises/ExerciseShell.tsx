@@ -1,7 +1,8 @@
-import { ReactNode, useCallback, useState } from 'react'
+import { ReactNode } from 'react'
 import { AudioPlayer, SequentialAudioPlayer } from '../../shared/components/AudioPlayer'
 import { Button } from '../../shared/components/Button'
 import { ProgressBar } from '../../shared/components/ProgressBar'
+import { TtsButton } from '../../shared/components/TtsButton'
 
 interface ExerciseShellProps {
   current: number
@@ -15,24 +16,6 @@ interface ExerciseShellProps {
   onSubmit: () => void
   onClose: () => void
   children: ReactNode
-}
-
-function TtsButton({ text }: { text: string }) {
-  const [speaking, setSpeaking] = useState(false)
-  const speak = useCallback(() => {
-    window.speechSynthesis.cancel()
-    const utt = new SpeechSynthesisUtterance(text)
-    utt.lang = 'el-GR'
-    utt.onstart = () => setSpeaking(true)
-    utt.onend = () => setSpeaking(false)
-    utt.onerror = () => setSpeaking(false)
-    window.speechSynthesis.speak(utt)
-  }, [text])
-  return (
-    <button className="exercise-shell__tts" onClick={speak} aria-label="Произнести" type="button">
-      <img src="/icons/headphones.svg" alt="" width={52} height={52} style={{ opacity: speaking ? 0.5 : 1, transition: 'opacity 0.2s' }} />
-    </button>
-  )
 }
 
 export function ExerciseShell({

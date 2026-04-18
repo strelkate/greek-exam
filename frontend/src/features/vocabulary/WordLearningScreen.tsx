@@ -4,6 +4,7 @@ import { useUnitDetailQuery } from '../curriculum/useCurriculumQuery'
 import { AudioPlayer } from '../../shared/components/AudioPlayer'
 import { Button } from '../../shared/components/Button'
 import { ProgressBar } from '../../shared/components/ProgressBar'
+import { TtsButton } from '../../shared/components/TtsButton'
 import styles from './WordLearningScreen.module.css'
 
 const API_URL = import.meta.env.VITE_API_URL ?? ''
@@ -107,30 +108,6 @@ function playCardAudio(card: VocabCard) {
     utt.lang = 'el-GR'
     window.speechSynthesis.speak(utt)
   }
-}
-
-// ──────────────────────────────────────────────
-// TTS button
-// ──────────────────────────────────────────────
-
-function TtsButton({ text }: { text: string }) {
-  const [speaking, setSpeaking] = useState(false)
-  const speak = useCallback(() => {
-    window.speechSynthesis.cancel()
-    const utt = new SpeechSynthesisUtterance(text)
-    utt.lang = 'el-GR'
-    utt.onstart = () => setSpeaking(true)
-    utt.onend = () => setSpeaking(false)
-    utt.onerror = () => setSpeaking(false)
-    window.speechSynthesis.speak(utt)
-  }, [text])
-
-  return (
-    <button className="exercise-shell__tts" onClick={speak} aria-label="Произнести" type="button">
-      <img src="/icons/headphones.svg" alt="" width={52} height={52}
-        style={{ opacity: speaking ? 0.5 : 1, transition: 'opacity 0.2s' }} />
-    </button>
-  )
 }
 
 // ──────────────────────────────────────────────
@@ -384,7 +361,7 @@ export function WordLearningScreen() {
   // Play already-preloaded audio (called inside click handler = user gesture)
   const playPreloaded = (card: VocabCard) => {
     const pre = preloadedRef.current
-    if (pre && card.audio_path && pre.src.endsWith(card.audio_path.replace('/audio/', ''))) {
+    if (pre && card.audio_path && pre.src === (card.audio_path.startsWith('http') ? card.audio_path : `${API_URL}${card.audio_path}`)) {
       pre.currentTime = 0
       pre.play().catch(() => {})
     } else {

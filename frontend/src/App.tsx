@@ -13,6 +13,7 @@ import { UnitDetailScreen } from './features/curriculum/UnitDetailScreen'
 import { MiniTestScreen } from './features/exercises/MiniTestScreen'
 import { UnitResultScreen } from './features/exercises/UnitResultScreen'
 import { WordLearningScreen } from './features/vocabulary/WordLearningScreen'
+import { LevelUnitsScreen } from './features/curriculum/LevelUnitsScreen'
 
 function AppRoutes() {
   return (
@@ -20,6 +21,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<Navigate to="/levels" replace />} />
         <Route path="/levels" element={<LevelMapScreen />} />
+        <Route path="/levels/:level" element={<LevelUnitsScreen />} />
         <Route path="/units/:unitId" element={<UnitDetailScreen />} />
         <Route path="/units/:unitId/exercise/:exerciseId" element={<ExerciseScreen />} />
         <Route path="/units/:unitId/words" element={<WordLearningScreen />} />

@@ -157,11 +157,6 @@
   cursor: pointer;
 }
 
-.vocabAudioIcon {
-  flex-shrink: 0;
-  opacity: 0.5;
-}
-
 .wordGr {
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-medium);

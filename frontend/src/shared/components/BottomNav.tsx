@@ -1,11 +1,13 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import styles from './BottomNav.module.css'
 
-const HIDDEN_ROUTES = ['/exercise', '/mini-test', '/vocabulary/review', '/words']
-
 export function BottomNav() {
   const { pathname } = useLocation()
-  const isHidden = HIDDEN_ROUTES.some(r => pathname.includes(r))
+  const isHidden =
+    pathname.includes('/exercise') ||
+    pathname.includes('/mini-test') ||
+    pathname.includes('/vocabulary/review') ||
+    pathname.endsWith('/words')
   if (isHidden) return null
 
   return (

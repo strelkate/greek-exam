@@ -1,7 +1,6 @@
 import { useState, useRef, useCallback } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useUnitDetailQuery } from './useCurriculumQuery'
-import { useExerciseStore } from '../../shared/store/useExerciseStore'
 import { useAppStore } from '../../shared/store/useAppStore'
 import { Button } from '../../shared/components/Button'
 import { ProgressBar } from '../../shared/components/ProgressBar'
@@ -32,7 +31,6 @@ export function UnitDetailScreen() {
   const { unitId } = useParams<{ unitId: string }>()
   const navigate = useNavigate()
   const { data, isLoading } = useUnitDetailQuery(Number(unitId))
-  const startSession = useExerciseStore((s) => s.startSession)
   const showTranslations = useAppStore((s) => s.showTranslations)
   const [vocabExpanded, setVocabExpanded] = useState(false)
   const currentAudioRef = useRef<HTMLAudioElement | null>(null)
@@ -63,8 +61,6 @@ export function UnitDetailScreen() {
   const firstIncomplete = exercises.find(e => !e.completed)
 
   const handleStart = () => {
-    const ids = exercises.map(e => e.id)
-    startSession(Number(unitId), ids)
     const startId = firstIncomplete?.id ?? exercises[0].id
     navigate(`/units/${unitId}/exercise/${startId}`)
   }

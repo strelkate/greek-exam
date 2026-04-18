@@ -1,39 +1,17 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { useDueCardsQuery } from './useVocabularyQuery'
 import { api } from '../../shared/api/endpoints'
 import { Button } from '../../shared/components/Button'
 import { ProgressBar } from '../../shared/components/ProgressBar'
+import { TtsButton } from '../../shared/components/TtsButton'
 import { useAppStore } from '../../shared/store/useAppStore'
 import { useTelegram } from '../../shared/hooks/useTelegram'
 
 const API_URL = import.meta.env.VITE_API_URL ?? ''
 
 type FlashcardPhase = 'front' | 'back' | 'done'
-
-function SpeakButton({ text }: { text: string }) {
-  const [speaking, setSpeaking] = useState(false)
-  const speak = useCallback(() => {
-    window.speechSynthesis.cancel()
-    const utt = new SpeechSynthesisUtterance(text)
-    utt.lang = 'el-GR'
-    utt.onstart = () => setSpeaking(true)
-    utt.onend = () => setSpeaking(false)
-    utt.onerror = () => setSpeaking(false)
-    window.speechSynthesis.speak(utt)
-  }, [text])
-  return (
-    <button
-      className="flashcard__speak"
-      onClick={e => { e.stopPropagation(); speak() }}
-      aria-label="Произнести"
-      type="button"
-    >
-      <img src="/icons/headphones.svg" alt="" width={40} height={40} style={{ opacity: speaking ? 0.5 : 1, transition: 'opacity 0.2s' }} />
-    </button>
-  )
-}
 
 export function FlashcardScreen() {
   const navigate = useNavigate()
@@ -136,7 +114,7 @@ export function FlashcardScreen() {
         tabIndex={0}
         aria-label="Показать перевод"
       >
-        <SpeakButton text={card.word_gr} />
+        <div onClick={e => e.stopPropagation()}><TtsButton text={card.word_gr} className="flashcard__speak" size={40} /></div>
         <p className="flashcard__word">{card.word_gr}</p>
         {phase === 'back' && (
           <p className="flashcard__translation">{card.word_ru}</p>

@@ -8,6 +8,7 @@ import { MultipleChoice } from './types/MultipleChoice'
 import { FillBlank } from './types/FillBlank'
 import { api } from '../../shared/api/endpoints'
 import { useAppStore } from '../../shared/store/useAppStore'
+import { Button } from '../../shared/components/Button'
 import { useTelegram } from '../../shared/hooks/useTelegram'
 
 const INSTRUCTIONS: Record<string, string> = {
@@ -46,17 +47,7 @@ export function MiniTestScreen() {
     return (
       <div className="screen-loading" style={{ flexDirection: 'column', gap: 16, textAlign: 'center', padding: 24 }}>
         <p>Сначала выполните все упражнения юнита</p>
-        <button
-          onClick={() => navigate(`/units/${unitId}`)}
-          style={{
-            padding: '14px 24px', border: 'none', borderRadius: 8,
-            background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))',
-            color: '#0b0d1a', fontFamily: 'var(--font-family)', fontSize: '0.875rem', fontWeight: 700,
-            cursor: 'pointer',
-          }}
-        >
-          Вернуться к юниту
-        </button>
+        <Button variant="primary" onClick={() => navigate(`/units/${unitId}`)}>Вернуться к юниту</Button>
       </div>
     )
   }

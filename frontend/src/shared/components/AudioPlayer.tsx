@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import styles from './AudioPlayer.module.css'
 
 const API_URL = import.meta.env.VITE_API_URL ?? ''
@@ -15,6 +15,14 @@ export function AudioPlayer({ src, autoPlay = false, ariaLabel = 'Слушать
   const [isPlaying, setIsPlaying] = useState(false)
 
   const fullSrc = src.startsWith('http') ? src : `${API_URL}${src}`
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current = null
+      setIsPlaying(false)
+    }
+  }, [fullSrc])
 
   const getAudio = useCallback(() => {
     if (!audioRef.current) {
