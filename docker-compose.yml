@@ -22,7 +22,11 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://greekapp:${POSTGRES_PASSWORD}@postgres/greekapp
       BOT_TOKEN: ${BOT_TOKEN}
-      CORS_ORIGINS: ${CORS_ORIGINS:-["*"]}
+      CORS_ORIGINS: ${CORS_ORIGINS:-["https://your-frontend.vercel.app"]}
+      DEBUG: "false"
+      AUDIO_DIR: "/audio"
+    volumes:
+      - ./pipeline/audio:/audio:ro
     depends_on:
       postgres:
         condition: service_healthy
