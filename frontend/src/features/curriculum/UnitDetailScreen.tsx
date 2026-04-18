@@ -78,13 +78,15 @@ export function UnitDetailScreen() {
           <span className={styles.breadcrumbSep}>/</span>
           <Link to={`/levels/${data.level.toLowerCase()}`} className={styles.breadcrumbLink}>{data.level}</Link>
         </div>
-        <h1 className={styles.title}>{data.title}</h1>
-        <ProgressBar value={completedCount} max={exercises.length} />
-        <p className={styles.progress}>{completedCount} из {exercises.length} упражнений</p>
+        <div className={styles.titleRow}>
+          <h1 className={styles.title}>{data.title}</h1>
+          <ProgressBar value={completedCount} max={exercises.length} />
+          <p className={styles.progress}>{completedCount} из {exercises.length} упражнений</p>
+        </div>
       </div>
 
       <div className={styles.content}>
-        <section>
+        <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Упражнения</h2>
           <div className={styles.exerciseList}>
             {exercises.map((ex, i) => (
@@ -111,8 +113,13 @@ export function UnitDetailScreen() {
         )}
 
         {data.vocabulary_cards.length > 0 && (
-          <section>
+          <section className={styles.section}>
             <h2 className={styles.sectionTitle}>Словарь юнита</h2>
+            <div style={{ marginBottom: 'var(--spacing-md)' }}>
+              <Button fullWidth onClick={() => navigate(`/units/${unitId}/words`)}>
+                Учить слова
+              </Button>
+            </div>
             <div className={styles.vocabList}>
               {(vocabExpanded ? data.vocabulary_cards : data.vocabulary_cards.slice(0, 5)).map(card => (
                 <div

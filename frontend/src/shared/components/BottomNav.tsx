@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import styles from './BottomNav.module.css'
 
-const HIDDEN_ROUTES = ['/exercise', '/mini-test', '/vocabulary/review']
+const HIDDEN_ROUTES = ['/exercise', '/mini-test', '/vocabulary/review', '/words']
 
 export function BottomNav() {
   const { pathname } = useLocation()
