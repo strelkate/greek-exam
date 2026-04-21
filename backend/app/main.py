@@ -42,9 +42,10 @@ app.include_router(sync.router)
 
 
 # Serve generated audio files
-# In Docker: mounted at /audio via volume. In local dev: relative to repo root.
+# In Docker: mounted at /audio via volume. In local dev: relative to backend/ dir.
 import os as _os
-_audio_dir = Path(_os.environ.get("AUDIO_DIR", "")) or Path(__file__).parent.parent / "audio"
+_env_audio = _os.environ.get("AUDIO_DIR", "").strip()
+_audio_dir = Path(_env_audio) if _env_audio else Path(__file__).parent.parent / "audio"
 if _audio_dir.exists():
     app.mount("/audio", StaticFiles(directory=str(_audio_dir)), name="audio")
 
