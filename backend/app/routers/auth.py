@@ -17,8 +17,6 @@ async def create_session(
         telegram_id=user.telegram_id,
         streak_days=user.streak_days,
         total_xp=user.total_xp,
-        placement_status=user.placement_status,
-        a1_skipped=user.a1_skipped,
         show_instruction_translation=user.show_instruction_translation,
         is_new_user=is_new_user,
     )

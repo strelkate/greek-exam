@@ -30,17 +30,3 @@ class Exercise(Base):
     generation_run_id: Mapped[Optional[str]] = mapped_column(
         String(36), ForeignKey("generation_runs.id", ondelete="SET NULL"), nullable=True
     )
-
-
-class PlacementTestQuestion(Base):
-    __tablename__ = "placement_test_questions"
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    type: Mapped[ExerciseTypeEnum] = mapped_column(
-        SAEnum(ExerciseTypeEnum, name="exercise_type_enum", native_enum=False),
-        nullable=False,
-    )
-    content: Mapped[dict] = mapped_column(JSONB, nullable=False)
-    correct_answer: Mapped[dict] = mapped_column(JSONB, nullable=False)
-    order_index: Mapped[int] = mapped_column(SmallInteger, nullable=False)
-    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)

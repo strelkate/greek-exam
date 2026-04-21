@@ -1,6 +1,13 @@
 """
-Seed the dev SQLite database with curriculum units, exercises,
-vocabulary cards and placement questions from backend/seed_data/.
+Seed the database with curriculum units, exercises and vocabulary
+cards from backend/seed_data/.
+
+Works with both SQLite (dev) and PostgreSQL (production). On SQLite
+it creates the schema from models; on PostgreSQL it expects Alembic
+migrations to have run already.
+
+Idempotent — if any curriculum units already exist, it exits without
+doing anything.
 
 Usage:
     uv run python seed_dev.py
@@ -22,7 +29,7 @@ import app.models  # noqa: F401
 from app.database import Base, engine, patch_sqlite_types, _is_sqlite
 from app.config import settings
 from app.models.curriculum import CurriculumUnit
-from app.models.exercise import Exercise, PlacementTestQuestion
+from app.models.exercise import Exercise
 from app.models.vocabulary import VocabularyCard
 from app.models.enums import ExerciseTypeEnum, LevelEnum
 
@@ -43,14 +50,11 @@ LEVEL_MAP = {
 
 
 async def seed():
-    if not _is_sqlite(settings.database_url):
-        print("This script is for SQLite dev only. Use import_content.py for PostgreSQL.")
-        return
-
-    patch_sqlite_types(Base)
-
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    if _is_sqlite(settings.database_url):
+        patch_sqlite_types(Base)
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    # On PostgreSQL the schema is managed by Alembic migrations.
 
     from sqlalchemy.ext.asyncio import AsyncSession
     from sqlalchemy import select
@@ -126,30 +130,9 @@ async def seed():
                 ))
                 vocab_count += 1
 
-        # ── 4. Placement test questions ───────────────────────────────────────
-        placement_path = DATA_DIR / "placement.json"
-        pt_count = 0
-        if placement_path.exists():
-            print("Seeding placement test questions...")
-            questions = json.loads(placement_path.read_text())
-            if isinstance(questions, dict):
-                questions = [questions]
-            for i, q in enumerate(questions):
-                ex_type_str = q.get("type", "multiple_choice")
-                if ex_type_str not in EXERCISE_TYPE_MAP:
-                    ex_type_str = "multiple_choice"
-                session.add(PlacementTestQuestion(
-                    type=EXERCISE_TYPE_MAP[ex_type_str],
-                    content=q,
-                    correct_answer=q.get("correct_answer", {}),
-                    order_index=i + 1,
-                    is_active=True,
-                ))
-                pt_count += 1
-
         await session.commit()
         print(f"Done: {len(UNITS)} units, {ex_count} exercises, "
-              f"{vocab_count} vocab cards, {pt_count} placement questions.")
+              f"{vocab_count} vocab cards.")
 
 
 if __name__ == "__main__":

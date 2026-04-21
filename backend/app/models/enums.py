@@ -21,10 +21,3 @@ class CardStatusEnum(str, enum.Enum):
     NEW = "new"
     LEARNING = "learning"
     LEARNED = "learned"
-
-
-class PlacementStatusEnum(str, enum.Enum):
-    PENDING = "pending"
-    PASSED = "passed"
-    FAILED = "failed"
-    SKIPPED = "skipped"
