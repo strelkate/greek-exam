@@ -137,6 +137,7 @@ async def test_vocab_stats(client, auth_headers):
     data = response.json()
     assert data["total_cards"] == 1
     assert data["due_today"] == 1
+    assert data["learning_count"] == 1
     assert data["learned_count"] == 0
     assert data["new_count"] == 0
 
@@ -155,6 +156,7 @@ async def test_vocab_stats_multi_card(client, auth_headers):
     response = await client.get("/api/v1/vocabulary/stats", headers=auth_headers)
     data = response.json()
     assert data["total_cards"] == 3
+    assert data["learning_count"] == 1
     assert data["learned_count"] == 1
     assert data["due_today"] == 1  # only LEARNING card due (NEW excluded)
     assert data["new_count"] == 1

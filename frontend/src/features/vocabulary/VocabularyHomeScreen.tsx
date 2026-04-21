@@ -9,8 +9,6 @@ export function VocabularyHomeScreen() {
 
   const stats = statsQuery.data
   const dueCount = dueQuery.data?.due_count ?? 0
-  const notDue = stats ? stats.total_cards - stats.due_today : 0
-  const learnedPercent = stats ? Math.round((notDue / Math.max(stats.total_cards, 1)) * 100) : 0
 
   return (
     <div className="vocab-home">
@@ -21,12 +19,12 @@ export function VocabularyHomeScreen() {
           <span className="vocab-stat__label">ВСЕГО</span>
         </div>
         <div className="vocab-stat">
-          <span className="vocab-stat__value">{stats ? stats.learned_count : '—'}</span>
-          <span className="vocab-stat__label">ИЗУЧЕНО</span>
+          <span className="vocab-stat__value">{stats ? stats.learning_count : '—'}</span>
+          <span className="vocab-stat__label">В РАБОТЕ</span>
         </div>
         <div className="vocab-stat">
-          <span className="vocab-stat__value">{learnedPercent}%</span>
-          <span className="vocab-stat__label">ПРОГРЕСС</span>
+          <span className="vocab-stat__value">{stats ? stats.learned_count : '—'}</span>
+          <span className="vocab-stat__label">ВЫУЧЕНО</span>
         </div>
       </div>
       <div className="vocab-home__review-card">

@@ -8,6 +8,7 @@ vi.mock('../../../shared/api/endpoints', () => ({
   api: {
     getVocabStats: vi.fn().mockResolvedValue({
       total_cards: 45,
+      learning_count: 15,
       learned_count: 20,
       due_today: 7,
       new_count: 5,

@@ -120,6 +120,12 @@ async def get_vocab_stats(
     total = await session.scalar(
         select(func.count(UserCardState.id)).where(UserCardState.user_id == user.id)
     ) or 0
+    learning = await session.scalar(
+        select(func.count(UserCardState.id)).where(
+            UserCardState.user_id == user.id,
+            UserCardState.status == CardStatusEnum.LEARNING,
+        )
+    ) or 0
     learned = await session.scalar(
         select(func.count(UserCardState.id)).where(
             UserCardState.user_id == user.id,
@@ -140,4 +146,10 @@ async def get_vocab_stats(
         )
     ) or 0
 
-    return VocabStatsResponse(total_cards=total, learned_count=learned, due_today=due, new_count=new)
+    return VocabStatsResponse(
+        total_cards=total,
+        learning_count=learning,
+        learned_count=learned,
+        due_today=due,
+        new_count=new,
+    )

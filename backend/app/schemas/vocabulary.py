@@ -31,6 +31,7 @@ class ReviewResponse(BaseModel):
 
 class VocabStatsResponse(BaseModel):
     total_cards: int
+    learning_count: int
     learned_count: int
     due_today: int
     new_count: int

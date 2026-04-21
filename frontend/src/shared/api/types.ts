@@ -123,6 +123,7 @@ export interface ReviewResponse {
 }
 export interface VocabStatsResponse {
   total_cards: number
+  learning_count: number
   learned_count: number
   due_today: number
   new_count: number
