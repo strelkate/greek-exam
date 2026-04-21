@@ -22,7 +22,7 @@ export function MiniTestScreen() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { haptic } = useTelegram()
-  const addXp = useAppStore(s => s.addXp)
+  const addXp = useAppStore((s) => s.addXp)
 
   const miniTestQuery = useMiniTestQuery(Number(unitId))
 
@@ -36,8 +36,9 @@ export function MiniTestScreen() {
   const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
+    const timer = advanceTimerRef
     return () => {
-      if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current)
+      if (timer.current) clearTimeout(timer.current)
     }
   }, [])
 
@@ -45,9 +46,14 @@ export function MiniTestScreen() {
 
   if (miniTestQuery.isError) {
     return (
-      <div className="screen-loading" style={{ flexDirection: 'column', gap: 16, textAlign: 'center', padding: 24 }}>
+      <div
+        className="screen-loading"
+        style={{ flexDirection: 'column', gap: 16, textAlign: 'center', padding: 24 }}
+      >
         <p>Сначала выполните все упражнения юнита</p>
-        <Button variant="primary" onClick={() => navigate(`/units/${unitId}`)}>Вернуться к юниту</Button>
+        <Button variant="primary" onClick={() => navigate(`/units/${unitId}`)}>
+          Вернуться к юниту
+        </Button>
       </div>
     )
   }
@@ -69,13 +75,13 @@ export function MiniTestScreen() {
     // First press: confirm answer, show colors
     if (!confirmed) {
       setConfirmed(true)
-      if (isCorrect) setScore(s => s + 1)
+      if (isCorrect) setScore((s) => s + 1)
       haptic.notification(isCorrect ? 'success' : 'error')
       return
     }
     // Second press: advance or finish
     if (currentIndex < total - 1) {
-      setCurrentIndex(i => i + 1)
+      setCurrentIndex((i) => i + 1)
       setAnswered(false)
       setConfirmed(false)
       setIsCorrect(false)
@@ -93,7 +99,9 @@ export function MiniTestScreen() {
       const status = (err as { response?: { status?: number } })?.response?.status
       if (status === 409) {
         // Already passed — navigate to result without XP
-        navigate(`/units/${unitId}/result`, { state: { xp_earned: 0, unit_completed: true, cards_added_to_vocab: 0 } })
+        navigate(`/units/${unitId}/result`, {
+          state: { xp_earned: 0, unit_completed: true, cards_added_to_vocab: 0 },
+        })
       } else {
         navigate(`/units/${unitId}`)
       }
@@ -114,13 +122,28 @@ export function MiniTestScreen() {
       onClose={() => navigate(`/units/${unitId}`)}
     >
       {question.type === 'true_false' && (
-        <TrueFalse key={currentIndex} content={question.content as unknown as Parameters<typeof TrueFalse>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
+        <TrueFalse
+          key={currentIndex}
+          content={question.content as unknown as Parameters<typeof TrueFalse>[0]['content']}
+          onAnswer={handleAnswer}
+          submitted={confirmed}
+        />
       )}
       {question.type === 'multiple_choice' && (
-        <MultipleChoice key={currentIndex} content={question.content as unknown as Parameters<typeof MultipleChoice>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
+        <MultipleChoice
+          key={currentIndex}
+          content={question.content as unknown as Parameters<typeof MultipleChoice>[0]['content']}
+          onAnswer={handleAnswer}
+          submitted={confirmed}
+        />
       )}
       {question.type === 'fill_blank' && (
-        <FillBlank key={currentIndex} content={question.content as unknown as Parameters<typeof FillBlank>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
+        <FillBlank
+          key={currentIndex}
+          content={question.content as unknown as Parameters<typeof FillBlank>[0]['content']}
+          onAnswer={handleAnswer}
+          submitted={confirmed}
+        />
       )}
     </ExerciseShell>
   )

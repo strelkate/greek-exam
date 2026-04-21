@@ -2,12 +2,24 @@ import { useRef, useState } from 'react'
 
 const API_URL = import.meta.env.VITE_API_URL ?? ''
 
-interface MatchingPair { left: string; right: string }
-interface MatchingContent { pairs: MatchingPair[] }
-interface MatchingProps { content: MatchingContent; audioPaths?: string[]; onAnswer: (isCorrect: boolean) => void }
+interface MatchingPair {
+  left: string
+  right: string
+}
+interface MatchingContent {
+  pairs: MatchingPair[]
+}
+interface MatchingProps {
+  content: MatchingContent
+  audioPaths?: string[]
+  onAnswer: (isCorrect: boolean) => void
+}
 
 export function Matching({ content, audioPaths, onAnswer }: MatchingProps) {
-  const [selection, setSelection] = useState<{ leftIndex: number | null; rightIndex: number | null }>({ leftIndex: null, rightIndex: null })
+  const [selection, setSelection] = useState<{
+    leftIndex: number | null
+    rightIndex: number | null
+  }>({ leftIndex: null, rightIndex: null })
   const [matched, setMatched] = useState<Map<number, number>>(new Map())
   const [incorrect, setIncorrect] = useState<Set<number>>(new Set())
   const [submitted, setSubmitted] = useState(false)
@@ -25,12 +37,12 @@ export function Matching({ content, audioPaths, onAnswer }: MatchingProps) {
   }
 
   const shuffledRight = useState(() =>
-    [...content.pairs.map((_, i) => i)].sort(() => Math.random() - 0.5)
+    [...content.pairs.map((_, i) => i)].sort(() => Math.random() - 0.5),
   )[0]
 
   const handleLeft = (index: number) => {
     if (submitted || matched.has(index)) return
-    setSelection(s => ({ ...s, leftIndex: index }))
+    setSelection((s) => ({ ...s, leftIndex: index }))
     playAudio(index)
   }
 
@@ -74,14 +86,24 @@ export function Matching({ content, audioPaths, onAnswer }: MatchingProps) {
       <div className="matching__columns">
         <div className="matching__col">
           {content.pairs.map((pair, i) => (
-            <button key={i} className={getLeftClass(i)} onClick={() => handleLeft(i)} disabled={submitted || matched.has(i)}>
+            <button
+              key={i}
+              className={getLeftClass(i)}
+              onClick={() => handleLeft(i)}
+              disabled={submitted || matched.has(i)}
+            >
               {pair.left}
             </button>
           ))}
         </div>
         <div className="matching__col">
           {shuffledRight.map((originalIdx, i) => (
-            <button key={i} className={getRightClass(i)} onClick={() => handleRight(i)} disabled={submitted || [...matched.values()].includes(originalIdx)}>
+            <button
+              key={i}
+              className={getRightClass(i)}
+              onClick={() => handleRight(i)}
+              disabled={submitted || [...matched.values()].includes(originalIdx)}
+            >
               {content.pairs[originalIdx].right}
             </button>
           ))}

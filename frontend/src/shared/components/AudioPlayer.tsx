@@ -10,7 +10,12 @@ interface AudioPlayerProps {
   className?: string
 }
 
-export function AudioPlayer({ src, autoPlay = false, ariaLabel = 'Слушать', className }: AudioPlayerProps) {
+export function AudioPlayer({
+  src,
+  autoPlay = false,
+  ariaLabel = 'Слушать',
+  className,
+}: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
@@ -45,15 +50,18 @@ export function AudioPlayer({ src, autoPlay = false, ariaLabel = 'Слушать
     }
   }, [getAudio, isPlaying])
 
-  const refCallback = useCallback((el: HTMLButtonElement | null) => {
-    if (el && autoPlay) {
-      setTimeout(() => {
-        const audio = getAudio()
-        audio.play().catch(() => {})
-        setIsPlaying(true)
-      }, 300)
-    }
-  }, [autoPlay, getAudio])
+  const refCallback = useCallback(
+    (el: HTMLButtonElement | null) => {
+      if (el && autoPlay) {
+        setTimeout(() => {
+          const audio = getAudio()
+          audio.play().catch(() => {})
+          setIsPlaying(true)
+        }, 300)
+      }
+    },
+    [autoPlay, getAudio],
+  )
 
   return (
     <button
@@ -63,7 +71,13 @@ export function AudioPlayer({ src, autoPlay = false, ariaLabel = 'Слушать
       aria-label={ariaLabel}
       type="button"
     >
-      <img src="/icons/headphones.svg" alt="" width={52} height={52} style={{ opacity: isPlaying ? 0.5 : 1, transition: 'opacity 0.2s' }} />
+      <img
+        src="/icons/headphones.svg"
+        alt=""
+        width={52}
+        height={52}
+        style={{ opacity: isPlaying ? 0.5 : 1, transition: 'opacity 0.2s' }}
+      />
     </button>
   )
 }
@@ -74,7 +88,11 @@ interface SequentialAudioPlayerProps {
   className?: string
 }
 
-export function SequentialAudioPlayer({ srcs, ariaLabel = 'Слушать', className }: SequentialAudioPlayerProps) {
+export function SequentialAudioPlayer({
+  srcs,
+  ariaLabel = 'Слушать',
+  className,
+}: SequentialAudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const currentAudioRef = useRef<HTMLAudioElement | null>(null)
 
@@ -104,7 +122,7 @@ export function SequentialAudioPlayer({ srcs, ariaLabel = 'Слушать', clas
     if (isPlaying) {
       stop()
     } else {
-      const fullSrcs = srcs.map(s => s.startsWith('http') ? s : `${API_URL}${s}`)
+      const fullSrcs = srcs.map((s) => (s.startsWith('http') ? s : `${API_URL}${s}`))
       setIsPlaying(true)
       playFrom(0, fullSrcs)
     }
@@ -117,7 +135,13 @@ export function SequentialAudioPlayer({ srcs, ariaLabel = 'Слушать', clas
       aria-label={ariaLabel}
       type="button"
     >
-      <img src="/icons/headphones.svg" alt="" width={52} height={52} style={{ opacity: isPlaying ? 0.5 : 1, transition: 'opacity 0.2s' }} />
+      <img
+        src="/icons/headphones.svg"
+        alt=""
+        width={52}
+        height={52}
+        style={{ opacity: isPlaying ? 0.5 : 1, transition: 'opacity 0.2s' }}
+      />
     </button>
   )
 }

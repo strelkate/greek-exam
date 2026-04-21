@@ -10,7 +10,9 @@
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-bold);
   cursor: pointer;
-  transition: opacity 0.15s, transform 0.1s;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }

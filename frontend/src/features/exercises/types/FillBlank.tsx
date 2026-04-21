@@ -41,7 +41,9 @@ export function FillBlank({ content, onAnswer, submitted = false }: FillBlankPro
 
   const blankClass = selected
     ? submitted
-      ? selected === blankWord ? 'fill-blank__blank--correct' : 'fill-blank__blank--incorrect'
+      ? selected === blankWord
+        ? 'fill-blank__blank--correct'
+        : 'fill-blank__blank--incorrect'
       : ''
     : ''
 
@@ -49,14 +51,17 @@ export function FillBlank({ content, onAnswer, submitted = false }: FillBlankPro
     <div className="fill-blank">
       <p className="fill-blank__sentence">
         {sentenceParts[0]}
-        <span className={`fill-blank__blank ${blankClass}`}>
-          {selected ?? '___'}
-        </span>
+        <span className={`fill-blank__blank ${blankClass}`}>{selected ?? '___'}</span>
         {sentenceParts[1]}
       </p>
       <div className="fill-blank__word-bank">
         {options.map((word) => (
-          <button key={word} className={getOptionClass(word)} onClick={() => handleSelect(word)} disabled={selected !== null}>
+          <button
+            key={word}
+            className={getOptionClass(word)}
+            onClick={() => handleSelect(word)}
+            disabled={selected !== null}
+          >
             {word}
           </button>
         ))}

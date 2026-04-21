@@ -19,14 +19,28 @@ interface ExerciseShellProps {
 }
 
 export function ExerciseShell({
-  current, total, instruction, audioPath, audioPaths, ttsText, canSubmit, submitted = false, onSubmit, onClose, children,
+  current,
+  total,
+  instruction,
+  audioPath,
+  audioPaths,
+  ttsText,
+  canSubmit,
+  submitted = false,
+  onSubmit,
+  onClose,
+  children,
 }: ExerciseShellProps) {
   return (
     <div className="exercise-shell">
       <div className="exercise-shell__header">
-        <button className="exercise-shell__close" onClick={onClose} aria-label="Выйти">✕</button>
+        <button className="exercise-shell__close" onClick={onClose} aria-label="Выйти">
+          ✕
+        </button>
         <ProgressBar value={current} max={total} />
-        <span className="exercise-shell__counter">{current} / {total}</span>
+        <span className="exercise-shell__counter">
+          {current} / {total}
+        </span>
       </div>
       {ttsText ? (
         <div className="exercise-shell__audio">

@@ -36,7 +36,11 @@ export function UnitResultScreen() {
           Пройти мини-тест
         </Button>
       )}
-      <Button onClick={() => navigate('/levels')} variant={isMiniTestResult ? 'primary' : 'ghost'} fullWidth>
+      <Button
+        onClick={() => navigate('/levels')}
+        variant={isMiniTestResult ? 'primary' : 'ghost'}
+        fullWidth
+      >
         К уровням
       </Button>
     </div>

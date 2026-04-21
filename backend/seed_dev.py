@@ -1,6 +1,6 @@
 """
 Seed the dev SQLite database with curriculum units, exercises,
-vocabulary cards and placement questions from pipeline/data/generated/.
+vocabulary cards and placement questions from backend/seed_data/.
 
 Usage:
     uv run python seed_dev.py
@@ -10,13 +10,12 @@ import json
 import sys
 from pathlib import Path
 
-# Allow importing pipeline modules
-PIPELINE_DIR = Path(__file__).parent.parent / "pipeline"
-sys.path.insert(0, str(PIPELINE_DIR))
+SEED_DIR = Path(__file__).parent / "seed_data"
+sys.path.insert(0, str(SEED_DIR))
 
-from curriculum_data import UNITS  # noqa: E402 — pipeline module
+from curriculum_data import UNITS  # noqa: E402
 
-DATA_DIR = PIPELINE_DIR / "data" / "generated"
+DATA_DIR = SEED_DIR / "exercises"
 
 # ── Bootstrap app so models register with Base ────────────────────────────────
 import app.models  # noqa: F401

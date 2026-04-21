@@ -14,7 +14,7 @@ const LEVEL_LABELS: Record<string, string> = {
 }
 
 export function LevelSection({ level, units }: Props) {
-  const completedUnits = units.filter(u => u.unit_completed).length
+  const completedUnits = units.filter((u) => u.unit_completed).length
   const totalExercises = units.reduce((sum, u) => sum + u.exercises_total, 0)
   const completedExercises = units.reduce((sum, u) => sum + u.exercises_completed, 0)
   const pct = totalExercises > 0 ? Math.round((completedExercises / totalExercises) * 100) : 0
@@ -29,11 +29,13 @@ export function LevelSection({ level, units }: Props) {
         <div className={styles.progressBar}>
           <div className={styles.progressFill} style={{ width: `${pct}%` }} />
         </div>
-        <p className={styles.meta}>{completedUnits} из {level.total_units} юнитов</p>
+        <p className={styles.meta}>
+          {completedUnits} из {level.total_units} юнитов
+        </p>
       </div>
       {units.length > 0 && (
         <div className={styles.units}>
-          {units.map(unit => (
+          {units.map((unit) => (
             <UnitCard key={unit.id} unit={unit} />
           ))}
         </div>

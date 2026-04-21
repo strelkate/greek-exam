@@ -1,55 +1,78 @@
 # Greek Learning App
 
-Telegram Mini App для изучения новогреческого языка (A1–B1) с фокусом на подготовку к экзамену ΠΙΣΤΟΠΟΙΗΣΗ ΕΛΛΗΝΟΜΑΘΕΙΑΣ A2.
+Telegram Mini App для изучения новогреческого языка (A1–B1) с фокусом на подготовку к экзамену ΠΙΣΤΟΠΟΙΗΣΗ ΕΛΛΗΝΟΜΑΘΕΙΑΣ A2. Pet-проект, в котором я собрала полноценный Duolingo-подобный UX поверх React + Telegram WebApp SDK.
 
 ## Стек
 
 | Слой | Технологии |
 |------|-----------|
-| Frontend | React 18 + Vite + TypeScript, TanStack Query v5, Zustand, CSS Modules |
-| Backend | FastAPI (Python 3.12), SQLAlchemy 2.0 async, PostgreSQL, Alembic |
-| Pipeline | Python 3.12, Claude API (Anthropic), gTTS, psycopg2 |
+| **Frontend** | **React 18, Vite, TypeScript, TanStack Query v5, Zustand, React Router v6, CSS Modules** |
+| Тесты | Vitest + Testing Library (65 unit/integration тестов) |
+| Интеграция | Telegram WebApp SDK (`@twa-dev/sdk`), Axios |
+| Backend | FastAPI (Python 3.12), SQLAlchemy 2.0 async, PostgreSQL, Alembic, gTTS |
 | Deploy | Docker Compose, Nginx |
 
-## Структура репозитория
+## Фронтенд — что внутри
+
+### Архитектура
 
 ```
-greek-a2/
-├── frontend/        React SPA (Telegram Mini App)
-├── backend/         FastAPI REST API
-├── pipeline/        Скрипты генерации и импорта контента
-├── docs/            Спецификации, архитектурный RFC, планы
-├── stitch/          UI-мокапы экранов (PNG + HTML)
-└── docker-compose.yml
+frontend/src/
+├── features/
+│   ├── curriculum/      экраны карты уровней, юнитов
+│   ├── exercises/       7 типов упражнений + mini-test + результаты
+│   └── vocabulary/      словарь, флэшкарты, обучение словам
+├── shared/
+│   ├── api/             Axios client + endpoint-модуль
+│   ├── components/      BottomNav, переиспользуемые UI-части
+│   ├── hooks/           useTelegram и др.
+│   └── store/           Zustand store (XP, streak, настройки)
+├── App.tsx              роуты + bootstrap Telegram initData
+├── index.css            дизайн-система (CSS-переменные)
+└── main.tsx
 ```
 
-## Запуск в разработке
+### Ключевые решения
+
+- **Offline-first.** TanStack Query кэширует ответы, мутации уходят в sync-queue и переотправляются при восстановлении сети — приложение продолжает работать в метро.
+- **Telegram-нативная авторизация.** Бэкенд верифицирует `initData` через HMAC-SHA256 — без JWT и регистрации, пользователь идентифицируется автоматически.
+- **Геймификация без давления.** XP и streak-счётчик, но без life-системы и обратного отсчёта — учиться должно быть приятно.
+- **Дизайн-система на CSS-переменных.** Единая палитра *Aegean Midnight* в `index.css`, легко переключаема в тему.
+- **Feature-sliced структура.** Фичи изолированы, `shared/` для переиспользуемого.
+- **Строгий TypeScript.** API-контракты типизированы, общий `api` клиент с интерсепторами.
+
+### Продукт
+
+- **Placement test** — подбирает стартовый уровень при первом входе
+- **Карта уровней** — A1 (6 юнитов) / A2 (9) / B1 (8) с прогрессом
+- **7 типов упражнений** — True/False, Multiple Choice, Matching, Fill in the Blank, Image Description, Dialogue, Mini-test
+- **Словарь с SRS** — интервальные повторения по алгоритму SM-2
+- **Обучение словам** — flashcard-формат с аудио
+
+## Запуск
 
 ### Frontend
 
 ```bash
 cd frontend
 npm install
-npm run dev        # http://localhost:5173
-npm test           # 65 тестов
+npm run dev          # http://localhost:5173
+npm test             # 60 тестов (vitest)
+npm run lint         # ESLint
+npm run typecheck    # tsc --noEmit
+npm run format       # Prettier
+npm run build        # production bundle
 ```
 
-### Backend
+### Backend (опционально, если нужен реальный API)
 
 ```bash
 cd backend
 uv sync --extra dev
-# Нужен PostgreSQL (см. docker-compose ниже)
-uv run alembic upgrade head
-uv run uvicorn app.main:app --reload   # http://localhost:8000
-uv run python -m pytest                # 55 тестов
-```
-
-### Только PostgreSQL через Docker
-
-```bash
-cp backend/.env.example backend/.env   # задать BOT_TOKEN и POSTGRES_PASSWORD
+cp .env.example .env                    # BOT_TOKEN, POSTGRES_PASSWORD
 docker compose up postgres -d
+uv run alembic upgrade head
+uv run uvicorn app.main:app --reload    # http://localhost:8000
 ```
 
 ### Полный стек через Docker
@@ -59,44 +82,16 @@ cp backend/.env.example backend/.env
 docker compose up --build
 ```
 
-Backend: `http://localhost:8000` · Frontend dev-сервер: `http://localhost:5173`
+## Контент
 
-## Пайплайн контента
+Упражнения, словарь и аудио (gTTS, ~700 MP3) лежат в `backend/seed_data/` и `backend/audio/` — для локального запуска контент подтягивается через `seed_dev.py`.
 
-Генерация → валидация → импорт в БД → аудио → публикация.
+## Структура репозитория
 
-```bash
-cd pipeline
-cp .env.example .env          # ANTHROPIC_API_KEY, DATABASE_URL, AUDIO_DIR
-
-# 1. Сгенерировать упражнения (Claude API → data/generated/*.json)
-python generate_exercises.py --level a1
-python generate_exercises.py --level a2
-python generate_exercises.py --level b1
-python generate_placement.py
-
-# 2. Импортировать в БД (is_published=False)
-python import_content.py
-
-# 3. Генерировать аудио (gTTS → audio/*.mp3)
-python generate_audio.py
-
-# 4. Проверить контент и опубликовать
-python review_content.py --unit-id 1
-python publish_content.py --unit-id 1
-
-uv run python -m pytest        # 42 теста
 ```
-
-## Функциональность
-
-- **Placement test** — определяет стартовый уровень при первом входе
-- **Карта уровней** — A1 (6 юнитов) / A2 (9 юнитов) / B1 (8 юнитов) с прогрессом
-- **7 типов упражнений**: True/False, Multiple Choice, Matching, Fill in the Blank, Image Description, Dialogue, Mini-test
-- **Словарь** — интервальные повторения по алгоритму SM-2
-- **XP и streak** — лёгкая геймификация без давления
-- **Offline-first** — TanStack Query + sync queue, работает без стабильного интернета
-
-## Аутентификация
-
-Backend верифицирует `initData` от Telegram через HMAC-SHA256 — без JWT, без регистрации. Пользователь идентифицируется автоматически.
+greek-a2/
+├── frontend/        React SPA (Telegram Mini App) ← основной фокус
+├── backend/         FastAPI REST API + seed-данные + аудио
+├── docs/            Спецификации и архитектурные заметки
+└── docker-compose.yml
+```

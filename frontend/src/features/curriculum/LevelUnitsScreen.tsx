@@ -23,8 +23,9 @@ export function LevelUnitsScreen() {
   const levelsQuery = useLevelsQuery()
   const unitsQuery = useUnitsQuery(levelKey)
 
-  const levelData = levelsQuery.data?.levels.find(l => l.level === levelKey)
-    ?? (levelsQuery.isError ? fallbackLevel(levelKey) : null)
+  const levelData =
+    levelsQuery.data?.levels.find((l) => l.level === levelKey) ??
+    (levelsQuery.isError ? fallbackLevel(levelKey) : null)
   const units = unitsQuery.data?.units ?? []
 
   const label = LEVEL_LABELS[levelKey] ?? levelKey
@@ -32,26 +33,31 @@ export function LevelUnitsScreen() {
   return (
     <div className={styles.levelUnits}>
       <div className={styles.luHeader}>
-        <Link to="/levels" className={styles.back}>← Уровни</Link>
+        <Link to="/levels" className={styles.back}>
+          ← Уровни
+        </Link>
         <h1 className={styles.luTitle}>{label}</h1>
         {levelData && (
           <div className={styles.meta}>
             <div className={styles.progressBar}>
-              <div className={styles.progressFill} style={{ width: `${levelData.progress_percent}%` }} />
+              <div
+                className={styles.progressFill}
+                style={{ width: `${levelData.progress_percent}%` }}
+              />
             </div>
-            <span className={styles.metaText}>{levelData.completed_units} из {levelData.total_units} юнитов</span>
+            <span className={styles.metaText}>
+              {levelData.completed_units} из {levelData.total_units} юнитов
+            </span>
           </div>
         )}
       </div>
 
       <div className={styles.luUnits}>
-        {unitsQuery.isLoading && (
-          <div className={styles.loading}>Загрузка...</div>
-        )}
+        {unitsQuery.isLoading && <div className={styles.loading}>Загрузка...</div>}
         {!unitsQuery.isLoading && units.length === 0 && (
           <div className={styles.empty}>Юниты недоступны</div>
         )}
-        {units.map(unit => (
+        {units.map((unit) => (
           <UnitCard key={unit.id} unit={unit} size="large" />
         ))}
       </div>

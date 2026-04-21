@@ -8,11 +8,21 @@ vi.mock('../../../shared/api/endpoints', () => ({
   api: {
     getMiniTest: vi.fn().mockResolvedValue({
       questions: [
-        { id: 1, type: 'true_false', content: { statement: 'Η Αθήνα είναι πρωτεύουσα.', is_true: true } },
-        { id: 2, type: 'multiple_choice', content: { question: 'Τι σημαίνει;', options: ['A', 'B', 'C', 'D'], correct_index: 0 } },
+        {
+          id: 1,
+          type: 'true_false',
+          content: { statement: 'Η Αθήνα είναι πρωτεύουσα.', is_true: true },
+        },
+        {
+          id: 2,
+          type: 'multiple_choice',
+          content: { question: 'Τι σημαίνει;', options: ['A', 'B', 'C', 'D'], correct_index: 0 },
+        },
       ],
     }),
-    completeMiniTest: vi.fn().mockResolvedValue({ unit_completed: true, xp_earned: 25, cards_added_to_vocab: 5 }),
+    completeMiniTest: vi
+      .fn()
+      .mockResolvedValue({ unit_completed: true, xp_earned: 25, cards_added_to_vocab: 5 }),
   },
 }))
 

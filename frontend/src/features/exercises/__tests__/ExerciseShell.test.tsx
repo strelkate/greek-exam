@@ -11,6 +11,7 @@ describe('ExerciseShell', () => {
     audioPath: null,
     canSubmit: false,
     onSubmit: vi.fn(),
+    onClose: vi.fn(),
     children: <div>exercise content</div>,
   }
 

@@ -17,7 +17,7 @@ describe('MultipleChoice', () => {
 
   it('renders all 4 options', () => {
     render(<MultipleChoice content={content} onAnswer={vi.fn()} />)
-    content.options.forEach(opt => expect(screen.getByText(opt)).toBeInTheDocument())
+    content.options.forEach((opt) => expect(screen.getByText(opt)).toBeInTheDocument())
   })
 
   it('calls onAnswer(true) when correct option selected', async () => {
@@ -37,12 +37,13 @@ describe('MultipleChoice', () => {
   it('disables all options after selection', async () => {
     render(<MultipleChoice content={content} onAnswer={vi.fn()} />)
     await userEvent.click(screen.getByText('Goodbye'))
-    content.options.forEach(opt => expect(screen.getByText(opt).closest('button')).toBeDisabled())
+    content.options.forEach((opt) => expect(screen.getByText(opt).closest('button')).toBeDisabled())
   })
 
   it('highlights correct option green after wrong answer', async () => {
-    render(<MultipleChoice content={content} onAnswer={vi.fn()} />)
+    const { rerender } = render(<MultipleChoice content={content} onAnswer={vi.fn()} />)
     await userEvent.click(screen.getByText('Good night'))
+    rerender(<MultipleChoice content={content} onAnswer={vi.fn()} submitted={true} />)
     expect(screen.getByText('Good morning').closest('button')).toHaveClass('mc-option--correct')
   })
 })

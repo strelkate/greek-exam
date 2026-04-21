@@ -47,6 +47,8 @@ describe('UnitDetailScreen', () => {
 
   it('shows start/continue button', async () => {
     render(<UnitDetailScreen />, { wrapper })
-    await waitFor(() => expect(screen.getByRole('button', { name: /начать|продолжить/i })).toBeInTheDocument())
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: /начать|продолжить/i })).toBeInTheDocument(),
+    )
   })
 })

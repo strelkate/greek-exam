@@ -15,22 +15,38 @@ const unit = {
 
 describe('UnitCard', () => {
   it('renders unit title', () => {
-    render(<MemoryRouter><UnitCard unit={unit} /></MemoryRouter>)
+    render(
+      <MemoryRouter>
+        <UnitCard unit={unit} />
+      </MemoryRouter>,
+    )
     expect(screen.getByText('Покупки — Αγορές')).toBeInTheDocument()
   })
 
   it('shows progress', () => {
-    render(<MemoryRouter><UnitCard unit={unit} /></MemoryRouter>)
+    render(
+      <MemoryRouter>
+        <UnitCard unit={unit} />
+      </MemoryRouter>,
+    )
     expect(screen.getByText('3 / 6')).toBeInTheDocument()
   })
 
   it('shows checkmark when unit_completed=true', () => {
-    render(<MemoryRouter><UnitCard unit={{ ...unit, unit_completed: true }} /></MemoryRouter>)
+    render(
+      <MemoryRouter>
+        <UnitCard unit={{ ...unit, unit_completed: true }} />
+      </MemoryRouter>,
+    )
     expect(screen.getByLabelText('завершён')).toBeInTheDocument()
   })
 
   it('links to /units/:id', () => {
-    render(<MemoryRouter><UnitCard unit={unit} /></MemoryRouter>)
+    render(
+      <MemoryRouter>
+        <UnitCard unit={unit} />
+      </MemoryRouter>,
+    )
     expect(screen.getByRole('link')).toHaveAttribute('href', '/units/1')
   })
 })

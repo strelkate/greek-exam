@@ -69,7 +69,7 @@ export function ExerciseScreen() {
   }
 
   const exercises = unitQuery.data?.exercises ?? []
-  const currentIdx = exercises.findIndex(e => e.id === Number(exerciseId))
+  const currentIdx = exercises.findIndex((e) => e.id === Number(exerciseId))
   const exercise = exerciseQuery.data
 
   if (!exercise) return null
@@ -118,12 +118,11 @@ export function ExerciseScreen() {
   const content = exercise.content as Record<string, unknown>
 
   // Use audio files for all types where available; matching handles audio internally
-  const audioPath = exercise.type === 'matching'
-    ? null
-    : (exercise.audio_paths[0] ?? null)
-  const audioPaths = exercise.type === 'dialogue' && exercise.audio_paths.length > 0
-    ? exercise.audio_paths
-    : undefined
+  const audioPath = exercise.type === 'matching' ? null : (exercise.audio_paths[0] ?? null)
+  const audioPaths =
+    exercise.type === 'dialogue' && exercise.audio_paths.length > 0
+      ? exercise.audio_paths
+      : undefined
   const ttsText = null
 
   return (
@@ -141,26 +140,52 @@ export function ExerciseScreen() {
         onClose={() => navigate(`/units/${unitId}`)}
       >
         {exercise.type === 'true_false' && (
-          <TrueFalse content={content as unknown as Parameters<typeof TrueFalse>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
+          <TrueFalse
+            content={content as unknown as Parameters<typeof TrueFalse>[0]['content']}
+            onAnswer={handleAnswer}
+            submitted={confirmed}
+          />
         )}
         {exercise.type === 'multiple_choice' && (
-          <MultipleChoice content={content as unknown as Parameters<typeof MultipleChoice>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
+          <MultipleChoice
+            content={content as unknown as Parameters<typeof MultipleChoice>[0]['content']}
+            onAnswer={handleAnswer}
+            submitted={confirmed}
+          />
         )}
         {exercise.type === 'matching' && (
-          <Matching content={content as unknown as Parameters<typeof Matching>[0]['content']} audioPaths={exercise.audio_paths} onAnswer={handleAnswer} />
+          <Matching
+            content={content as unknown as Parameters<typeof Matching>[0]['content']}
+            audioPaths={exercise.audio_paths}
+            onAnswer={handleAnswer}
+          />
         )}
         {exercise.type === 'fill_blank' && (
-          <FillBlank content={content as unknown as Parameters<typeof FillBlank>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
+          <FillBlank
+            content={content as unknown as Parameters<typeof FillBlank>[0]['content']}
+            onAnswer={handleAnswer}
+            submitted={confirmed}
+          />
         )}
         {exercise.type === 'image_description' && (
-          <ImageDescription content={content as unknown as Parameters<typeof ImageDescription>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
+          <ImageDescription
+            content={content as unknown as Parameters<typeof ImageDescription>[0]['content']}
+            onAnswer={handleAnswer}
+            submitted={confirmed}
+          />
         )}
         {exercise.type === 'dialogue' && (
-          <Dialogue content={content as unknown as Parameters<typeof Dialogue>[0]['content']} onAnswer={handleAnswer} submitted={confirmed} />
+          <Dialogue
+            content={content as unknown as Parameters<typeof Dialogue>[0]['content']}
+            onAnswer={handleAnswer}
+            submitted={confirmed}
+          />
         )}
       </ExerciseShell>
       {showFeedback && (
-        <div className={`feedback-overlay feedback-overlay--${isCorrect ? 'correct' : 'incorrect'}`}>
+        <div
+          className={`feedback-overlay feedback-overlay--${isCorrect ? 'correct' : 'incorrect'}`}
+        >
           <span className="feedback-overlay__icon">{isCorrect ? '✓' : '✗'}</span>
         </div>
       )}

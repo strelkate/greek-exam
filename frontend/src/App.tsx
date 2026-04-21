@@ -46,16 +46,19 @@ export function App() {
     expand()
     setInitData(initData)
 
-    api.createSession().then((session) => {
-      hydrate({
-        xp: session.total_xp,
-        streak: session.streak_days,
-        showTranslations: session.show_instruction_translation,
+    api
+      .createSession()
+      .then((session) => {
+        hydrate({
+          xp: session.total_xp,
+          streak: session.streak_days,
+          showTranslations: session.show_instruction_translation,
+        })
+        navigate('/levels', { replace: true })
       })
-      navigate('/levels', { replace: true })
-    }).catch(() => {
-      // Backend unavailable (e.g. no auth in local dev) — stay on /levels
-    })
+      .catch(() => {
+        // Backend unavailable (e.g. no auth in local dev) — stay on /levels
+      })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return <AppRoutes />

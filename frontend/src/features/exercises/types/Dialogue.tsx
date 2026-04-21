@@ -1,9 +1,27 @@
 import React, { useState } from 'react'
 
-interface DialogueLine { id: number; speaker: string; text: string; audio_path?: string | null }
-interface TableBlank { row: string; column: string; correct: string }
-interface DialogueContent { dialogue_lines: DialogueLine[]; table_blanks: TableBlank[]; word_bank: string[]; dialogue_ru?: string }
-interface DialogueProps { content: DialogueContent; onAnswer: (isCorrect: boolean) => void; submitted?: boolean }
+interface DialogueLine {
+  id: number
+  speaker: string
+  text: string
+  audio_path?: string | null
+}
+interface TableBlank {
+  row: string
+  column: string
+  correct: string
+}
+interface DialogueContent {
+  dialogue_lines: DialogueLine[]
+  table_blanks: TableBlank[]
+  word_bank: string[]
+  dialogue_ru?: string
+}
+interface DialogueProps {
+  content: DialogueContent
+  onAnswer: (isCorrect: boolean) => void
+  submitted?: boolean
+}
 
 export function Dialogue({ content, onAnswer, submitted = false }: DialogueProps) {
   const [fills, setFills] = useState<Record<number, string>>({})
@@ -22,7 +40,7 @@ export function Dialogue({ content, onAnswer, submitted = false }: DialogueProps
   }
 
   const renderLine = (line: DialogueLine) => {
-    const blanks = content.table_blanks.filter(b => b.row === line.speaker)
+    const blanks = content.table_blanks.filter((b) => b.row === line.speaker)
     if (blanks.length === 0) return <>{line.text}</>
 
     const parts = line.text.split('___')
@@ -40,7 +58,7 @@ export function Dialogue({ content, onAnswer, submitted = false }: DialogueProps
             className={`fill-blank__blank${isCorrect ? ' fill-blank__blank--correct' : isWrong ? ' fill-blank__blank--incorrect' : ''}`}
           >
             {filled ?? '___'}
-          </span>
+          </span>,
         )
       }
     })
@@ -50,8 +68,11 @@ export function Dialogue({ content, onAnswer, submitted = false }: DialogueProps
   return (
     <div className="dialogue">
       <div className="dialogue__lines">
-        {content.dialogue_lines.map(line => (
-          <div key={line.id} className={`dialogue__line dialogue__line--${line.speaker === 'Α' ? 'a' : 'b'}`}>
+        {content.dialogue_lines.map((line) => (
+          <div
+            key={line.id}
+            className={`dialogue__line dialogue__line--${line.speaker === 'Α' ? 'a' : 'b'}`}
+          >
             <span className="dialogue__speaker">{line.speaker}</span>
             <p className="dialogue__text">{renderLine(line)}</p>
           </div>
@@ -62,7 +83,7 @@ export function Dialogue({ content, onAnswer, submitted = false }: DialogueProps
           {content.table_blanks.map((blank, i) => (
             <div key={i} className="dialogue__blank-row">
               <div className="dialogue__word-bank">
-                {content.word_bank.map(word => {
+                {content.word_bank.map((word) => {
                   const isSelected = fills[i] === word
                   const isCorrect = submitted && word === blank.correct
                   const isWrong = submitted && isSelected && word !== blank.correct

@@ -56,9 +56,9 @@ export function UnitDetailScreen() {
     return <div className={styles.loading}>Загрузка...</div>
   }
   const exercises = data.exercises
-  const completedCount = exercises.filter(e => e.completed).length
+  const completedCount = exercises.filter((e) => e.completed).length
   const allDone = completedCount >= exercises.length && exercises.length > 0
-  const firstIncomplete = exercises.find(e => !e.completed)
+  const firstIncomplete = exercises.find((e) => !e.completed)
 
   const handleStart = () => {
     const startId = firstIncomplete?.id ?? exercises[0].id
@@ -69,15 +69,23 @@ export function UnitDetailScreen() {
     <div className={styles.screen}>
       <div className={styles.header}>
         <div className={styles.breadcrumb}>
-          <Link to={`/levels/${data.level.toLowerCase()}`} className={styles.breadcrumbBack}>←</Link>
-          <Link to="/levels" className={styles.breadcrumbLink}>Уровни</Link>
+          <Link to={`/levels/${data.level.toLowerCase()}`} className={styles.breadcrumbBack}>
+            ←
+          </Link>
+          <Link to="/levels" className={styles.breadcrumbLink}>
+            Уровни
+          </Link>
           <span className={styles.breadcrumbSep}>/</span>
-          <Link to={`/levels/${data.level.toLowerCase()}`} className={styles.breadcrumbLink}>{data.level}</Link>
+          <Link to={`/levels/${data.level.toLowerCase()}`} className={styles.breadcrumbLink}>
+            {data.level}
+          </Link>
         </div>
         <div className={styles.titleRow}>
           <h1 className={styles.title}>{data.title}</h1>
           <ProgressBar value={completedCount} max={exercises.length} />
-          <p className={styles.progress}>{completedCount} из {exercises.length} упражнений</p>
+          <p className={styles.progress}>
+            {completedCount} из {exercises.length} упражнений
+          </p>
         </div>
       </div>
 
@@ -94,9 +102,15 @@ export function UnitDetailScreen() {
                 <span className={styles.exNumber}>{i + 1}</span>
                 <span className={styles.exType}>
                   {EXERCISE_TYPE_GR[ex.type]}
-                  {showTranslations && <span className={styles.exTypeRu}> ({EXERCISE_TYPE_RU[ex.type]})</span>}
+                  {showTranslations && (
+                    <span className={styles.exTypeRu}> ({EXERCISE_TYPE_RU[ex.type]})</span>
+                  )}
                 </span>
-                {ex.completed && <span className={styles.exCheck} aria-label="выполнено">✓</span>}
+                {ex.completed && (
+                  <span className={styles.exCheck} aria-label="выполнено">
+                    ✓
+                  </span>
+                )}
               </Link>
             ))}
           </div>
@@ -117,18 +131,20 @@ export function UnitDetailScreen() {
               </Button>
             </div>
             <div className={styles.vocabList}>
-              {(vocabExpanded ? data.vocabulary_cards : data.vocabulary_cards.slice(0, 5)).map(card => (
-                <div
-                  key={card.id}
-                  className={styles.vocabRow}
-                  onClick={() => playWord(card.word_gr, card.audio_path)}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <span className={styles.wordGr}>{card.word_gr}</span>
-                  <span className={styles.wordRu}>{card.word_ru}</span>
-                </div>
-              ))}
+              {(vocabExpanded ? data.vocabulary_cards : data.vocabulary_cards.slice(0, 5)).map(
+                (card) => (
+                  <div
+                    key={card.id}
+                    className={styles.vocabRow}
+                    onClick={() => playWord(card.word_gr, card.audio_path)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <span className={styles.wordGr}>{card.word_gr}</span>
+                    <span className={styles.wordRu}>{card.word_ru}</span>
+                  </div>
+                ),
+              )}
               {data.vocabulary_cards.length > 5 && (
                 <button
                   className={styles.vocabToggle}

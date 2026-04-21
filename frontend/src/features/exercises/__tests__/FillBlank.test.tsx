@@ -17,7 +17,9 @@ describe('FillBlank', () => {
 
   it('renders all word bank options', () => {
     render(<FillBlank content={content} onAnswer={vi.fn()} />)
-    content.options.forEach(opt => expect(screen.getByRole('button', { name: opt })).toBeInTheDocument())
+    content.options.forEach((opt) =>
+      expect(screen.getByRole('button', { name: opt })).toBeInTheDocument(),
+    )
   })
 
   it('calls onAnswer(true) when correct word selected', async () => {
@@ -44,6 +46,8 @@ describe('FillBlank', () => {
   it('disables word bank after selection', async () => {
     render(<FillBlank content={content} onAnswer={vi.fn()} />)
     await userEvent.click(screen.getByRole('button', { name: 'βρω' }))
-    content.options.forEach(opt => expect(screen.getByRole('button', { name: opt })).toBeDisabled())
+    content.options.forEach((opt) =>
+      expect(screen.getByRole('button', { name: opt })).toBeDisabled(),
+    )
   })
 })

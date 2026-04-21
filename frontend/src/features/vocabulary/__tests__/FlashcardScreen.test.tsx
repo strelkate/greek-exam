@@ -10,8 +10,22 @@ vi.mock('../../../shared/api/endpoints', () => ({
     getDueCards: vi.fn().mockResolvedValue({
       due_count: 2,
       cards: [
-        { id: 1, word_gr: 'το σπίτι', word_ru: 'дом', audio_path: null, status: 'learning', next_review_at: '2026-04-14' },
-        { id: 2, word_gr: 'η θάλασσα', word_ru: 'море', audio_path: null, status: 'new', next_review_at: '2026-04-14' },
+        {
+          id: 1,
+          word_gr: 'το σπίτι',
+          word_ru: 'дом',
+          audio_path: null,
+          status: 'learning',
+          next_review_at: '2026-04-14',
+        },
+        {
+          id: 2,
+          word_gr: 'η θάλασσα',
+          word_ru: 'море',
+          audio_path: null,
+          status: 'new',
+          next_review_at: '2026-04-14',
+        },
       ],
     }),
     reviewCard: vi.fn().mockResolvedValue({
@@ -61,7 +75,9 @@ describe('FlashcardScreen', () => {
     // Both rating buttons are present; use getAllByRole to handle overlapping regex
     const ratingBtns = screen.getAllByRole('button', { name: /ήξερα|знал/i })
     expect(ratingBtns.length).toBeGreaterThanOrEqual(1)
-    expect(screen.getAllByRole('button', { name: /δεν ήξερα|не знал/i }).length).toBeGreaterThanOrEqual(1)
+    expect(
+      screen.getAllByRole('button', { name: /δεν ήξερα|не знал/i }).length,
+    ).toBeGreaterThanOrEqual(1)
   })
 
   it('advances to next card after rating', async () => {

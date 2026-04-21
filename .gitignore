@@ -29,10 +29,8 @@ dist/
 # Logs
 *.log
 
-# Pipeline generated content (raw Claude output, not for VCS)
-pipeline/data/generated/*.json
 
-# Claude Code internal
+# Local tooling / dev artifacts
 .claude/
 .superpowers/
 

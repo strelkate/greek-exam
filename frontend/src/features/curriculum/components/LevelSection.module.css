@@ -13,7 +13,9 @@
   margin-bottom: var(--spacing-md);
   transition: opacity 0.15s;
 }
-.headerLink:active { opacity: 0.7; }
+.headerLink:active {
+  opacity: 0.7;
+}
 
 .header {
   margin-bottom: var(--spacing-md);

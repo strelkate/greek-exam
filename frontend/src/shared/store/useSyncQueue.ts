@@ -35,8 +35,8 @@ export const useSyncQueue = create<SyncQueueState>()(
         }
       },
     }),
-    { name: 'greek-sync-queue' }
-  )
+    { name: 'greek-sync-queue' },
+  ),
 )
 
 // Auto-flush when network comes back

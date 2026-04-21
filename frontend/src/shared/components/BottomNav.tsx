@@ -12,11 +12,17 @@ export function BottomNav() {
 
   return (
     <nav className={styles.nav}>
-      <NavLink to="/levels" className={({ isActive }) => [styles.tab, isActive ? styles.active : ''].join(' ')}>
+      <NavLink
+        to="/levels"
+        className={({ isActive }) => [styles.tab, isActive ? styles.active : ''].join(' ')}
+      >
         <img src="/icons/learn.svg" alt="" width={28} height={28} />
         <span className={styles.label}>Учёба</span>
       </NavLink>
-      <NavLink to="/vocabulary" className={({ isActive }) => [styles.tab, isActive ? styles.active : ''].join(' ')}>
+      <NavLink
+        to="/vocabulary"
+        className={({ isActive }) => [styles.tab, isActive ? styles.active : ''].join(' ')}
+      >
         <img src="/icons/book.svg" alt="" width={28} height={28} />
         <span className={styles.label}>Словарь</span>
       </NavLink>

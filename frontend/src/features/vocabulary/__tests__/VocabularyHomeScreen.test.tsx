@@ -15,7 +15,14 @@ vi.mock('../../../shared/api/endpoints', () => ({
     getDueCards: vi.fn().mockResolvedValue({
       due_count: 7,
       cards: [
-        { id: 1, word_gr: 'το σπίτι', word_ru: 'дом', audio_path: null, status: 'learning', next_review_at: '2026-04-14' },
+        {
+          id: 1,
+          word_gr: 'το σπίτι',
+          word_ru: 'дом',
+          audio_path: null,
+          status: 'learning',
+          next_review_at: '2026-04-14',
+        },
       ],
     }),
   },

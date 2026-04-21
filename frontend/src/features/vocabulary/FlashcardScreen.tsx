@@ -17,15 +17,13 @@ export function FlashcardScreen() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const dueQuery = useDueCardsQuery()
-  const addXp = useAppStore(s => s.addXp)
+  const addXp = useAppStore((s) => s.addXp)
   const { haptic } = useTelegram()
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [phase, setPhase] = useState<FlashcardPhase>('front')
   const [totalXp, setTotalXp] = useState(0)
   const [knewCount, setKnewCount] = useState(0)
-
-  if (dueQuery.isLoading) return <div className="screen-loading">Загрузка...</div>
 
   const cards = dueQuery.data?.cards ?? []
   const total = cards.length
@@ -45,7 +43,9 @@ export function FlashcardScreen() {
       }
     }, 300)
     return () => clearTimeout(timer)
-  }, [currentIndex, card]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentIndex, card])
+
+  if (dueQuery.isLoading) return <div className="screen-loading">Загрузка...</div>
 
   if (phase === 'done' || total === 0) {
     return (
@@ -74,18 +74,18 @@ export function FlashcardScreen() {
       const result = await api.reviewCard(card.id, knew)
       if (result.xp_earned > 0) {
         addXp(result.xp_earned)
-        setTotalXp(x => x + result.xp_earned)
+        setTotalXp((x) => x + result.xp_earned)
       }
     } catch {
       // offline
     }
-    if (knew) setKnewCount(k => k + 1)
+    if (knew) setKnewCount((k) => k + 1)
     if (currentIndex + 1 >= total) {
       queryClient.invalidateQueries({ queryKey: ['vocab-stats'] })
       queryClient.invalidateQueries({ queryKey: ['due-cards'] })
       setPhase('done')
     } else {
-      setCurrentIndex(i => i + 1)
+      setCurrentIndex((i) => i + 1)
       setPhase('front')
     }
   }
@@ -102,9 +102,13 @@ export function FlashcardScreen() {
           }}
           aria-label="Выйти"
           type="button"
-        >✕</button>
+        >
+          ✕
+        </button>
         <ProgressBar value={currentIndex + 1} max={total} />
-        <span className="flashcard-screen__counter">{currentIndex + 1} / {total}</span>
+        <span className="flashcard-screen__counter">
+          {currentIndex + 1} / {total}
+        </span>
       </div>
 
       <div
@@ -112,16 +116,14 @@ export function FlashcardScreen() {
         onClick={handleFlip}
         role="button"
         tabIndex={0}
-        aria-label="Показать перевод"
+        aria-label="Перевернуть карточку"
       >
-        <div onClick={e => e.stopPropagation()}><TtsButton text={card.word_gr} className="flashcard__speak" size={40} /></div>
+        <div onClick={(e) => e.stopPropagation()}>
+          <TtsButton text={card.word_gr} className="flashcard__speak" size={40} />
+        </div>
         <p className="flashcard__word">{card.word_gr}</p>
-        {phase === 'back' && (
-          <p className="flashcard__translation">{card.word_ru}</p>
-        )}
-        {phase === 'front' && (
-          <span className="flashcard__hint">👆</span>
-        )}
+        {phase === 'back' && <p className="flashcard__translation">{card.word_ru}</p>}
+        {phase === 'front' && <span className="flashcard__hint">👆</span>}
       </div>
 
       <div className="flashcard-screen__actions">

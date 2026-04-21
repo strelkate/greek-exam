@@ -1,0 +1,1237 @@
+[
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "— Γεια σου! Πώς σε ___; — Με λένε Άννα.",
+      "options": [
+        {
+          "id": "a",
+          "text": "λένε"
+        },
+        {
+          "id": "b",
+          "text": "είσαι"
+        },
+        {
+          "id": "c",
+          "text": "έχεις"
+        },
+        {
+          "id": "d",
+          "text": "μένεις"
+        }
+      ],
+      "correct_id": "a"
+    },
+    "correct_answer": {
+      "id": "a"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Εγώ ___ από την Ελλάδα. Εσύ;",
+      "options": [
+        {
+          "id": "a",
+          "text": "έχω"
+        },
+        {
+          "id": "b",
+          "text": "είμαι"
+        },
+        {
+          "id": "c",
+          "text": "μένω"
+        },
+        {
+          "id": "d",
+          "text": "πάω"
+        }
+      ],
+      "correct_id": "b"
+    },
+    "correct_answer": {
+      "id": "b"
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Ο ___ μου είναι γιατρός και η μητέρα μου είναι δασκάλα.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "πατέρας"
+        }
+      ],
+      "word_bank": [
+        "πατέρας",
+        "αδερφός",
+        "παππούς",
+        "γιος"
+      ]
+    },
+    "correct_answer": {
+      "word": "πατέρας"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "— Πόσα αδέρφια έχεις; — Κανένα, είμαι ___.",
+      "options": [
+        {
+          "id": "a",
+          "text": "παντρεμένος"
+        },
+        {
+          "id": "b",
+          "text": "μεγάλος"
+        },
+        {
+          "id": "c",
+          "text": "μοναχοπαίδι"
+        },
+        {
+          "id": "d",
+          "text": "ανύπαντρος"
+        }
+      ],
+      "correct_id": "c"
+    },
+    "correct_answer": {
+      "id": "c"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Ο Νίκος ξυπνάει κάθε μέρα στις επτά το πρωί και πίνει καφέ.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Ο Νίκος ξυπνάει το απόγευμα.",
+          "correct": false
+        },
+        {
+          "id": 2,
+          "text": "Ο Νίκος πίνει καφέ το πρωί.",
+          "correct": true
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": false,
+        "2": true
+      }
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Κάθε πρωί ___ πρωινό και μετά πηγαίνω στη δουλειά.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "τρώω"
+        }
+      ],
+      "word_bank": [
+        "τρώω",
+        "πίνω",
+        "ξυπνάω",
+        "κοιμάμαι"
+      ]
+    },
+    "correct_answer": {
+      "word": "τρώω"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Το σπίτι μου ___ τρία δωμάτια και ένα μεγάλο μπάνιο.",
+      "options": [
+        {
+          "id": "a",
+          "text": "είναι"
+        },
+        {
+          "id": "b",
+          "text": "υπάρχει"
+        },
+        {
+          "id": "c",
+          "text": "έχει"
+        },
+        {
+          "id": "d",
+          "text": "μένει"
+        }
+      ],
+      "correct_id": "c"
+    },
+    "correct_answer": {
+      "id": "c"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Στο σαλόνι υπάρχει ένας μεγάλος καναπές και ένα τραπέζι.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Το σαλόνι έχει τραπέζι.",
+          "correct": true
+        },
+        {
+          "id": 2,
+          "text": "Στο σαλόνι δεν υπάρχει καναπές.",
+          "correct": false
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": true,
+        "2": false
+      }
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "— Πού είναι το φαρμακείο; — Πηγαίνετε ___ και στρίψτε δεξιά.",
+      "options": [
+        {
+          "id": "a",
+          "text": "κοντά"
+        },
+        {
+          "id": "b",
+          "text": "ευθεία"
+        },
+        {
+          "id": "c",
+          "text": "αριστερά"
+        },
+        {
+          "id": "d",
+          "text": "μακριά"
+        }
+      ],
+      "correct_id": "b"
+    },
+    "correct_answer": {
+      "id": "b"
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Θα ήθελα ___ καφέ παρακαλώ.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "έναν"
+        }
+      ],
+      "word_bank": [
+        "έναν",
+        "μία",
+        "ένα",
+        "μερικά"
+      ]
+    },
+    "correct_answer": {
+      "word": "έναν"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Η Μαρία είναι από τη Ρωσία και μιλάει ελληνικά και ρωσικά.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Η Μαρία μιλάει δύο γλώσσες.",
+          "correct": true
+        },
+        {
+          "id": 2,
+          "text": "Η Μαρία είναι Ελληνίδα.",
+          "correct": false
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": true,
+        "2": false
+      }
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "— Τι ώρα ___ στη δουλειά; — Στις εννιά το πρωί.",
+      "options": [
+        {
+          "id": "a",
+          "text": "ξυπνάς"
+        },
+        {
+          "id": "b",
+          "text": "κοιμάσαι"
+        },
+        {
+          "id": "c",
+          "text": "πηγαίνεις"
+        },
+        {
+          "id": "d",
+          "text": "επιστρέφεις"
+        }
+      ],
+      "correct_id": "c"
+    },
+    "correct_answer": {
+      "id": "c"
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Μένω στον ___ όροφο. Δεν υπάρχει ασανσέρ.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "τρίτο"
+        }
+      ],
+      "word_bank": [
+        "τρίτο",
+        "μεγάλο",
+        "φωτεινό",
+        "μικρό"
+      ]
+    },
+    "correct_answer": {
+      "word": "τρίτο"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Η γιαγιά και ο παππούς μου ___ στη Θεσσαλονίκη.",
+      "options": [
+        {
+          "id": "a",
+          "text": "είναι"
+        },
+        {
+          "id": "b",
+          "text": "έχουν"
+        },
+        {
+          "id": "c",
+          "text": "ζουν"
+        },
+        {
+          "id": "d",
+          "text": "πάνε"
+        }
+      ],
+      "correct_id": "c"
+    },
+    "correct_answer": {
+      "id": "c"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Ο Στέλιος τρώει ψωμί με τυρί για πρωινό και πίνει καφέ. Δεν του αρέσει ο χυμός.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Ο Στέλιος τρώει τυρί για πρωινό.",
+          "correct": true
+        },
+        {
+          "id": 2,
+          "text": "Ο Στέλιος πίνει χυμό κάθε πρωί.",
+          "correct": false
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": true,
+        "2": false
+      }
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Στρίψτε ___ στη γωνία και μετά πηγαίνετε ευθεία.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "αριστερά"
+        }
+      ],
+      "word_bank": [
+        "αριστερά",
+        "δεξιά",
+        "ευθεία",
+        "κοντά"
+      ]
+    },
+    "correct_answer": {
+      "word": "αριστερά"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "— Πόσο ___ αυτή η τσάντα; — Σαράντα ευρώ.",
+      "options": [
+        {
+          "id": "a",
+          "text": "αγοράζει"
+        },
+        {
+          "id": "b",
+          "text": "πληρώνει"
+        },
+        {
+          "id": "c",
+          "text": "κοστίζει"
+        },
+        {
+          "id": "d",
+          "text": "έχει"
+        }
+      ],
+      "correct_id": "c"
+    },
+    "correct_answer": {
+      "id": "c"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Η Ρένα δοκιμάζει ένα φόρεμα αλλά είναι πολύ στενό. Ψάχνει μεγαλύτερο μέγεθος.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Το φόρεμα είναι πολύ φαρδύ.",
+          "correct": false
+        },
+        {
+          "id": 2,
+          "text": "Η Ρένα θέλει μεγαλύτερο μέγεθος.",
+          "correct": true
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": false,
+        "2": true
+      }
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Δεν έχω μετρητά. Μπορώ να πληρώσω με ___; ",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "κάρτα"
+        }
+      ],
+      "word_bank": [
+        "κάρτα",
+        "ρέστα",
+        "απόδειξη",
+        "κέρματα"
+      ]
+    },
+    "correct_answer": {
+      "word": "κάρτα"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "— Τι ___; — Σπουδάζω ιατρική στο πανεπιστήμιο Αθηνών.",
+      "options": [
+        {
+          "id": "a",
+          "text": "δουλεύεις"
+        },
+        {
+          "id": "b",
+          "text": "σπουδάζεις"
+        },
+        {
+          "id": "c",
+          "text": "κάνεις"
+        },
+        {
+          "id": "d",
+          "text": "ψάχνεις"
+        }
+      ],
+      "correct_id": "b"
+    },
+    "correct_answer": {
+      "id": "b"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Η Αντιγόνη στέλνει βιογραφικό σε πολλές εταιρείες και έχει συνέντευξη αύριο.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Η Αντιγόνη ψάχνει σπίτι.",
+          "correct": false
+        },
+        {
+          "id": 2,
+          "text": "Η Αντιγόνη έχει συνέντευξη αύριο.",
+          "correct": true
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": false,
+        "2": true
+      }
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "— Θα ήθελα να κάνω ___ για δύο άτομα απόψε στις οκτώ.",
+      "options": [
+        {
+          "id": "a",
+          "text": "παραγγελία"
+        },
+        {
+          "id": "b",
+          "text": "κράτηση"
+        },
+        {
+          "id": "c",
+          "text": "λογαριασμό"
+        },
+        {
+          "id": "d",
+          "text": "μενού"
+        }
+      ],
+      "correct_id": "b"
+    },
+    "correct_answer": {
+      "id": "b"
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "— Σε ποια ___ κατεβαίνω για την Ακρόπολη; — Στην επόμενη.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "στάση"
+        }
+      ],
+      "word_bank": [
+        "στάση",
+        "αναχώρηση",
+        "άφιξη",
+        "γραμμή"
+      ]
+    },
+    "correct_answer": {
+      "word": "στάση"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Με ___ η κοιλιά εδώ και δύο μέρες. Πρέπει να πάω στον γιατρό.",
+      "options": [
+        {
+          "id": "a",
+          "text": "έχει"
+        },
+        {
+          "id": "b",
+          "text": "νιώθει"
+        },
+        {
+          "id": "c",
+          "text": "πονάει"
+        },
+        {
+          "id": "d",
+          "text": "είναι"
+        }
+      ],
+      "correct_id": "c"
+    },
+    "correct_answer": {
+      "id": "c"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Ο Γιάννης κλείνει ραντεβού στον γιατρό. Έχει πυρετό και βήχα εδώ και τρεις μέρες.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Ο Γιάννης αισθάνεται καλά.",
+          "correct": false
+        },
+        {
+          "id": 2,
+          "text": "Ο Γιάννης έχει πυρετό.",
+          "correct": true
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": false,
+        "2": true
+      }
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Ψάχνω για ___ με δύο δωμάτια, επιπλωμένο, κοντά στο κέντρο.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "διαμέρισμα"
+        }
+      ],
+      "word_bank": [
+        "διαμέρισμα",
+        "ενοίκιο",
+        "ιδιοκτήτη",
+        "ασανσέρ"
+      ]
+    },
+    "correct_answer": {
+      "word": "διαμέρισμα"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "— Τα κοινόχρηστα ___ στο ενοίκιο; — Όχι, είναι χωριστά.",
+      "options": [
+        {
+          "id": "a",
+          "text": "νοικιάζονται"
+        },
+        {
+          "id": "b",
+          "text": "περιλαμβάνονται"
+        },
+        {
+          "id": "c",
+          "text": "μετακομίζουν"
+        },
+        {
+          "id": "d",
+          "text": "ανακαινίζονται"
+        }
+      ],
+      "correct_id": "b"
+    },
+    "correct_answer": {
+      "id": "b"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Ο Μάρκος προσκαλεί τη φίλη του για καφέ το Σάββατο. Εκείνη συμφωνεί — είναι ελεύθερη.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Η συνάντηση είναι το Σάββατο.",
+          "correct": true
+        },
+        {
+          "id": 2,
+          "text": "Η φίλη του Μάρκου δεν μπορεί να πάει.",
+          "correct": false
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": true,
+        "2": false
+      }
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Δυστυχώς πρέπει να ___ το ραντεβού μας. Δεν μπορώ να έρθω.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "ακυρώσω"
+        }
+      ],
+      "word_bank": [
+        "ακυρώσω",
+        "αναβάλω",
+        "συμφωνήσω",
+        "προσκαλέσω"
+      ]
+    },
+    "correct_answer": {
+      "word": "ακυρώσω"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Κατά τη γνώμη μου, ___ να χρησιμοποιούμε λιγότερο πλαστικό.",
+      "options": [
+        {
+          "id": "a",
+          "text": "μπορούμε"
+        },
+        {
+          "id": "b",
+          "text": "θέλουμε"
+        },
+        {
+          "id": "c",
+          "text": "πρέπει"
+        },
+        {
+          "id": "d",
+          "text": "ξέρουμε"
+        }
+      ],
+      "correct_id": "c"
+    },
+    "correct_answer": {
+      "id": "c"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Η ανακύκλωση βοηθάει στη μείωση των αποβλήτων. Είναι ευθύνη μας να προστατεύουμε το περιβάλλον.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Η προστασία του περιβάλλοντος είναι ευθύνη μας.",
+          "correct": true
+        },
+        {
+          "id": 2,
+          "text": "Η ανακύκλωση βλάπτει το περιβάλλον.",
+          "correct": false
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": true,
+        "2": false
+      }
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Από τη μία η τεχνολογία βοηθάει, ___ από την άλλη δημιουργεί εξάρτηση.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "αλλά"
+        }
+      ],
+      "word_bank": [
+        "αλλά",
+        "γιατί",
+        "όταν",
+        "επειδή"
+      ]
+    },
+    "correct_answer": {
+      "word": "αλλά"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Δεν μπορώ να ___ τη ζωή μου χωρίς διαδίκτυο.",
+      "options": [
+        {
+          "id": "a",
+          "text": "κατεβάσω"
+        },
+        {
+          "id": "b",
+          "text": "φανταστώ"
+        },
+        {
+          "id": "c",
+          "text": "συνδεθώ"
+        },
+        {
+          "id": "d",
+          "text": "χρησιμοποιήσω"
+        }
+      ],
+      "correct_id": "b"
+    },
+    "correct_answer": {
+      "id": "b"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Στην Ελλάδα το Πάσχα είναι η πιο σημαντική γιορτή. Συνηθίζουν να γιορτάζουν μαζί με την οικογένεια.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Το Πάσχα γιορτάζεται με την οικογένεια.",
+          "correct": true
+        },
+        {
+          "id": 2,
+          "text": "Τα Χριστούγεννα είναι η πιο σημαντική γιορτή στην Ελλάδα.",
+          "correct": false
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": true,
+        "2": false
+      }
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Σε ___ με τη χώρα μου, στην Ελλάδα έχουν πολύ διαφορετικές παραδόσεις.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "σύγκριση"
+        }
+      ],
+      "word_bank": [
+        "σύγκριση",
+        "σχέση",
+        "αντίθεση",
+        "διαφορά"
+      ]
+    },
+    "correct_answer": {
+      "word": "σύγκριση"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Το ταξίδι με ___! Θα ξαναπήγαινα οπωσδήποτε.",
+      "options": [
+        {
+          "id": "a",
+          "text": "χάθηκε"
+        },
+        {
+          "id": "b",
+          "text": "κόστισε"
+        },
+        {
+          "id": "c",
+          "text": "εντυπωσίασε"
+        },
+        {
+          "id": "d",
+          "text": "άλλαξε"
+        }
+      ],
+      "correct_id": "c"
+    },
+    "correct_answer": {
+      "id": "c"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Η Ελπίδα χάθηκε στην πόλη. Ρώτησε έναν περαστικό και βρήκε τον δρόμο για το ξενοδοχείο.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Η Ελπίδα ζήτησε βοήθεια από περαστικό.",
+          "correct": true
+        },
+        {
+          "id": 2,
+          "text": "Η Ελπίδα γνώριζε πού πήγαινε.",
+          "correct": false
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": true,
+        "2": false
+      }
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Κατά τη ___ μου, το κράτος πρέπει να επενδύει στην εκπαίδευση.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "γνώμη"
+        }
+      ],
+      "word_bank": [
+        "γνώμη",
+        "λύση",
+        "πλευρά",
+        "άποψη"
+      ]
+    },
+    "correct_answer": {
+      "word": "γνώμη"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Η κοινωνία έχει ___ πολύ τα τελευταία χρόνια.",
+      "options": [
+        {
+          "id": "a",
+          "text": "μείνει"
+        },
+        {
+          "id": "b",
+          "text": "αλλάξει"
+        },
+        {
+          "id": "c",
+          "text": "παραμείνει"
+        },
+        {
+          "id": "d",
+          "text": "επηρεάσει"
+        }
+      ],
+      "correct_id": "b"
+    },
+    "correct_answer": {
+      "id": "b"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Η ανεργία είναι σοβαρό κοινωνικό πρόβλημα. Το κράτος πρέπει να βρει λύσεις.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Η ανεργία δεν είναι πρόβλημα.",
+          "correct": false
+        },
+        {
+          "id": 2,
+          "text": "Το κράτος έχει ευθύνη για την ανεργία.",
+          "correct": true
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": false,
+        "2": true
+      }
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Σπουδάζω νομική ___ να γίνω δικηγόρος.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "για να"
+        }
+      ],
+      "word_bank": [
+        "για να",
+        "επειδή",
+        "όταν",
+        "αν"
+      ]
+    },
+    "correct_answer": {
+      "word": "για να"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Η εκπαίδευση είναι ___ για το μέλλον κάθε ανθρώπου.",
+      "options": [
+        {
+          "id": "a",
+          "text": "πρόβλημα"
+        },
+        {
+          "id": "b",
+          "text": "επένδυση"
+        },
+        {
+          "id": "c",
+          "text": "κατάρτιση"
+        },
+        {
+          "id": "d",
+          "text": "υποτροφία"
+        }
+      ],
+      "correct_id": "b"
+    },
+    "correct_answer": {
+      "id": "b"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Ο Χρήστος ψάχνει υποτροφία για να σπουδάσει στο εξωτερικό. Έχει πολλές φιλοδοξίες.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Ο Χρήστος ψάχνει υποτροφία.",
+          "correct": true
+        },
+        {
+          "id": 2,
+          "text": "Ο Χρήστος δεν θέλει να σπουδάσει.",
+          "correct": false
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": true,
+        "2": false
+      }
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Πρέπει να ___ περισσότερο. Δουλεύω πολύ και είμαι εξαντλημένος.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "κοιμάμαι"
+        }
+      ],
+      "word_bank": [
+        "κοιμάμαι",
+        "γυμνάζομαι",
+        "τρώω",
+        "αποφεύγω"
+      ]
+    },
+    "correct_answer": {
+      "word": "κοιμάμαι"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Η σωστή ___ επηρεάζει τη διάθεση και την ενέργειά μας.",
+      "options": [
+        {
+          "id": "a",
+          "text": "άσκηση"
+        },
+        {
+          "id": "b",
+          "text": "ισορροπία"
+        },
+        {
+          "id": "c",
+          "text": "διατροφή"
+        },
+        {
+          "id": "d",
+          "text": "χαλάρωση"
+        }
+      ],
+      "correct_id": "c"
+    },
+    "correct_answer": {
+      "id": "c"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Ο Πέτρος γυμνάζεται τρεις φορές την εβδομάδα αλλά αισθάνεται στρεσαρισμένος στη δουλειά.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Ο Πέτρος έχει στρες από τη δουλειά.",
+          "correct": true
+        },
+        {
+          "id": 2,
+          "text": "Ο Πέτρος δεν αθλείται καθόλου.",
+          "correct": false
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": true,
+        "2": false
+      }
+    }
+  },
+  {
+    "type": "fill_blank",
+    "content": {
+      "text_template": "Πριν ___ μια είδηση, ελέγχω αν είναι αληθινή.",
+      "blanks": [
+        {
+          "position": 0,
+          "correct": "μοιραστώ"
+        }
+      ],
+      "word_bank": [
+        "μοιραστώ",
+        "διαβάσω",
+        "δω",
+        "γράψω"
+      ]
+    },
+    "correct_answer": {
+      "word": "μοιραστώ"
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Αυτή η πληροφορία φαίνεται ___. Δεν εμπιστεύομαι αυτή την πηγή.",
+      "options": [
+        {
+          "id": "a",
+          "text": "σωστή"
+        },
+        {
+          "id": "b",
+          "text": "σημαντική"
+        },
+        {
+          "id": "c",
+          "text": "αμφίβολη"
+        },
+        {
+          "id": "d",
+          "text": "ενδιαφέρουσα"
+        }
+      ],
+      "correct_id": "c"
+    },
+    "correct_answer": {
+      "id": "c"
+    }
+  },
+  {
+    "type": "true_false",
+    "content": {
+      "text": "Τα μέσα ενημέρωσης επηρεάζουν την κοινή γνώμη. Πρέπει να είμαστε κριτικοί και να ελέγχουμε τις πηγές.",
+      "statements": [
+        {
+          "id": 1,
+          "text": "Τα μέσα ενημέρωσης δεν επηρεάζουν τη γνώμη μας.",
+          "correct": false
+        },
+        {
+          "id": 2,
+          "text": "Είναι σημαντικό να ελέγχουμε τις πηγές.",
+          "correct": true
+        }
+      ]
+    },
+    "correct_answer": {
+      "statements": {
+        "1": false,
+        "2": true
+      }
+    }
+  },
+  {
+    "type": "multiple_choice",
+    "content": {
+      "question": "Δεν ___ όλες τις πηγές στο διαδίκτυο — πολλές δεν είναι αξιόπιστες.",
+      "options": [
+        {
+          "id": "a",
+          "text": "διαβάζω"
+        },
+        {
+          "id": "b",
+          "text": "ακολουθώ"
+        },
+        {
+          "id": "c",
+          "text": "μοιράζομαι"
+        },
+        {
+          "id": "d",
+          "text": "εμπιστεύομαι"
+        }
+      ],
+      "correct_id": "d"
+    },
+    "correct_answer": {
+      "id": "d"
+    }
+  }
+]

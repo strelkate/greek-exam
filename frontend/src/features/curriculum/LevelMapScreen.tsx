@@ -23,7 +23,9 @@ function LevelBlock({ level }: { level: Level }) {
   const levelsQuery = useLevelsQuery()
   const unitsQuery = useUnitsQuery(level)
 
-  const levelData = levelsQuery.data?.levels.find(l => l.level === level) ?? (levelsQuery.isError ? fallbackLevel(level) : null)
+  const levelData =
+    levelsQuery.data?.levels.find((l) => l.level === level) ??
+    (levelsQuery.isError ? fallbackLevel(level) : null)
   const units = unitsQuery.data?.units ?? []
 
   // Show skeleton while loading
@@ -32,7 +34,9 @@ function LevelBlock({ level }: { level: Level }) {
       <section className={styles.levelSkeleton}>
         <div className={styles.skeletonTitle}>{LEVEL_LABELS[level]}</div>
         <div className={styles.skeletonUnits}>
-          {[1, 2, 3].map(i => <div key={i} className={styles.skeletonCard} />)}
+          {[1, 2, 3].map((i) => (
+            <div key={i} className={styles.skeletonCard} />
+          ))}
         </div>
       </section>
     )
@@ -66,7 +70,7 @@ export function LevelMapScreen() {
         </div>
       </div>
       <div className={styles.levelContent}>
-        {LEVELS.map(level => (
+        {LEVELS.map((level) => (
           <LevelBlock key={level} level={level} />
         ))}
       </div>

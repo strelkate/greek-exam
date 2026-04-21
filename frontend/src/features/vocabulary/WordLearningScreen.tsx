@@ -70,7 +70,7 @@ function buildSession(cards: VocabCard[]): SessionCard[] {
     if (cards.length >= 4) {
       for (const card of batch) {
         // Чередуем gr→ru и ru→gr
-        const r = result.filter(s => s.round === 'gr_to_ru' || s.round === 'ru_to_gr').length
+        const r = result.filter((s) => s.round === 'gr_to_ru' || s.round === 'ru_to_gr').length
         result.push({ round: r % 2 === 0 ? 'gr_to_ru' : 'ru_to_gr', card })
       }
     }
@@ -88,10 +88,14 @@ function buildSession(cards: VocabCard[]): SessionCard[] {
   return result
 }
 
-function buildOptions(card: VocabCard, allCards: VocabCard[], round: 'gr_to_ru' | 'ru_to_gr'): string[] {
+function buildOptions(
+  card: VocabCard,
+  allCards: VocabCard[],
+  round: 'gr_to_ru' | 'ru_to_gr',
+): string[] {
   const correctField = round === 'gr_to_ru' ? 'word_ru' : 'word_gr'
-  const others = shuffle(allCards.filter(c => c.id !== card.id)).slice(0, 3)
-  return shuffle([card[correctField], ...others.map(c => c[correctField])])
+  const others = shuffle(allCards.filter((c) => c.id !== card.id)).slice(0, 3)
+  return shuffle([card[correctField], ...others.map((c) => c[correctField])])
 }
 
 // ──────────────────────────────────────────────
@@ -120,15 +124,19 @@ function FlashcardSlide({ card, onNext }: { card: VocabCard; onNext: () => void 
       <div className={styles.content}>
         <p className={styles.roundLabel}>Запомни слово</p>
         <div className={styles.audio}>
-          {card.audio_path
-            ? <AudioPlayer src={card.audio_path} ariaLabel="Произнести" />
-            : <TtsButton text={card.word_gr} />}
+          {card.audio_path ? (
+            <AudioPlayer src={card.audio_path} ariaLabel="Произнести" />
+          ) : (
+            <TtsButton text={card.word_gr} />
+          )}
         </div>
         <p className={styles.word}>{card.word_gr}</p>
         <p className={styles.translation}>{card.word_ru}</p>
       </div>
       <div className={styles.footer}>
-        <Button variant="primary" fullWidth onClick={onNext}>Дальше</Button>
+        <Button variant="primary" fullWidth onClick={onNext}>
+          Дальше
+        </Button>
       </div>
     </>
   )
@@ -138,7 +146,12 @@ function FlashcardSlide({ card, onNext }: { card: VocabCard; onNext: () => void 
 // Multiple-choice slide
 // ──────────────────────────────────────────────
 
-function McSlide({ card, allCards, round, onNext }: {
+function McSlide({
+  card,
+  allCards,
+  round,
+  onNext,
+}: {
   card: VocabCard
   allCards: VocabCard[]
   round: 'gr_to_ru' | 'ru_to_gr'
@@ -171,20 +184,30 @@ function McSlide({ card, allCards, round, onNext }: {
   return (
     <>
       <div className={styles.content}>
-        <p className={styles.roundLabel}>{round === 'gr_to_ru' ? 'Выбери перевод' : 'Выбери греческое слово'}</p>
+        <p className={styles.roundLabel}>
+          {round === 'gr_to_ru' ? 'Выбери перевод' : 'Выбери греческое слово'}
+        </p>
         {round === 'gr_to_ru' && (
           <div className={styles.audio}>
-            {card.audio_path
-              ? <AudioPlayer src={card.audio_path} ariaLabel="Произнести" />
-              : <TtsButton text={card.word_gr} />}
+            {card.audio_path ? (
+              <AudioPlayer src={card.audio_path} ariaLabel="Произнести" />
+            ) : (
+              <TtsButton text={card.word_gr} />
+            )}
           </div>
         )}
         <p className={styles.word}>{promptWord}</p>
         <div className={styles.options}>
-          {options.map(opt => (
-            <button key={opt} className={optionClass(opt)}
-              onClick={() => { if (!submitted) setSelected(opt) }}
-              type="button" disabled={submitted}>
+          {options.map((opt) => (
+            <button
+              key={opt}
+              className={optionClass(opt)}
+              onClick={() => {
+                if (!submitted) setSelected(opt)
+              }}
+              type="button"
+              disabled={submitted}
+            >
               {opt}
             </button>
           ))}
@@ -213,25 +236,28 @@ function MatchingSlide({ cards, onNext }: { cards: VocabCard[]; onNext: () => vo
   const [wrong, setWrong] = useState<{ l: number; r: number } | null>(null)
   const [done, setDone] = useState(false)
 
-  const tryMatch = useCallback((leftId: number, rightId: number) => {
-    if (leftId === rightId) {
-      setMatched(prev => {
-        const next = new Set(prev)
-        next.add(leftId)
-        if (next.size === cards.length) setDone(true)
-        return next
-      })
-      setSelLeft(null)
-      setSelRight(null)
-    } else {
-      setWrong({ l: leftId, r: rightId })
-      setTimeout(() => {
-        setWrong(null)
+  const tryMatch = useCallback(
+    (leftId: number, rightId: number) => {
+      if (leftId === rightId) {
+        setMatched((prev) => {
+          const next = new Set(prev)
+          next.add(leftId)
+          if (next.size === cards.length) setDone(true)
+          return next
+        })
         setSelLeft(null)
         setSelRight(null)
-      }, 600)
-    }
-  }, [cards.length])
+      } else {
+        setWrong({ l: leftId, r: rightId })
+        setTimeout(() => {
+          setWrong(null)
+          setSelLeft(null)
+          setSelRight(null)
+        }, 600)
+      }
+    },
+    [cards.length],
+  )
 
   const handleLeft = (id: number) => {
     if (matched.has(id) || wrong) return
@@ -249,8 +275,14 @@ function MatchingSlide({ cards, onNext }: { cards: VocabCard[]; onNext: () => vo
 
   const btnClass = (id: number, side: 'l' | 'r', sel: number | null) => {
     const base = [styles.matchOption]
-    if (matched.has(id)) { base.push(styles.matchCorrect); return base.join(' ') }
-    if (wrong && wrong[side] === id) { base.push(styles.matchWrong); return base.join(' ') }
+    if (matched.has(id)) {
+      base.push(styles.matchCorrect)
+      return base.join(' ')
+    }
+    if (wrong && wrong[side] === id) {
+      base.push(styles.matchWrong)
+      return base.join(' ')
+    }
     if (sel === id) base.push(styles.matchSelected)
     return base.join(' ')
   }
@@ -261,21 +293,27 @@ function MatchingSlide({ cards, onNext }: { cards: VocabCard[]; onNext: () => vo
         <p className={styles.roundLabel}>Сопоставь слова</p>
         <div className={styles.matchingGrid}>
           <div className={styles.matchingCol}>
-            {leftCol.map(card => (
-              <button key={card.id} type="button"
+            {leftCol.map((card) => (
+              <button
+                key={card.id}
+                type="button"
                 className={btnClass(card.id, 'l', selLeft)}
                 onClick={() => handleLeft(card.id)}
-                disabled={matched.has(card.id)}>
+                disabled={matched.has(card.id)}
+              >
                 {card.word_gr}
               </button>
             ))}
           </div>
           <div className={styles.matchingCol}>
-            {rightCol.map(card => (
-              <button key={card.id} type="button"
+            {rightCol.map((card) => (
+              <button
+                key={card.id}
+                type="button"
                 className={btnClass(card.id, 'r', selRight)}
                 onClick={() => handleRight(card.id)}
-                disabled={matched.has(card.id)}>
+                disabled={matched.has(card.id)}
+              >
                 {card.word_ru}
               </button>
             ))}
@@ -295,18 +333,30 @@ function MatchingSlide({ cards, onNext }: { cards: VocabCard[]; onNext: () => vo
 // Completion screen
 // ──────────────────────────────────────────────
 
-function CompletionScreen({ correct, total, onDone }: { correct: number; total: number; onDone: () => void }) {
+function CompletionScreen({
+  correct,
+  total,
+  onDone,
+}: {
+  correct: number
+  total: number
+  onDone: () => void
+}) {
   return (
     <>
       <div className={styles.complete}>
         <div className={styles.completeIcon}>🏆</div>
         <h1 className={styles.completeTitle}>Слова изучены!</h1>
         {total > 0 && (
-          <p className={styles.completeScore}>Правильных ответов: {correct} из {total}</p>
+          <p className={styles.completeScore}>
+            Правильных ответов: {correct} из {total}
+          </p>
         )}
       </div>
       <div className={styles.footer}>
-        <Button variant="primary" fullWidth onClick={onDone}>Готово</Button>
+        <Button variant="primary" fullWidth onClick={onDone}>
+          Готово
+        </Button>
       </div>
     </>
   )
@@ -329,12 +379,15 @@ export function WordLearningScreen() {
   // Preloaded audio for the upcoming flashcard
   const preloadedRef = useRef<HTMLAudioElement | null>(null)
 
-  const vocabCards: VocabCard[] = data?.vocabulary_cards ?? []
+  const vocabCards: VocabCard[] = useMemo(
+    () => data?.vocabulary_cards ?? [],
+    [data?.vocabulary_cards],
+  )
   const session = useMemo(() => buildSession(vocabCards), [vocabCards])
   sessionRef.current = session
 
   const mcTotal = useMemo(
-    () => session.filter(s => s.round === 'gr_to_ru' || s.round === 'ru_to_gr').length,
+    () => session.filter((s) => s.round === 'gr_to_ru' || s.round === 'ru_to_gr').length,
     [session],
   )
 
@@ -361,7 +414,12 @@ export function WordLearningScreen() {
   // Play already-preloaded audio (called inside click handler = user gesture)
   const playPreloaded = (card: VocabCard) => {
     const pre = preloadedRef.current
-    if (pre && card.audio_path && pre.src === (card.audio_path.startsWith('http') ? card.audio_path : `${API_URL}${card.audio_path}`)) {
+    if (
+      pre &&
+      card.audio_path &&
+      pre.src ===
+        (card.audio_path.startsWith('http') ? card.audio_path : `${API_URL}${card.audio_path}`)
+    ) {
       pre.currentTime = 0
       pre.play().catch(() => {})
     } else {
@@ -371,7 +429,7 @@ export function WordLearningScreen() {
 
   // Called inside button onClick handlers → within user gesture window on iOS
   const advance = (correct?: boolean) => {
-    if (correct !== undefined) setCorrectCount(c => c + (correct ? 1 : 0))
+    if (correct !== undefined) setCorrectCount((c) => c + (correct ? 1 : 0))
     const nextIndex = currentIndex + 1
     if (nextIndex >= sessionRef.current.length) {
       setDone(true)
@@ -385,16 +443,24 @@ export function WordLearningScreen() {
   }
 
   if (isLoading || !data) {
-    return <div className={styles.shell}><p style={{ padding: '2rem', textAlign: 'center' }}>Загрузка...</p></div>
+    return (
+      <div className={styles.shell}>
+        <p style={{ padding: '2rem', textAlign: 'center' }}>Загрузка...</p>
+      </div>
+    )
   }
 
   if (vocabCards.length === 0) {
     return (
       <div className={styles.shell}>
         <div className={styles.wordHeader}>
-          <button className={styles.close} onClick={handleClose} aria-label="Выйти" type="button">✕</button>
+          <button className={styles.close} onClick={handleClose} aria-label="Выйти" type="button">
+            ✕
+          </button>
         </div>
-        <div className={styles.content}><p>Нет слов для изучения.</p></div>
+        <div className={styles.content}>
+          <p>Нет слов для изучения.</p>
+        </div>
       </div>
     )
   }
@@ -412,7 +478,9 @@ export function WordLearningScreen() {
     return (
       <div className={styles.shell}>
         <div className={styles.wordHeader}>
-          <button className={styles.close} onClick={handleClose} aria-label="Выйти" type="button">✕</button>
+          <button className={styles.close} onClick={handleClose} aria-label="Выйти" type="button">
+            ✕
+          </button>
           <ProgressBar value={0} max={session.length} className={styles.progressBar} />
           <span className={styles.counter}>0 / {session.length}</span>
         </div>
@@ -422,7 +490,9 @@ export function WordLearningScreen() {
           <p className={styles.translation}>{vocabCards.length} слов в юните</p>
         </div>
         <div className={styles.footer}>
-          <Button variant="primary" fullWidth onClick={handleStart}>Начать</Button>
+          <Button variant="primary" fullWidth onClick={handleStart}>
+            Начать
+          </Button>
         </div>
       </div>
     )
@@ -431,9 +501,13 @@ export function WordLearningScreen() {
   return (
     <div className={styles.shell}>
       <div className={styles.wordHeader}>
-        <button className={styles.close} onClick={handleClose} aria-label="Выйти" type="button">✕</button>
+        <button className={styles.close} onClick={handleClose} aria-label="Выйти" type="button">
+          ✕
+        </button>
         <ProgressBar value={currentIndex + 1} max={session.length} className={styles.progressBar} />
-        <span className={styles.counter}>{currentIndex + 1} / {session.length}</span>
+        <span className={styles.counter}>
+          {currentIndex + 1} / {session.length}
+        </span>
       </div>
 
       {done ? (

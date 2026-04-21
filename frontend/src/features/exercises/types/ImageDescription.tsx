@@ -1,8 +1,20 @@
 import { useState } from 'react'
 
-interface ImageOption { id: number; path: string; is_correct: boolean }
-interface ImageDescriptionContent { description_text: string; description_text_ru?: string; images: ImageOption[] }
-interface ImageDescriptionProps { content: ImageDescriptionContent; onAnswer: (isCorrect: boolean) => void; submitted?: boolean }
+interface ImageOption {
+  id: number
+  path: string
+  is_correct: boolean
+}
+interface ImageDescriptionContent {
+  description_text: string
+  description_text_ru?: string
+  images: ImageOption[]
+}
+interface ImageDescriptionProps {
+  content: ImageDescriptionContent
+  onAnswer: (isCorrect: boolean) => void
+  submitted?: boolean
+}
 
 export function ImageDescription({ content, onAnswer, submitted = false }: ImageDescriptionProps) {
   const [selectedId, setSelectedId] = useState<number | null>(null)
@@ -15,7 +27,10 @@ export function ImageDescription({ content, onAnswer, submitted = false }: Image
 
   const getImgClass = (img: ImageOption) => {
     if (selectedId === null) return 'img-desc__option'
-    if (!submitted) return img.id === selectedId ? 'img-desc__option img-desc__option--selected' : 'img-desc__option'
+    if (!submitted)
+      return img.id === selectedId
+        ? 'img-desc__option img-desc__option--selected'
+        : 'img-desc__option'
     if (img.is_correct) return 'img-desc__option img-desc__option--correct'
     if (img.id === selectedId) return 'img-desc__option img-desc__option--incorrect'
     return 'img-desc__option img-desc__option--dim'

@@ -30,6 +30,6 @@ export const useAppStore = create<AppState>()(
       hydrate: (data) =>
         set({ xp: data.xp, streak: data.streak, showTranslations: data.showTranslations }),
     }),
-    { name: 'greek-app-store' }
-  )
+    { name: 'greek-app-store' },
+  ),
 )

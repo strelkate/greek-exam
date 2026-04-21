@@ -1,6 +1,9 @@
 import { useState } from 'react'
 
-interface OptionObj { id: string; text: string }
+interface OptionObj {
+  id: string
+  text: string
+}
 
 interface MultipleChoiceContent {
   question: string
@@ -19,8 +22,10 @@ interface MultipleChoiceProps {
 export function MultipleChoice({ content, onAnswer, submitted = false }: MultipleChoiceProps) {
   const [selected, setSelected] = useState<number | null>(null)
 
-  const optionTexts = content.options.map(o => typeof o === 'string' ? o : o.text)
-  const correctIndex = content.correct_index ?? content.options.findIndex(o => typeof o !== 'string' && o.id === content.correct_id)
+  const optionTexts = content.options.map((o) => (typeof o === 'string' ? o : o.text))
+  const correctIndex =
+    content.correct_index ??
+    content.options.findIndex((o) => typeof o !== 'string' && o.id === content.correct_id)
 
   const handleSelect = (index: number) => {
     if (selected !== null) return
@@ -48,11 +53,18 @@ export function MultipleChoice({ content, onAnswer, submitted = false }: Multipl
             <span className="fill-blank__blank">___</span>
             {questionParts[1]}
           </>
-        ) : content.question}
+        ) : (
+          content.question
+        )}
       </p>
       <div className="multiple-choice__options">
         {optionTexts.map((option, index) => (
-          <button key={index} className={getOptionClass(index)} onClick={() => handleSelect(index)} disabled={selected !== null}>
+          <button
+            key={index}
+            className={getOptionClass(index)}
+            onClick={() => handleSelect(index)}
+            disabled={selected !== null}
+          >
             {option}
           </button>
         ))}

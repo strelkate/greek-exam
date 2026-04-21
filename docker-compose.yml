@@ -26,7 +26,7 @@ services:
       DEBUG: "false"
       AUDIO_DIR: "/audio"
     volumes:
-      - ./pipeline/audio:/audio:ro
+      - ./backend/audio:/audio:ro
     depends_on:
       postgres:
         condition: service_healthy
