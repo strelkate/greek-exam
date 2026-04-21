@@ -79,16 +79,14 @@ export function UnitDetailScreen() {
     <div className={styles.screen}>
       <div className={styles.header}>
         <div className={styles.breadcrumb}>
-          <Link to={`/levels/${data.level.toLowerCase()}`} className={styles.breadcrumbBack}>
+          <Link to="/levels" className={styles.breadcrumbBack}>
             ←
           </Link>
           <Link to="/levels" className={styles.breadcrumbLink}>
             Уровни
           </Link>
           <span className={styles.breadcrumbSep}>/</span>
-          <Link to={`/levels/${data.level.toLowerCase()}`} className={styles.breadcrumbLink}>
-            {data.level}
-          </Link>
+          <span className={styles.breadcrumbLink}>{data.level}</span>
         </div>
         <div className={styles.titleRow}>
           <h1 className={styles.title}>{data.title}</h1>
