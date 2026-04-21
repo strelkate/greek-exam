@@ -17,10 +17,6 @@
   opacity: 0.7;
 }
 
-.header {
-  margin-bottom: var(--spacing-md);
-}
-
 .titleRow {
   display: flex;
   justify-content: space-between;

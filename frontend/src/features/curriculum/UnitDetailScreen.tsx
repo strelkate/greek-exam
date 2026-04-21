@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useUnitDetailQuery } from './useCurriculumQuery'
 import { useAppStore } from '../../shared/store/useAppStore'
@@ -49,6 +49,16 @@ export function UnitDetailScreen() {
       const utt = new SpeechSynthesisUtterance(word_gr)
       utt.lang = 'el-GR'
       window.speechSynthesis.speak(utt)
+    }
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      if (currentAudioRef.current) {
+        currentAudioRef.current.pause()
+        currentAudioRef.current = null
+      }
+      window.speechSynthesis?.cancel()
     }
   }, [])
 
@@ -117,7 +127,11 @@ export function UnitDetailScreen() {
         </section>
 
         {allDone && (
-          <Button fullWidth onClick={() => navigate(`/units/${unitId}/mini-test`)}>
+          <Button
+            fullWidth
+            className={styles.miniTestBtn}
+            onClick={() => navigate(`/units/${unitId}/mini-test`)}
+          >
             Пройти мини-тест
           </Button>
         )}

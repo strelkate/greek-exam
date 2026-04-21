@@ -102,12 +102,23 @@ function buildOptions(
 // Audio helper — must be called inside a user-gesture handler
 // ──────────────────────────────────────────────
 
+let currentCardAudio: HTMLAudioElement | null = null
+
+function stopCardAudio() {
+  if (currentCardAudio) {
+    currentCardAudio.pause()
+    currentCardAudio = null
+  }
+  window.speechSynthesis?.cancel()
+}
+
 function playCardAudio(card: VocabCard) {
+  stopCardAudio()
   if (card.audio_path) {
     const audio = new Audio(`${API_URL}${card.audio_path}`)
+    currentCardAudio = audio
     audio.play().catch(() => {})
   } else {
-    window.speechSynthesis.cancel()
     const utt = new SpeechSynthesisUtterance(card.word_gr)
     utt.lang = 'el-GR'
     window.speechSynthesis.speak(utt)
@@ -420,12 +431,21 @@ export function WordLearningScreen() {
       pre.src ===
         (card.audio_path.startsWith('http') ? card.audio_path : `${API_URL}${card.audio_path}`)
     ) {
+      stopCardAudio()
+      currentCardAudio = pre
       pre.currentTime = 0
       pre.play().catch(() => {})
     } else {
       playCardAudio(card)
     }
   }
+
+  // Stop any playing audio when the screen unmounts
+  useEffect(() => {
+    return () => {
+      stopCardAudio()
+    }
+  }, [])
 
   // Called inside button onClick handlers → within user gesture window on iOS
   const advance = (correct?: boolean) => {

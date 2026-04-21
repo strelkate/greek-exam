@@ -29,6 +29,15 @@ export function AudioPlayer({
     }
   }, [fullSrc])
 
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+    }
+  }, [])
+
   const getAudio = useCallback(() => {
     if (!audioRef.current) {
       audioRef.current = new Audio(fullSrc)
@@ -127,6 +136,12 @@ export function SequentialAudioPlayer({
       playFrom(0, fullSrcs)
     }
   }, [isPlaying, srcs, stop, playFrom])
+
+  useEffect(() => {
+    return () => {
+      stop()
+    }
+  }, [stop])
 
   return (
     <button

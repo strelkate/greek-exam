@@ -107,6 +107,11 @@
   gap: 2px;
 }
 
+.miniTestBtn {
+  margin-top: -24px;
+  margin-bottom: 24px;
+}
+
 .exerciseRow {
   display: flex;
   align-items: center;
