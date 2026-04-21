@@ -11,6 +11,9 @@ dist/
 .env
 *.env.local
 
+# Local SQLite dev database
+*.db
+
 # Node
 node_modules/
 dist/

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const API_URL = import.meta.env.VITE_API_URL ?? ''
 
@@ -35,6 +35,15 @@ export function Matching({ content, audioPaths, onAnswer }: MatchingProps) {
     currentAudioRef.current = audio
     audio.play().catch(() => {})
   }
+
+  useEffect(() => {
+    return () => {
+      if (currentAudioRef.current) {
+        currentAudioRef.current.pause()
+        currentAudioRef.current = null
+      }
+    }
+  }, [])
 
   const shuffledRight = useState(() =>
     [...content.pairs.map((_, i) => i)].sort(() => Math.random() - 0.5),

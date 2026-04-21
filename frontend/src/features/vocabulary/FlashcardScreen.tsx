@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { useDueCardsQuery } from './useVocabularyQuery'
@@ -28,13 +28,16 @@ export function FlashcardScreen() {
   const cards = dueQuery.data?.cards ?? []
   const total = cards.length
   const card = cards[currentIndex]
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   // Auto-play audio when a new card appears
   useEffect(() => {
     if (!card) return
     const timer = setTimeout(() => {
       if (card.audio_path) {
-        new Audio(`${API_URL}${card.audio_path}`).play().catch(() => {})
+        const audio = new Audio(`${API_URL}${card.audio_path}`)
+        audioRef.current = audio
+        audio.play().catch(() => {})
       } else {
         window.speechSynthesis.cancel()
         const utt = new SpeechSynthesisUtterance(card.word_gr)
@@ -42,7 +45,14 @@ export function FlashcardScreen() {
         window.speechSynthesis.speak(utt)
       }
     }, 300)
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(timer)
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+      window.speechSynthesis?.cancel()
+    }
   }, [currentIndex, card])
 
   if (dueQuery.isLoading) return <div className="screen-loading">Загрузка...</div>

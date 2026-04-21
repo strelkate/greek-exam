@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useUnitDetailQuery } from './useCurriculumQuery'
 import { useAppStore } from '../../shared/store/useAppStore'
@@ -52,6 +52,16 @@ export function UnitDetailScreen() {
     }
   }, [])
 
+  useEffect(() => {
+    return () => {
+      if (currentAudioRef.current) {
+        currentAudioRef.current.pause()
+        currentAudioRef.current = null
+      }
+      window.speechSynthesis?.cancel()
+    }
+  }, [])
+
   if (isLoading || !data) {
     return <div className={styles.loading}>Загрузка...</div>
   }
@@ -69,16 +79,14 @@ export function UnitDetailScreen() {
     <div className={styles.screen}>
       <div className={styles.header}>
         <div className={styles.breadcrumb}>
-          <Link to={`/levels/${data.level.toLowerCase()}`} className={styles.breadcrumbBack}>
+          <Link to="/levels" className={styles.breadcrumbBack}>
             ←
           </Link>
           <Link to="/levels" className={styles.breadcrumbLink}>
             Уровни
           </Link>
           <span className={styles.breadcrumbSep}>/</span>
-          <Link to={`/levels/${data.level.toLowerCase()}`} className={styles.breadcrumbLink}>
-            {data.level}
-          </Link>
+          <span className={styles.breadcrumbLink}>{data.level}</span>
         </div>
         <div className={styles.titleRow}>
           <h1 className={styles.title}>{data.title}</h1>
@@ -117,7 +125,11 @@ export function UnitDetailScreen() {
         </section>
 
         {allDone && (
-          <Button fullWidth onClick={() => navigate(`/units/${unitId}/mini-test`)}>
+          <Button
+            fullWidth
+            className={styles.miniTestBtn}
+            onClick={() => navigate(`/units/${unitId}/mini-test`)}
+          >
             Пройти мини-тест
           </Button>
         )}

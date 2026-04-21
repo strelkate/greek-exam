@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 interface TtsButtonProps {
   text: string
@@ -17,6 +17,12 @@ export function TtsButton({ text, className = 'exercise-shell__tts', size = 52 }
     utt.onerror = () => setSpeaking(false)
     window.speechSynthesis.speak(utt)
   }, [text])
+
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis?.cancel()
+    }
+  }, [])
   return (
     <button className={className} onClick={speak} aria-label="Произнести" type="button">
       <img
