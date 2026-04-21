@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#0a1500"/>
+  
+        <rect x="50" y="160" width="200" height="80" rx="5" fill="#2a3a2a"/>
+        <rect x="70" y="140" width="160" height="110" rx="4" fill="#1b5e20"/>
+        <rect x="80" y="150" width="140" height="90" rx="3" fill="#388e3c"/>
+        <path d="M 80 180 Q 120 160 160 175 Q 200 190 220 170" fill="none" stroke="#aed581" stroke-width="3"/>
+        <circle cx="130" cy="170" r="8" fill="#ef5350"/>
+        <circle cx="180" cy="182" r="8" fill="#ffb300"/>
+        <circle cx="150" cy="110" r="25" fill="#f0c8a0"/>
+        <rect x="125" y="135" width="50" height="30" rx="5" fill="#37474f"/>
+        <text x="150" y="258" text-anchor="middle" font-size="12" fill="#aed581" font-family="sans-serif">карта</text>
+        
+</svg>

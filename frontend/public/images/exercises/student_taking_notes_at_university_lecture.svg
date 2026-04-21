@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#0a0a1a"/>
+  
+        <rect x="50" y="80" width="200" height="120" rx="6" fill="#1a0030"/>
+        <rect x="55" y="85" width="190" height="110" rx="4" fill="#4a148c" opacity="0.4"/>
+        <rect x="60" y="90" width="120" height="80" rx="3" fill="#6a1b9a" opacity="0.5"/>
+        <text x="120" y="140" text-anchor="middle" font-size="12" fill="#ce93d8" font-family="sans-serif">лекция</text>
+        <circle cx="80" cy="220" r="18" fill="#f0c8a0"/>
+        <rect x="62" y="238" width="36" height="20" rx="3" fill="#4a148c"/>
+        <rect x="80" y="220" width="80" height="50" rx="4" fill="#fff" opacity="0.9"/>
+        <rect x="87" y="228" width="60" height="6" rx="2" fill="#333"/>
+        <rect x="87" y="238" width="50" height="6" rx="2" fill="#333"/>
+        <rect x="87" y="248" width="55" height="6" rx="2" fill="#333"/>
+        <text x="150" y="268" text-anchor="middle" font-size="12" fill="#ce93d8" font-family="sans-serif">записи, лекция</text>
+        
+</svg>

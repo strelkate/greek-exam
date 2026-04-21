@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#0a1020"/>
+  
+        <circle cx="150" cy="100" r="25" fill="#f0c8a0"/>
+        <path d="M 90 170 Q 150 130 210 170" fill="#4db6ac" opacity="0.8"/>
+        <line x1="90" y1="170" x2="60" y2="190" stroke="#f0c8a0" stroke-width="6" stroke-linecap="round"/>
+        <line x1="210" y1="170" x2="240" y2="190" stroke="#f0c8a0" stroke-width="6" stroke-linecap="round"/>
+        <line x1="90" y1="170" x2="70" y2="210" stroke="#f0c8a0" stroke-width="6" stroke-linecap="round"/>
+        <line x1="210" y1="170" x2="230" y2="210" stroke="#f0c8a0" stroke-width="6" stroke-linecap="round"/>
+        <text x="150" y="240" text-anchor="middle" font-size="13" fill="#80cbc4" font-family="sans-serif">медитация</text>
+        
+</svg>

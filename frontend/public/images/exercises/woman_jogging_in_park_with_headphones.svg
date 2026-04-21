@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#001a00"/>
+  
+        <rect x="40" y="200" width="220" height="40" rx="5" fill="#1b5e20"/>
+        <circle cx="40" cy="170" r="25" fill="#2e7d32"/>
+        <circle cx="100" cy="155" r="20" fill="#388e3c"/>
+        <circle cx="170" cy="145" r="18" fill="#2e7d32"/>
+        <circle cx="230" cy="155" r="20" fill="#388e3c"/>
+        <circle cx="150" cy="120" r="25" fill="#f0c8a0"/>
+        <path d="M 130 115 Q 150 110 170 115" fill="none" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="128" cy="117" r="7" fill="#333"/>
+        <circle cx="172" cy="117" r="7" fill="#333"/>
+        <path d="M 120 145 L 100 190 L 130 200 L 150 160 L 170 200 L 200 190 L 180 145 Z" fill="#e91e63"/>
+        <text x="150" y="258" text-anchor="middle" font-size="12" fill="#aed581" font-family="sans-serif">пробежка, парк</text>
+        
+</svg>

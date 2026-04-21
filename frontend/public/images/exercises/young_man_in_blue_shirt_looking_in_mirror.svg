@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#001020"/>
+  
+        <rect x="160" y="80" width="90" height="160" rx="8" fill="#1a2a3a"/>
+        <rect x="165" y="85" width="80" height="150" rx="5" fill="#0d47a1" opacity="0.4"/>
+        <circle cx="200" cy="130" r="22" fill="#f0c8a0" opacity="0.7"/>
+        <rect x="178" y="152" width="44" height="75" rx="5" fill="#1565c0" opacity="0.7"/>
+        <circle cx="100" cy="110" r="25" fill="#f0c8a0"/>
+        <rect x="75" y="135" width="50" height="100" rx="5" fill="#1565c0"/>
+        <text x="150" y="258" text-anchor="middle" font-size="11" fill="#4fc3f7" font-family="sans-serif">зеркало, синяя рубашка</text>
+        
+</svg>

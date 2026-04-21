@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#1a0020"/>
+  
+        <rect x="50" y="80" width="200" height="160" rx="6" fill="#2a0040"/>
+        <rect x="70" y="90" width="60" height="100" rx="4" fill="#4a0060"/>
+        <rect x="150" y="90" width="60" height="100" rx="4" fill="#4a0060"/>
+        <rect x="75" y="100" width="50" height="70" rx="3" fill="#7b1fa2" opacity="0.5"/>
+        <rect x="155" y="100" width="50" height="70" rx="3" fill="#7b1fa2" opacity="0.5"/>
+        <circle cx="75" cy="200" r="20" fill="#f0c8a0"/>
+        <rect x="55" y="220" width="40" height="20" rx="3" fill="#c62828"/>
+        <circle cx="215" cy="195" r="20" fill="#f0c8a0"/>
+        <rect x="195" y="215" width="40" height="20" rx="3" fill="#1565c0"/>
+        <rect x="130" y="180" width="40" height="20" rx="4" fill="#fff" opacity="0.8"/>
+        <text x="150" y="194" text-anchor="middle" font-size="10" fill="#333">цена?</text>
+        <text x="150" y="255" text-anchor="middle" font-size="12" fill="#ce93d8" font-family="sans-serif">магазин одежды</text>
+        
+</svg>

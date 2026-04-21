@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#001a05"/>
+  
+        <rect x="60" y="160" width="180" height="80" rx="5" fill="#2a3a2a"/>
+        <ellipse cx="150" cy="185" rx="70" ry="40" fill="#1b5e20"/>
+        <ellipse cx="150" cy="180" rx="60" ry="35" fill="#2e7d32"/>
+        <circle cx="130" cy="170" r="10" fill="#ff8f00"/>
+        <circle cx="160" cy="165" r="8" fill="#ef5350"/>
+        <circle cx="145" cy="180" r="12" fill="#66bb6a"/>
+        <circle cx="170" cy="178" r="9" fill="#fff176"/>
+        <circle cx="150" cy="95" r="25" fill="#f0c8a0"/>
+        <rect x="125" y="120" width="50" height="40" rx="5" fill="#37474f"/>
+        <text x="150" y="252" text-anchor="middle" font-size="12" fill="#66bb6a" font-family="sans-serif">здоровая еда</text>
+        
+</svg>

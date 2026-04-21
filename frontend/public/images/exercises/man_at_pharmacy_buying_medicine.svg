@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#001a0a"/>
+  
+        <rect x="50" y="80" width="200" height="140" rx="8" fill="#00695c"/>
+        <text x="150" y="125" text-anchor="middle" font-size="30" fill="#fff">⚕️</text>
+        <rect x="70" y="140" width="100" height="60" rx="4" fill="#00796b"/>
+        <rect x="80" y="150" width="80" height="40" rx="3" fill="#4db6ac" opacity="0.5"/>
+        <circle cx="210" cy="130" r="22" fill="#f0c8a0"/>
+        <rect x="188" y="152" width="44" height="70" rx="5" fill="#37474f"/>
+        <text x="150" y="240" text-anchor="middle" font-size="12" fill="#26a69a" font-family="sans-serif">аптека</text>
+        
+</svg>

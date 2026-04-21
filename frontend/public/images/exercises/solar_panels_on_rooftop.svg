@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#001020"/>
+  
+        <polygon points="50,180 150,100 250,180" fill="#37474f"/>
+        <polygon points="55,180 150,105 245,180" fill="#455a64"/>
+        <rect x="70" y="130" width="50" height="35" rx="2" fill="#1565c0"/>
+        <rect x="75" y="133" width="20" height="12" rx="1" fill="#1976d2"/>
+        <rect x="97" y="133" width="20" height="12" rx="1" fill="#1976d2"/>
+        <rect x="75" y="147" width="20" height="12" rx="1" fill="#1976d2"/>
+        <rect x="97" y="147" width="20" height="12" rx="1" fill="#1976d2"/>
+        <rect x="130" y="120" width="50" height="35" rx="2" fill="#1565c0"/>
+        <rect x="135" y="123" width="20" height="12" rx="1" fill="#1976d2"/>
+        <rect x="157" y="123" width="20" height="12" rx="1" fill="#1976d2"/>
+        <rect x="135" y="137" width="20" height="12" rx="1" fill="#1976d2"/>
+        <rect x="157" y="137" width="20" height="12" rx="1" fill="#1976d2"/>
+        <circle cx="220" cy="70" r="30" fill="#ffca28" opacity="0.8"/>
+        <text x="150" y="220" text-anchor="middle" font-size="12" fill="#ffca28" font-family="sans-serif">солнечные панели</text>
+        
+</svg>

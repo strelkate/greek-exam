@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#1a1000"/>
+  
+        <rect x="50" y="160" width="200" height="80" rx="5" fill="#3a2a10"/>
+        <rect x="60" y="100" width="30" height="70" fill="#8d6e63"/>
+        <rect x="105" y="80" width="30" height="90" fill="#8d6e63"/>
+        <rect x="155" y="90" width="30" height="80" fill="#8d6e63"/>
+        <rect x="200" y="105" width="30" height="65" fill="#8d6e63"/>
+        <rect x="55" y="165" width="190" height="10" fill="#a1887f"/>
+        <circle cx="90" cy="155" r="16" fill="#f0c8a0"/>
+        <rect x="74" y="171" width="32" height="60" rx="4" fill="#5a4a2a"/>
+        <circle cx="150" cy="150" r="18" fill="#f0c8a0"/>
+        <rect x="132" y="168" width="36" height="65" rx="4" fill="#1565c0"/>
+        <circle cx="210" cy="155" r="16" fill="#f0c8a0"/>
+        <rect x="194" y="171" width="32" height="60" rx="4" fill="#2e7d32"/>
+        <line x1="150" y1="155" x2="120" y2="165" stroke="#d4a017" stroke-width="3"/>
+        <text x="150" y="250" text-anchor="middle" font-size="12" fill="#d4a017" font-family="sans-serif">древние руины, гид</text>
+        
+</svg>

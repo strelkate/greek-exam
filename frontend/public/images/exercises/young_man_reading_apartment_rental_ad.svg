@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#1a1000"/>
+  
+        <circle cx="150" cy="100" r="25" fill="#f0c8a0"/>
+        <rect x="125" y="125" width="50" height="100" rx="5" fill="#37474f"/>
+        <rect x="70" y="145" width="100" height="130" rx="5" fill="#fff" opacity="0.95"/>
+        <text x="120" y="170" text-anchor="middle" font-size="11" fill="#333" font-family="sans-serif">🏠 АРЕНДА</text>
+        <rect x="78" y="178" width="84" height="6" rx="2" fill="#555"/>
+        <rect x="78" y="189" width="70" height="6" rx="2" fill="#555"/>
+        <rect x="78" y="200" width="80" height="6" rx="2" fill="#555"/>
+        <rect x="78" y="211" width="60" height="6" rx="2" fill="#ffb74d"/>
+        <rect x="78" y="222" width="75" height="6" rx="2" fill="#555"/>
+        <text x="150" y="258" text-anchor="middle" font-size="12" fill="#ffb74d" font-family="sans-serif">объявление, аренда</text>
+        
+</svg>

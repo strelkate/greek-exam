@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#001a1a"/>
+  
+        <rect x="50" y="80" width="200" height="150" rx="6" fill="#004d4d"/>
+        <rect x="160" y="90" width="80" height="130" rx="5" fill="#00695c"/>
+        <text x="200" y="165" text-anchor="middle" font-size="30" fill="#fff">⚕️</text>
+        <circle cx="90" cy="150" r="22" fill="#f0c8a0"/>
+        <rect x="68" y="172" width="44" height="60" rx="5" fill="#37474f"/>
+        <circle cx="200" cy="120" r="20" fill="#f0c8a0"/>
+        <rect x="180" y="140" width="40" height="60" rx="5" fill="#00796b"/>
+        <text x="150" y="250" text-anchor="middle" font-size="12" fill="#4db6ac" font-family="sans-serif">врач, симптомы</text>
+        
+</svg>

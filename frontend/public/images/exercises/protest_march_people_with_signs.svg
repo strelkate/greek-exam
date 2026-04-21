@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#1a0000"/>
+  
+        <circle cx="80" cy="120" r="18" fill="#f0c8a0"/>
+        <circle cx="150" cy="110" r="20" fill="#f0c8a0"/>
+        <circle cx="220" cy="120" r="18" fill="#f0c8a0"/>
+        <rect x="62" y="138" width="36" height="70" rx="5" fill="#c62828"/>
+        <rect x="130" y="130" width="40" height="80" rx="5" fill="#1565c0"/>
+        <rect x="202" y="138" width="36" height="70" rx="5" fill="#2e7d32"/>
+        <rect x="40" y="100" width="50" height="30" rx="3" fill="#fff"/>
+        <text x="65" y="120" text-anchor="middle" font-size="10" fill="#333" font-family="sans-serif">МИР</text>
+        <rect x="115" y="85" width="70" height="30" rx="3" fill="#fff"/>
+        <text x="150" y="105" text-anchor="middle" font-size="10" fill="#c62828" font-family="sans-serif">ПРОТЕСТ</text>
+        <text x="150" y="225" text-anchor="middle" font-size="12" fill="#ef5350" font-family="sans-serif">митинг</text>
+        
+</svg>

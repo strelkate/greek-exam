@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#001020"/>
+  
+        <rect x="90" y="80" width="120" height="160" rx="8" fill="#0d47a1"/>
+        <rect x="100" y="95" width="100" height="70" rx="4" fill="#1565c0"/>
+        <rect x="110" y="105" width="80" height="50" rx="3" fill="#42a5f5" opacity="0.5"/>
+        <text x="150" y="138" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">💳 ATM</text>
+        <rect x="115" y="175" width="70" height="8" rx="4" fill="#1976d2"/>
+        <rect x="115" y="188" width="70" height="8" rx="4" fill="#1976d2"/>
+        <rect x="115" y="201" width="70" height="8" rx="4" fill="#1976d2"/>
+        <circle cx="75" cy="140" r="22" fill="#f0c8a0"/>
+        <rect x="53" y="162" width="44" height="80" rx="5" fill="#37474f"/>
+        <rect x="60" y="170" width="30" height="15" rx="3" fill="#00bcd4" opacity="0.8"/>
+        <text x="150" y="255" text-anchor="middle" font-size="12" fill="#00bcd4" font-family="sans-serif">банкомат</text>
+        
+</svg>

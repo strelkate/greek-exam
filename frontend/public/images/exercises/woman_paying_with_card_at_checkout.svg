@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#001020"/>
+  
+        <rect x="80" y="110" width="140" height="100" rx="8" fill="#0d47a1"/>
+        <rect x="90" y="120" width="120" height="80" rx="4" fill="#1565c0" opacity="0.7"/>
+        <text x="150" y="167" text-anchor="middle" font-size="12" fill="#80deea">💳 POS</text>
+        <circle cx="70" cy="130" r="22" fill="#f0c8a0"/>
+        <rect x="48" y="152" width="44" height="80" rx="5" fill="#880e4f"/>
+        <rect x="55" y="165" width="30" height="15" rx="3" fill="#80deea" opacity="0.8"/>
+        <circle cx="230" cy="130" r="22" fill="#f0c8a0"/>
+        <rect x="208" y="152" width="44" height="80" rx="5" fill="#1565c0"/>
+        <text x="150" y="230" text-anchor="middle" font-size="12" fill="#80deea" font-family="sans-serif">оплата картой</text>
+        
+</svg>

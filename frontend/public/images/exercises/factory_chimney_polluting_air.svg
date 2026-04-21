@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#1a1a1a"/>
+  
+        <rect x="80" y="130" width="60" height="100" fill="#555"/>
+        <rect x="160" y="150" width="50" height="80" fill="#555"/>
+        <rect x="90" y="100" width="15" height="40" fill="#666"/>
+        <rect x="150" y="110" width="15" height="45" fill="#666"/>
+        <ellipse cx="97" cy="95" rx="20" ry="15" fill="#888" opacity="0.8"/>
+        <ellipse cx="107" cy="75" rx="25" ry="20" fill="#999" opacity="0.6"/>
+        <ellipse cx="157" cy="105" rx="18" ry="12" fill="#888" opacity="0.8"/>
+        <ellipse cx="168" cy="85" rx="22" ry="18" fill="#999" opacity="0.6"/>
+        <text x="150" y="245" text-anchor="middle" font-size="13" fill="#ff7043" font-family="sans-serif">загрязнение</text>
+        
+</svg>

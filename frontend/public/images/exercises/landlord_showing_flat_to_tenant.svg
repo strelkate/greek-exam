@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#1a1500"/>
+  
+        <rect x="60" y="80" width="180" height="150" rx="8" fill="#2a2010"/>
+        <rect x="75" y="95" width="70" height="120" rx="4" fill="#3a3020"/>
+        <rect x="155" y="95" width="70" height="120" rx="4" fill="#3a3020"/>
+        <rect x="90" y="130" width="40" height="50" rx="3" fill="#4a6a8a"/>
+        <rect x="165" y="130" width="40" height="50" rx="3" fill="#4a6a8a"/>
+        <circle cx="100" cy="115" r="18" fill="#f0c8a0"/>
+        <circle cx="200" cy="115" r="18" fill="#f0c8a0"/>
+        <rect x="95" y="195" width="10" height="35" rx="5" fill="#ffa726"/>
+        <text x="150" y="245" text-anchor="middle" font-size="12" fill="#ffa726" font-family="sans-serif">квартира</text>
+        
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="300" height="280">
+  <rect width="300" height="280" fill="#1a1000"/>
+  
+        <rect x="40" y="160" width="220" height="80" rx="5" fill="#3a2a10"/>
+        <circle cx="100" cy="190" r="15" fill="#ffb300"/>
+        <circle cx="130" cy="190" r="15" fill="#ffa000"/>
+        <circle cx="160" cy="190" r="15" fill="#ff8f00"/>
+        <circle cx="190" cy="190" r="15" fill="#ffb300"/>
+        <circle cx="220" cy="190" r="15" fill="#ffa000"/>
+        <circle cx="150" cy="120" r="25" fill="#f0c8a0"/>
+        <rect x="125" y="145" width="50" height="15" rx="3" fill="#f0c8a0"/>
+        <text x="150" y="250" text-anchor="middle" font-size="12" fill="#ffb300" font-family="sans-serif">монеты</text>
+        
+</svg>
