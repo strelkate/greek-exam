@@ -9,6 +9,7 @@ COPY pyproject.toml uv.lock ./
 RUN uv sync --no-dev --frozen
 
 COPY app/ app/
+COPY audio/ audio/
 COPY alembic/ alembic/
 COPY alembic.ini .
 

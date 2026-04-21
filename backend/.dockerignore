@@ -1,0 +1,10 @@
+*
+!app/
+!app/**
+!audio/
+!audio/**
+!alembic/
+!alembic/**
+!pyproject.toml
+!uv.lock
+!alembic.ini

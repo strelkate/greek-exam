@@ -24,9 +24,6 @@ services:
       BOT_TOKEN: ${BOT_TOKEN}
       CORS_ORIGINS: ${CORS_ORIGINS:-["https://your-frontend.vercel.app"]}
       DEBUG: "false"
-      AUDIO_DIR: "/audio"
-    volumes:
-      - ./backend/audio:/audio:ro
     depends_on:
       postgres:
         condition: service_healthy
