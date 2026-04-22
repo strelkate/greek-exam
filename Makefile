@@ -4,6 +4,7 @@ FRONTEND_IMAGE := $(REGISTRY_IMAGE):frontend-v0.1.0
 DOCKER ?= docker
 PLATFORM ?= linux/amd64
 VITE_API_URL ?=
+VITE_BOT_USERNAME ?=
 
 .PHONY: backend frontend
 
@@ -12,5 +13,8 @@ backend:
 	$(DOCKER) push $(BACKEND_IMAGE)
 
 frontend:
-	$(DOCKER) build --platform $(PLATFORM) --build-arg VITE_API_URL=$(VITE_API_URL) -t $(FRONTEND_IMAGE) ./frontend
+	$(DOCKER) build --platform $(PLATFORM) \
+		--build-arg VITE_API_URL=$(VITE_API_URL) \
+		--build-arg VITE_BOT_USERNAME=$(VITE_BOT_USERNAME) \
+		-t $(FRONTEND_IMAGE) ./frontend
 	$(DOCKER) push $(FRONTEND_IMAGE)

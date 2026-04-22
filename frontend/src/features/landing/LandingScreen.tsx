@@ -7,7 +7,7 @@ export function LandingScreen() {
 
   return (
     <div className={styles.landing}>
-      <div className={styles.content}>
+      <div className={styles.landingContent}>
         <div className={styles.logo}>🇬🇷</div>
         <h1 className={styles.title}>Μαθαίνω Ελληνικά</h1>
         <p className={styles.subtitle}>

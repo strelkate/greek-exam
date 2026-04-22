@@ -6,10 +6,19 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 ARG VITE_API_URL=""
-ENV VITE_API_URL=$VITE_API_URL
+ARG VITE_BOT_USERNAME=""
 
 COPY . .
-RUN npm run build
+
+# Only override .env.production when build args are non-empty; otherwise
+# fall back to the values committed in .env.production.
+RUN if [ -n "$VITE_API_URL" ]; then \
+      echo "VITE_API_URL=$VITE_API_URL" >> .env.production.local; \
+    fi && \
+    if [ -n "$VITE_BOT_USERNAME" ]; then \
+      echo "VITE_BOT_USERNAME=$VITE_BOT_USERNAME" >> .env.production.local; \
+    fi && \
+    npm run build
 
 FROM nginx:1.27-alpine
 

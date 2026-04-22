@@ -10,6 +10,7 @@ dist/
 # Environment
 .env
 *.env.local
+.env.*.local
 
 # Local SQLite dev database
 *.db

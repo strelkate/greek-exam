@@ -1,10 +1,11 @@
 *
 !app/
 !app/**
-!audio/
-!audio/**
 !alembic/
 !alembic/**
+!seed_data/
+!seed_data/**
 !pyproject.toml
 !uv.lock
 !alembic.ini
+!seed_dev.py

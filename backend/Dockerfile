@@ -9,8 +9,9 @@ COPY pyproject.toml uv.lock ./
 RUN uv sync --no-dev --frozen
 
 COPY app/ app/
-COPY audio/ audio/
 COPY alembic/ alembic/
 COPY alembic.ini .
+COPY seed_data/ seed_data/
+COPY seed_dev.py .
 
 CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

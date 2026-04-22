@@ -1,8 +1,6 @@
 from contextlib import asynccontextmanager
-from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
 from app.database import engine, patch_sqlite_types, _is_sqlite
@@ -39,15 +37,6 @@ app.include_router(vocabulary.router)
 app.include_router(mini_test.router)
 app.include_router(settings_router.router)
 app.include_router(sync.router)
-
-
-# Serve generated audio files
-# In Docker: mounted at /audio via volume. In local dev: relative to backend/ dir.
-import os as _os
-_env_audio = _os.environ.get("AUDIO_DIR", "").strip()
-_audio_dir = Path(_env_audio) if _env_audio else Path(__file__).parent.parent / "audio"
-if _audio_dir.exists():
-    app.mount("/audio", StaticFiles(directory=str(_audio_dir)), name="audio")
 
 
 @app.get("/health")
