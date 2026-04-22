@@ -279,6 +279,10 @@ function MatchingSlide({ cards, onNext }: { cards: VocabCard[]; onNext: () => vo
     if (matched.has(id) || wrong) return
     const newSel = selLeft === id ? null : id
     setSelLeft(newSel)
+    if (newSel !== null) {
+      const card = cards.find((c) => c.id === newSel)
+      if (card) playCardAudio(card)
+    }
     if (newSel !== null && selRight !== null) tryMatch(newSel, selRight)
   }
 
