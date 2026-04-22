@@ -94,6 +94,8 @@ export function MiniTestScreen() {
       await queryClient.invalidateQueries({ queryKey: ['levels'] })
       await queryClient.invalidateQueries({ queryKey: ['units'] })
       await queryClient.invalidateQueries({ queryKey: ['unit', Number(unitId)] })
+      await queryClient.invalidateQueries({ queryKey: ['vocab-stats'] })
+      await queryClient.invalidateQueries({ queryKey: ['due-cards'] })
       navigate(`/units/${unitId}/result`, { state: result })
     } catch (err: unknown) {
       const status = (err as { response?: { status?: number } })?.response?.status

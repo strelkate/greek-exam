@@ -68,12 +68,7 @@ export function UnitDetailScreen() {
   const exercises = data.exercises
   const completedCount = exercises.filter((e) => e.completed).length
   const allDone = completedCount >= exercises.length && exercises.length > 0
-  const firstIncomplete = exercises.find((e) => !e.completed)
-
-  const handleStart = () => {
-    const startId = firstIncomplete?.id ?? exercises[0].id
-    navigate(`/units/${unitId}/exercise/${startId}`)
-  }
+  const showMiniTestButton = allDone && !data.mini_test_passed
 
   return (
     <div className={styles.screen}>
@@ -89,7 +84,12 @@ export function UnitDetailScreen() {
           <span className={styles.breadcrumbLink}>{data.level}</span>
         </div>
         <div className={styles.titleRow}>
-          <h1 className={styles.title}>{data.title}</h1>
+          <h1 className={styles.title}>
+            {data.title}
+            {data.unit_completed && (
+              <span className={styles.titleCheck} aria-label="завершён"> ✓</span>
+            )}
+          </h1>
           <ProgressBar value={completedCount} max={exercises.length} />
           <p className={styles.progress}>
             {completedCount} из {exercises.length} упражнений
@@ -97,7 +97,7 @@ export function UnitDetailScreen() {
         </div>
       </div>
 
-      <div className={styles.content}>
+      <div className={styles.unitContent}>
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Упражнения</h2>
           <div className={styles.exerciseList}>
@@ -124,7 +124,7 @@ export function UnitDetailScreen() {
           </div>
         </section>
 
-        {allDone && (
+        {showMiniTestButton && (
           <Button
             fullWidth
             className={styles.miniTestBtn}
@@ -132,6 +132,12 @@ export function UnitDetailScreen() {
           >
             Пройти мини-тест
           </Button>
+        )}
+        {data.mini_test_passed && (
+          <div className={styles.completedBanner}>
+            <span className={styles.completedIcon}>🏆</span>
+            <span>Юнит завершён</span>
+          </div>
         )}
 
         {data.vocabulary_cards.length > 0 && (
@@ -168,12 +174,6 @@ export function UnitDetailScreen() {
             </div>
           </section>
         )}
-      </div>
-
-      <div className={styles.footer}>
-        <Button fullWidth onClick={handleStart}>
-          {completedCount === 0 ? 'Начать' : allDone ? 'Повторить' : 'Продолжить'}
-        </Button>
       </div>
     </div>
   )

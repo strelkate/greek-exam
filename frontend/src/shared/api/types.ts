@@ -60,6 +60,8 @@ export interface UnitDetailResponse {
   id: number
   title: string
   level: Level
+  mini_test_passed: boolean
+  unit_completed: boolean
   exercises: ExerciseMeta[]
   vocabulary_cards: VocabCardMeta[]
 }

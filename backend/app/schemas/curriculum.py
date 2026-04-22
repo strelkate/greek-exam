@@ -46,5 +46,7 @@ class UnitDetailResponse(BaseModel):
     id: int
     title: str
     level: LevelEnum
+    mini_test_passed: bool
+    unit_completed: bool
     exercises: list[ExerciseMeta]
     vocabulary_cards: list[VocabCardMeta]

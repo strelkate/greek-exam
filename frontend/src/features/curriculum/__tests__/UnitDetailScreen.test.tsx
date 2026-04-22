@@ -10,6 +10,8 @@ vi.mock('../../../shared/api/endpoints', () => ({
       id: 1,
       title: 'Покупки — Αγορές',
       level: 'A2',
+      mini_test_passed: false,
+      unit_completed: false,
       exercises: [
         { id: 10, type: 'true_false', order_index: 1, audio_paths: [], completed: false },
         { id: 11, type: 'multiple_choice', order_index: 2, audio_paths: [], completed: true },
@@ -45,10 +47,9 @@ describe('UnitDetailScreen', () => {
     await waitFor(() => expect(screen.getAllByRole('link').length).toBeGreaterThan(0))
   })
 
-  it('shows start/continue button', async () => {
+  it('does not show mini-test button until all exercises done', async () => {
     render(<UnitDetailScreen />, { wrapper })
-    await waitFor(() =>
-      expect(screen.getByRole('button', { name: /начать|продолжить/i })).toBeInTheDocument(),
-    )
+    await waitFor(() => expect(screen.getByText('Покупки — Αγορές')).toBeInTheDocument())
+    expect(screen.queryByRole('button', { name: /мини-тест/i })).not.toBeInTheDocument()
   })
 })

@@ -13,12 +13,42 @@ Usage:
     uv run python seed_dev.py
 """
 import asyncio
+import hashlib
 import json
 import sys
 from pathlib import Path
 
 SEED_DIR = Path(__file__).parent / "seed_data"
 sys.path.insert(0, str(SEED_DIR))
+
+
+def audio_path_for_text(text: str) -> str:
+    """Public URL path for gTTS MP3, keyed by sha256(text)[:12].
+
+    Files are baked into frontend/public/audio/ at deploy time.
+    """
+    filename = hashlib.sha256(text.encode()).hexdigest()[:12] + ".mp3"
+    return f"/audio/{filename}"
+
+
+def _extract_texts_for_exercise(ex_type: str, content: dict) -> list[str]:
+    """Return the list of texts that need audio, per exercise type."""
+    if ex_type == "true_false":
+        return [content["text"]]
+    if ex_type == "matching":
+        return [p["left"] for p in content.get("pairs", [])]
+    if ex_type == "multiple_choice":
+        return [content["question"].replace("___", "").strip()]
+    if ex_type == "fill_blank":
+        return [content["text_template"].replace("___", "").strip()]
+    if ex_type == "image_description":
+        return [content["description_text"]]
+    if ex_type == "dialogue":
+        return [
+            line["text"].replace("___", "").strip()
+            for line in content.get("dialogue_lines", [])
+        ]
+    return []
 
 from curriculum_data import UNITS  # noqa: E402
 
@@ -49,6 +79,50 @@ LEVEL_MAP = {
 }
 
 
+async def _backfill_audio(session) -> None:
+    """Populate audio_paths/audio_path for rows seeded before the audio hookup.
+
+    Idempotent: skips rows that already have audio. Writes deterministic
+    /audio/<sha256-12>.mp3 paths matching files in frontend/public/audio/.
+    """
+    from sqlalchemy import select
+    from sqlalchemy.orm.attributes import flag_modified
+
+    ex_type_to_str = {v: k for k, v in EXERCISE_TYPE_MAP.items()}
+    exercises = (await session.execute(select(Exercise))).scalars().all()
+    ex_updated = 0
+    for ex in exercises:
+        if ex.audio_paths:
+            continue
+        ex_type_str = ex_type_to_str.get(ex.type)
+        if ex_type_str is None:
+            continue
+        content = ex.content if isinstance(ex.content, dict) else {}
+        texts = _extract_texts_for_exercise(ex_type_str, content)
+        audio_paths = [audio_path_for_text(t) for t in texts if t]
+        if not audio_paths:
+            continue
+        if ex_type_str == "dialogue":
+            for j, line in enumerate(content.get("dialogue_lines", [])):
+                if j < len(audio_paths):
+                    line["audio_path"] = audio_paths[j]
+            ex.content = content
+            flag_modified(ex, "content")
+        ex.audio_paths = audio_paths
+        ex_updated += 1
+
+    cards = (await session.execute(select(VocabularyCard))).scalars().all()
+    vocab_updated = 0
+    for card in cards:
+        if card.audio_path:
+            continue
+        card.audio_path = audio_path_for_text(card.word_gr)
+        vocab_updated += 1
+
+    await session.commit()
+    print(f"Backfill: {ex_updated} exercises, {vocab_updated} vocab cards updated.")
+
+
 async def seed():
     if _is_sqlite(settings.database_url):
         patch_sqlite_types(Base)
@@ -63,7 +137,8 @@ async def seed():
         # ── 1. Units ──────────────────────────────────────────────────────────
         existing = (await session.execute(select(CurriculumUnit))).scalars().all()
         if existing:
-            print(f"Already seeded: {len(existing)} units found, skipping.")
+            print(f"Already seeded: {len(existing)} units found, running audio backfill.")
+            await _backfill_audio(session)
             return
 
         print("Seeding curriculum units...")
@@ -103,12 +178,18 @@ async def seed():
                 items = [items]
 
             for i, item in enumerate(items):
+                texts = _extract_texts_for_exercise(ex_type_str, item)
+                audio_paths = [audio_path_for_text(t) for t in texts if t]
+                if ex_type_str == "dialogue":
+                    for j, line in enumerate(item.get("dialogue_lines", [])):
+                        if j < len(audio_paths):
+                            line["audio_path"] = audio_paths[j]
                 session.add(Exercise(
                     unit_id=unit_db_id,
                     type=EXERCISE_TYPE_MAP[ex_type_str],
                     order_index=i + 1,
                     content=item,
-                    audio_paths=[],
+                    audio_paths=audio_paths,
                     is_published=True,
                 ))
                 ex_count += 1
@@ -127,6 +208,7 @@ async def seed():
                     word_ru=v["word_ru"],
                     example_gr=v.get("example_gr"),
                     order_index=v["order_index"],
+                    audio_path=audio_path_for_text(v["word_gr"]),
                 ))
                 vocab_count += 1
 

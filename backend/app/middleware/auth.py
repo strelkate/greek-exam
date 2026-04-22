@@ -6,6 +6,7 @@ from urllib.parse import parse_qsl
 
 from fastapi import Depends, Header, HTTPException
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
@@ -83,6 +84,15 @@ async def get_or_create_user(
         telegram_first_name=user_data.get("first_name"),
     )
     session.add(user)
-    await session.commit()
+    try:
+        await session.commit()
+    except IntegrityError:
+        # Concurrent request created the same user — roll back and re-fetch.
+        await session.rollback()
+        result = await session.execute(
+            select(User).where(User.telegram_id == telegram_id)
+        )
+        user = result.scalar_one()
+        return user, False
     await session.refresh(user)
     return user, True

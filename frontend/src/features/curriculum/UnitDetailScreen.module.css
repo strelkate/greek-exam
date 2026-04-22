@@ -70,6 +70,10 @@
   white-space: nowrap;
 }
 
+.titleCheck {
+  color: var(--color-primary);
+}
+
 .progressBar {
   flex: 1;
   min-width: 0;
@@ -83,9 +87,10 @@
   white-space: nowrap;
 }
 
-.content {
+.unitContent {
   flex: 1;
   padding: var(--spacing-md);
+  padding-bottom: calc(var(--bottom-nav-height) + var(--spacing-md));
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
@@ -104,19 +109,36 @@
 .exerciseList {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
 }
 
 .miniTestBtn {
-  margin-top: -24px;
-  margin-bottom: 24px;
+  width: calc(100% - 16px);
+  margin: -24px 8px 24px;
+}
+
+.completedBanner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  margin: -24px 8px 24px;
+  background: var(--color-surface-high);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.completedIcon {
+  font-size: var(--font-size-title);
 }
 
 .exerciseRow {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: 12px var(--spacing-md);
+  padding: 18px var(--spacing-md);
   background: var(--color-surface-high);
   border-radius: var(--radius-sm);
   text-decoration: none;
@@ -149,14 +171,14 @@
 .vocabList {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
 }
 
 .vocabRow {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px var(--spacing-md);
+  padding: 14px var(--spacing-md);
   background: var(--color-surface-high);
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -190,10 +212,3 @@
   cursor: pointer;
 }
 
-.footer {
-  padding: var(--spacing-md);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  padding-bottom: calc(var(--bottom-nav-height) + var(--spacing-md));
-}

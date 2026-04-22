@@ -173,6 +173,8 @@ async def get_unit_detail(
         id=unit.id,
         title=unit.title,
         level=unit.level,
+        mini_test_passed=progress.mini_test_passed if progress else False,
+        unit_completed=progress.unit_completed if progress else False,
         exercises=exercises,
         vocabulary_cards=vocab,
     )
