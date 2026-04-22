@@ -214,7 +214,12 @@ function McSlide({
               key={opt}
               className={optionClass(opt)}
               onClick={() => {
-                if (!submitted) setSelected(opt)
+                if (submitted) return
+                setSelected(opt)
+                if (round === 'ru_to_gr') {
+                  const match = allCards.find((c) => c.word_gr === opt)
+                  if (match) playCardAudio(match)
+                }
               }}
               type="button"
               disabled={submitted}
