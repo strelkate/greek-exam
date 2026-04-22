@@ -24,7 +24,7 @@ export function FillBlank({ content, onAnswer, submitted = false }: FillBlankPro
   const options = content.options ?? content.word_bank ?? []
 
   const handleSelect = (word: string) => {
-    if (selected !== null) return
+    if (submitted) return
     setSelected(word)
     onAnswer(word === blankWord)
   }
@@ -60,7 +60,7 @@ export function FillBlank({ content, onAnswer, submitted = false }: FillBlankPro
             key={word}
             className={getOptionClass(word)}
             onClick={() => handleSelect(word)}
-            disabled={selected !== null}
+            disabled={submitted}
           >
             {word}
           </button>

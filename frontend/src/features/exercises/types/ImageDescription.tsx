@@ -20,7 +20,7 @@ export function ImageDescription({ content, onAnswer, submitted = false }: Image
   const [selectedId, setSelectedId] = useState<number | null>(null)
 
   const handleSelect = (img: ImageOption) => {
-    if (selectedId !== null) return
+    if (submitted) return
     setSelectedId(img.id)
     onAnswer(img.is_correct)
   }
@@ -45,7 +45,7 @@ export function ImageDescription({ content, onAnswer, submitted = false }: Image
             key={img.id}
             className={getImgClass(img)}
             onClick={() => handleSelect(img)}
-            disabled={selectedId !== null}
+            disabled={submitted}
           >
             <img src={img.path} alt="" className="img-desc__img" />
           </button>

@@ -188,13 +188,14 @@ export function TrueFalse({ content, onAnswer, submitted = false }: TrueFalsePro
 
   // Legacy shape: single statement + is_true
   const handleSelect = (answer: boolean) => {
-    if (selected !== null) return
+    if (submitted) return
     setSelected(answer)
     onAnswer(answer === content.is_true)
   }
 
   const getButtonClass = (value: boolean) => {
     if (selected === null) return 'tf-btn'
+    if (!submitted) return value === selected ? 'tf-btn tf-btn--selected' : 'tf-btn'
     if (selected === value) {
       return value === content.is_true ? 'tf-btn tf-btn--correct' : 'tf-btn tf-btn--incorrect'
     }
@@ -208,14 +209,14 @@ export function TrueFalse({ content, onAnswer, submitted = false }: TrueFalsePro
         <button
           className={getButtonClass(true)}
           onClick={() => handleSelect(true)}
-          disabled={selected !== null}
+          disabled={submitted}
         >
           Σωστό ✓
         </button>
         <button
           className={getButtonClass(false)}
           onClick={() => handleSelect(false)}
-          disabled={selected !== null}
+          disabled={submitted}
         >
           Λάθος ✗
         </button>

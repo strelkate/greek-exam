@@ -28,7 +28,7 @@ export function MultipleChoice({ content, onAnswer, submitted = false }: Multipl
     content.options.findIndex((o) => typeof o !== 'string' && o.id === content.correct_id)
 
   const handleSelect = (index: number) => {
-    if (selected !== null) return
+    if (submitted) return
     setSelected(index)
     onAnswer(index === correctIndex)
   }
@@ -63,7 +63,7 @@ export function MultipleChoice({ content, onAnswer, submitted = false }: Multipl
             key={index}
             className={getOptionClass(index)}
             onClick={() => handleSelect(index)}
-            disabled={selected !== null}
+            disabled={submitted}
           >
             {option}
           </button>
