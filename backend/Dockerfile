@@ -14,4 +14,4 @@ COPY alembic.ini .
 COPY seed_data/ seed_data/
 COPY seed_dev.py .
 
-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uv run alembic upgrade head && uv run python seed_dev.py && uv run uvicorn app.main:app --host 0.0.0.0 --port 8000"]
