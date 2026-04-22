@@ -7,12 +7,10 @@ async def test_session_creates_new_user(client, init_data):
     data = response.json()
     assert data["telegram_id"] == 123456789
     assert data["is_new_user"] is True
-    assert data["placement_status"] == "pending"
     assert data["streak_days"] == 0
     assert data["total_xp"] == 0
     assert data["show_instruction_translation"] is True
     assert isinstance(data["user_id"], int) and data["user_id"] > 0
-    assert data["a1_skipped"] is False
 
 
 async def test_session_returns_existing_user(client, init_data):

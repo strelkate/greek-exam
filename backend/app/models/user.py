@@ -1,9 +1,8 @@
 from datetime import date, datetime
 from typing import Optional
-from sqlalchemy import BigInteger, Boolean, Date, Enum as SAEnum, Integer, String, func, text
+from sqlalchemy import BigInteger, Boolean, Date, Integer, String, func, text
 from sqlalchemy.orm import Mapped, mapped_column
 from app.database import Base
-from app.models.enums import PlacementStatusEnum
 
 
 class User(Base):
@@ -17,12 +16,6 @@ class User(Base):
     last_active_date: Mapped[Optional[date]] = mapped_column(Date)
     timezone: Mapped[str] = mapped_column(String(64), default="Europe/Moscow")
     total_xp: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    placement_status: Mapped[PlacementStatusEnum] = mapped_column(
-        SAEnum(PlacementStatusEnum, name="placement_status_enum", native_enum=False),
-        nullable=False,
-        default=PlacementStatusEnum.PENDING,
-    )
-    a1_skipped: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     show_instruction_translation: Mapped[bool] = mapped_column(
         Boolean, nullable=False, default=True
     )

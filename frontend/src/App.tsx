@@ -13,6 +13,7 @@ import { UnitDetailScreen } from './features/curriculum/UnitDetailScreen'
 import { MiniTestScreen } from './features/exercises/MiniTestScreen'
 import { UnitResultScreen } from './features/exercises/UnitResultScreen'
 import { WordLearningScreen } from './features/vocabulary/WordLearningScreen'
+import { LandingScreen } from './features/landing/LandingScreen'
 
 function AppRoutes() {
   return (
@@ -39,7 +40,12 @@ export function App() {
   const hydrate = useAppStore((s) => s.hydrate)
   const navigate = useNavigate()
 
+  // When opened outside Telegram in production, initData is empty —
+  // show a landing page instead of attempting to auth.
+  const showLanding = !initData
+
   useEffect(() => {
+    if (showLanding) return
     ready()
     expand()
     setInitData(initData)
@@ -58,6 +64,8 @@ export function App() {
         // Backend unavailable (e.g. no auth in local dev) — stay on /levels
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (showLanding) return <LandingScreen />
 
   return <AppRoutes />
 }
