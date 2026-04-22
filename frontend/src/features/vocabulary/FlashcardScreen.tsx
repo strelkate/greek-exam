@@ -38,7 +38,7 @@ export function FlashcardScreen() {
         const audio = new Audio(`${API_URL}${card.audio_path}`)
         audioRef.current = audio
         audio.play().catch(() => {})
-      } else {
+      } else if (typeof window.speechSynthesis !== 'undefined') {
         window.speechSynthesis.cancel()
         const utt = new SpeechSynthesisUtterance(card.word_gr)
         utt.lang = 'el-GR'
