@@ -22,10 +22,23 @@ interface MultipleChoiceProps {
 export function MultipleChoice({ content, onAnswer, submitted = false }: MultipleChoiceProps) {
   const [selected, setSelected] = useState<number | null>(null)
 
-  const optionTexts = content.options.map((o) => (typeof o === 'string' ? o : o.text))
-  const correctIndex =
+  // Compute the correct-answer text from the ORIGINAL order, then shuffle options.
+  const originalCorrectIndex =
     content.correct_index ??
     content.options.findIndex((o) => typeof o !== 'string' && o.id === content.correct_id)
+  const correctText =
+    originalCorrectIndex >= 0
+      ? (() => {
+          const o = content.options[originalCorrectIndex]
+          return typeof o === 'string' ? o : o.text
+        })()
+      : ''
+
+  const [shuffledOptions] = useState(() =>
+    [...content.options].sort(() => Math.random() - 0.5),
+  )
+  const optionTexts = shuffledOptions.map((o) => (typeof o === 'string' ? o : o.text))
+  const correctIndex = optionTexts.indexOf(correctText)
 
   const handleSelect = (index: number) => {
     if (submitted) return

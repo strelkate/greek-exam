@@ -18,6 +18,9 @@ interface ImageDescriptionProps {
 
 export function ImageDescription({ content, onAnswer, submitted = false }: ImageDescriptionProps) {
   const [selectedId, setSelectedId] = useState<number | null>(null)
+  const [shuffledImages] = useState(() =>
+    [...content.images].sort(() => Math.random() - 0.5),
+  )
 
   const handleSelect = (img: ImageOption) => {
     if (submitted) return
@@ -40,7 +43,7 @@ export function ImageDescription({ content, onAnswer, submitted = false }: Image
     <div className="img-desc">
       <p className="img-desc__text">{content.description_text}</p>
       <div className="img-desc__grid">
-        {content.images.map((img) => (
+        {shuffledImages.map((img) => (
           <button
             key={img.id}
             className={getImgClass(img)}

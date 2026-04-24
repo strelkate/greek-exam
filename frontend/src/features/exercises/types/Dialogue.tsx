@@ -26,6 +26,9 @@ interface DialogueProps {
 export function Dialogue({ content, onAnswer, submitted = false }: DialogueProps) {
   const [fills, setFills] = useState<Record<number, string>>({})
   const [allFilled, setAllFilled] = useState(false)
+  const [shuffledWordBank] = useState(() =>
+    [...content.word_bank].sort(() => Math.random() - 0.5),
+  )
 
   const handleWordSelect = (blankIndex: number, word: string) => {
     if (allFilled) return
@@ -83,7 +86,7 @@ export function Dialogue({ content, onAnswer, submitted = false }: DialogueProps
           {content.table_blanks.map((blank, i) => (
             <div key={i} className="dialogue__blank-row">
               <div className="dialogue__word-bank">
-                {content.word_bank.map((word) => {
+                {shuffledWordBank.map((word) => {
                   const isSelected = fills[i] === word
                   const isCorrect = submitted && word === blank.correct
                   const isWrong = submitted && isSelected && word !== blank.correct

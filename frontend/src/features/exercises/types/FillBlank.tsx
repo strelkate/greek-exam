@@ -21,7 +21,10 @@ export function FillBlank({ content, onAnswer, submitted = false }: FillBlankPro
 
   const sentence = content.sentence ?? content.text_template ?? ''
   const blankWord = content.blank_word ?? content.blanks?.[0]?.correct ?? ''
-  const options = content.options ?? content.word_bank ?? []
+  const [options] = useState(() => {
+    const raw = content.options ?? content.word_bank ?? []
+    return [...raw].sort(() => Math.random() - 0.5)
+  })
 
   const handleSelect = (word: string) => {
     if (submitted) return
