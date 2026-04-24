@@ -441,6 +441,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  justify-content: center;
 }
 .fb-option--selected {
   background: var(--color-secondary);
