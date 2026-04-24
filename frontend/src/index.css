@@ -53,6 +53,9 @@
 
   /* Навигация */
   --bottom-nav-height: 64px;
+
+  /* Отступ снизу для sticky-кнопок (поднимает их над краем экрана) */
+  --bottom-safe-inset: calc(32px + env(safe-area-inset-bottom));
 }
 
 /* ExerciseShell */
@@ -60,7 +63,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+  padding: 16px 16px var(--bottom-safe-inset);
   background: var(--color-surface);
   gap: 16px;
 }
@@ -636,7 +639,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+  padding: 16px 16px var(--bottom-safe-inset);
   background: var(--color-surface);
   gap: 16px;
 }

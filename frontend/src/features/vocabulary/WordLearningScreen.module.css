@@ -179,6 +179,7 @@
   margin-top: auto;
   padding: var(--spacing-md);
   padding-top: 16px;
+  padding-bottom: var(--bottom-safe-inset);
 }
 
 .complete {
