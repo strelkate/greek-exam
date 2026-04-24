@@ -665,6 +665,13 @@ body {
   color: var(--color-on-surface-muted);
   white-space: nowrap;
 }
+.flashcard-screen__card-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
 .flashcard {
   background: var(--color-surface-high);
   border-radius: var(--radius-card);
@@ -675,10 +682,33 @@ body {
   padding: 32px 24px;
   gap: 16px;
   height: 320px;
+  width: 100%;
   cursor: pointer;
   user-select: none;
   position: relative;
   transition: background 0.2s;
+  will-change: transform;
+}
+.flashcard__swipe-hint {
+  position: absolute;
+  top: 20px;
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-bold);
+  padding: 8px 16px;
+  border-radius: var(--radius-button);
+  pointer-events: none;
+}
+.flashcard__swipe-hint--right {
+  right: 20px;
+  color: #000;
+  background: var(--color-primary);
+  transform: rotate(8deg);
+}
+.flashcard__swipe-hint--left {
+  left: 20px;
+  color: #fff;
+  background: var(--color-error);
+  transform: rotate(-8deg);
 }
 .flashcard--back {
   background: var(--color-surface-highest);

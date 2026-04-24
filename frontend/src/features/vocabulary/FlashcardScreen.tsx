@@ -24,11 +24,15 @@ export function FlashcardScreen() {
   const [phase, setPhase] = useState<FlashcardPhase>('front')
   const [totalXp, setTotalXp] = useState(0)
   const [knewCount, setKnewCount] = useState(0)
+  const [dragX, setDragX] = useState(0)
+  const [dragging, setDragging] = useState(false)
+  const [exiting, setExiting] = useState<null | 'left' | 'right'>(null)
 
   const cards = dueQuery.data?.cards ?? []
   const total = cards.length
   const card = cards[currentIndex]
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const pointerStartRef = useRef<{ id: number; x: number; y: number } | null>(null)
 
   // Auto-play audio when a new card appears
   useEffect(() => {
@@ -98,6 +102,37 @@ export function FlashcardScreen() {
       setCurrentIndex((i) => i + 1)
       setPhase('front')
     }
+    setDragX(0)
+    setExiting(null)
+  }
+
+  // Pointer-based swipe (only on back phase)
+  const SWIPE_THRESHOLD = 90
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (phase !== 'back') return
+    pointerStartRef.current = { id: e.pointerId, x: e.clientX, y: e.clientY }
+    setDragging(true)
+    e.currentTarget.setPointerCapture(e.pointerId)
+  }
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const start = pointerStartRef.current
+    if (!start || start.id !== e.pointerId) return
+    setDragX(e.clientX - start.x)
+  }
+  const onPointerEnd = (e: React.PointerEvent<HTMLDivElement>) => {
+    const start = pointerStartRef.current
+    if (!start || start.id !== e.pointerId) return
+    const dx = e.clientX - start.x
+    pointerStartRef.current = null
+    setDragging(false)
+    if (Math.abs(dx) > SWIPE_THRESHOLD) {
+      const dir = dx > 0 ? 'right' : 'left'
+      setExiting(dir)
+      setDragX(dir === 'right' ? window.innerWidth : -window.innerWidth)
+      setTimeout(() => handleReview(dir === 'right'), 180)
+    } else {
+      setDragX(0)
+    }
   }
 
   return (
@@ -121,19 +156,39 @@ export function FlashcardScreen() {
         </span>
       </div>
 
-      <div
-        className={`flashcard ${phase === 'back' ? 'flashcard--back' : ''}`}
-        onClick={handleFlip}
-        role="button"
-        tabIndex={0}
-        aria-label="Перевернуть карточку"
-      >
-        <div onClick={(e) => e.stopPropagation()}>
-          <TtsButton text={card.word_gr} className="flashcard__speak" size={40} />
+      <div className="flashcard-screen__card-wrap">
+        <div
+          className={`flashcard ${phase === 'back' ? 'flashcard--back' : ''}`}
+          onClick={handleFlip}
+          role="button"
+          tabIndex={0}
+          aria-label="Перевернуть карточку"
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerEnd}
+          onPointerCancel={onPointerEnd}
+          style={{
+            transform:
+              phase === 'back' || exiting
+                ? `translateX(${dragX}px) rotate(${dragX / 20}deg)`
+                : undefined,
+            transition: dragging ? 'none' : 'transform 0.18s ease-out',
+            touchAction: phase === 'back' ? 'pan-y' : undefined,
+          }}
+        >
+          <div onClick={(e) => e.stopPropagation()}>
+            <TtsButton text={card.word_gr} className="flashcard__speak" size={40} />
+          </div>
+          <p className="flashcard__word">{card.word_gr}</p>
+          {phase === 'back' && <p className="flashcard__translation">{card.word_ru}</p>}
+          {phase === 'front' && <span className="flashcard__hint">👆</span>}
+          {phase === 'back' && dragX > 20 && (
+            <span className="flashcard__swipe-hint flashcard__swipe-hint--right">✓ Знал</span>
+          )}
+          {phase === 'back' && dragX < -20 && (
+            <span className="flashcard__swipe-hint flashcard__swipe-hint--left">✗ Не знал</span>
+          )}
         </div>
-        <p className="flashcard__word">{card.word_gr}</p>
-        {phase === 'back' && <p className="flashcard__translation">{card.word_ru}</p>}
-        {phase === 'front' && <span className="flashcard__hint">👆</span>}
       </div>
 
       <div className="flashcard-screen__actions">
