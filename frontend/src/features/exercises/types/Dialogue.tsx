@@ -25,18 +25,16 @@ interface DialogueProps {
 
 export function Dialogue({ content, onAnswer, submitted = false }: DialogueProps) {
   const [fills, setFills] = useState<Record<number, string>>({})
-  const [allFilled, setAllFilled] = useState(false)
   const [shuffledWordBank] = useState(() =>
     [...content.word_bank].sort(() => Math.random() - 0.5),
   )
 
   const handleWordSelect = (blankIndex: number, word: string) => {
-    if (allFilled) return
+    if (submitted) return
     const newFills = { ...fills, [blankIndex]: word }
     setFills(newFills)
     const nowAllFilled = content.table_blanks.every((_, i) => newFills[i] !== undefined)
     if (nowAllFilled) {
-      setAllFilled(true)
       const allCorrect = content.table_blanks.every((blank, i) => newFills[i] === blank.correct)
       onAnswer(allCorrect)
     }
