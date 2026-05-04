@@ -176,8 +176,12 @@
   font-size: var(--font-size-title);
   font-weight: var(--font-weight-medium);
   color: var(--color-on-surface);
-  line-height: var(--line-height-tight);
-  margin-bottom: 16px;
+  line-height: var(--line-height-normal);
+  background: var(--color-surface-high);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 .multiple-choice__options {
   display: flex;
