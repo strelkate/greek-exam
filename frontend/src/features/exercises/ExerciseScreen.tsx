@@ -82,21 +82,23 @@ export function ExerciseScreen() {
 
   const handleSubmit = () => {
     if (!answered) return
-    // First press: confirm the answer and show feedback colors
+    // First press: confirm the answer, record completion, show feedback colors.
+    // We enqueue here (not on the next "Далее" press) so the exercise is marked
+    // complete even if the user exits without advancing.
     if (!confirmed) {
       setConfirmed(true)
+      if (isCorrect) correctCountRef.current += 1
+      enqueue({
+        type: 'exercise_complete',
+        exercise_id: Number(exerciseId),
+        score: isCorrect ? 1 : 0,
+        total: 1,
+        occurred_at: new Date().toISOString(),
+      })
       haptic.notification(isCorrect ? 'success' : 'error')
       return
     }
     // Second press: advance to next exercise
-    if (isCorrect) correctCountRef.current += 1
-    enqueue({
-      type: 'exercise_complete',
-      exercise_id: Number(exerciseId),
-      score: isCorrect ? 1 : 0,
-      total: 1,
-      occurred_at: new Date().toISOString(),
-    })
     setShowFeedback(true)
     const nextExercise = exercises[currentIdx + 1]
     feedbackTimerRef.current = setTimeout(() => {
@@ -137,7 +139,15 @@ export function ExerciseScreen() {
         canSubmit={answered}
         submitted={confirmed}
         onSubmit={handleSubmit}
-        onClose={() => navigate(`/units/${unitId}`)}
+        onClose={async () => {
+          // Make sure any queued completion lands before we leave, then refresh
+          // the unit detail so the exercise list reflects the new state.
+          await useSyncQueue.getState().flush()
+          queryClient.invalidateQueries({ queryKey: ['unit', Number(unitId)] })
+          queryClient.invalidateQueries({ queryKey: ['units'] })
+          queryClient.invalidateQueries({ queryKey: ['levels'] })
+          navigate(`/units/${unitId}`)
+        }}
       >
         {exercise.type === 'true_false' && (
           <TrueFalse
